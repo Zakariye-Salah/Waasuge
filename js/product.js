@@ -467,6 +467,50 @@ function getDisplayProductId(product) {
   return getProductCode(product) || getProductKey(product);
 }
 
+function getProductSaleStats(product) {
+  const key = getProductKey(product);
+  const productId = getDisplayProductId(product);
+  const name = normalizeText(normalizeName(product));
+  const history = safeArray(getSaleHistory());
+  let soldQty = 0;
+  let soldOrders = 0;
+  let soldRevenue = 0;
+  let lastSoldAt = 0;
+
+  history.forEach((entry) => {
+    const items = safeArray(entry?.items);
+    const matched = items.filter((row) => {
+      const rowKey = String(row?.productKey || row?.id || row?.key || "").trim();
+      const rowId = String(row?.productId || row?.sku || "").trim();
+      const rowName = normalizeText(String(row?.name || row?.productName || ""));
+      return (key && (rowKey === key || rowId === key)) || (productId && (rowId === productId || rowKey === productId)) || (name && rowName === name);
+    });
+    if (!matched.length) return;
+    soldOrders += 1;
+    lastSoldAt = Math.max(lastSoldAt, safeNumber(entry?.createdAt ?? entry?.updatedAt ?? 0));
+    matched.forEach((row) => {
+      const qty = safeNumber(row?.qty ?? row?.quantity, 0);
+      const price = safeNumber(row?.price ?? row?.unitPrice ?? 0);
+      soldQty += qty;
+      soldRevenue += qty * price;
+    });
+  });
+
+  return { soldQty, soldOrders, soldRevenue, lastSoldAt };
+}
+
+async function addProductQuantity(productKey, amount) {
+  const delta = Math.max(0, safeNumber(amount, 0));
+  if (!delta) return;
+  const product = getProductByKey(productKey);
+  if (!product) return;
+  const nextQty = safeNumber(product.quantity) + delta;
+  await updateProduct(productKey, { quantity: nextQty, updatedAt: Date.now() });
+  showToast(`Added ${delta} quantity to ${normalizeName(product) || "product"}`, "success", "Products");
+  await loadProducts(false);
+  renderAll();
+}
+
 function normalizeName(product) {
   return String(product?.name || product?.productName || "").trim();
 }
@@ -1360,23 +1404,75 @@ function openRestockDetailModal(product) {
   const threshold = safeNumber(product?.lowStockThreshold, PRODUCT_LOW_STOCK);
   const stock = stockLabel(product);
   const productId = getDisplayProductId(product) || "-";
+  const productKey = getProductKey(product);
   const notes = String(product?.notes || "").trim() || "No notes added.";
   const updatedAt = formatDateTime(product?.updatedAt || product?.createdAt || Date.now());
+  const createdAt = formatDateTime(product?.createdAt || product?.updatedAt || Date.now());
+  const stats = getProductSaleStats(product);
+  const lastSoldAt = stats.lastSoldAt ? formatDateTime(stats.lastSoldAt) : "Never sold";
+  const totalStockValue = formatCurrency(safeNumber(product?.price) * quantity);
 
   if (nodes.restockDetailTitle) nodes.restockDetailTitle.textContent = name;
   if (nodes.restockDetailBody) {
     nodes.restockDetailBody.innerHTML = `
-      <div class="detail-grid">
-        <div class="detail-row"><div class="detail-label">Product</div><div class="detail-value">${name}</div></div>
-        <div class="detail-row"><div class="detail-label">Category</div><div class="detail-value">${category}</div></div>
-        <div class="detail-row"><div class="detail-label">Product ID</div><div class="detail-value">${productId}</div></div>
-        <div class="detail-row"><div class="detail-label">Price</div><div class="detail-value">${price}</div></div>
-        <div class="detail-row"><div class="detail-label">Original Price</div><div class="detail-value">${originalPrice}</div></div>
-        <div class="detail-row"><div class="detail-label">Quantity</div><div class="detail-value">${quantity}</div></div>
-        <div class="detail-row"><div class="detail-label">Threshold</div><div class="detail-value">${threshold}</div></div>
-        <div class="detail-row"><div class="detail-label">Status</div><div class="detail-value"><span class="badge ${stock.className}">${stock.label}</span></div></div>
-        <div class="detail-row"><div class="detail-label">Updated</div><div class="detail-value">${updatedAt}</div></div>
-        <div class="detail-row"><div class="detail-label">Notes</div><div class="detail-value">${notes}</div></div>
+      <div class="row g-3">
+        <div class="col-12">
+          <div class="p-3 rounded-4 border bg-body-tertiary">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+              <div>
+                <div class="fw-bold fs-4 mb-1">${name}</div>
+                <div class="text-muted small">${category} • ID: ${productId}</div>
+              </div>
+              <span class="badge ${stock.className} rounded-pill px-3 py-2">${stock.label}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <div class="p-3 rounded-4 border h-100">
+            <div class="fw-semibold mb-3">Product information</div>
+            <div class="detail-grid">
+              <div class="detail-row"><div class="detail-label">Product</div><div class="detail-value">${name}</div></div>
+              <div class="detail-row"><div class="detail-label">Category</div><div class="detail-value">${category}</div></div>
+              <div class="detail-row"><div class="detail-label">Product ID</div><div class="detail-value">${productId}</div></div>
+              <div class="detail-row"><div class="detail-label">Price</div><div class="detail-value">${price}</div></div>
+              <div class="detail-row"><div class="detail-label">Original Price</div><div class="detail-value">${originalPrice}</div></div>
+              <div class="detail-row"><div class="detail-label">Current Quantity</div><div class="detail-value">${quantity}</div></div>
+              <div class="detail-row"><div class="detail-label">Low Stock Threshold</div><div class="detail-value">${threshold}</div></div>
+              <div class="detail-row"><div class="detail-label">Stock Value</div><div class="detail-value">${totalStockValue}</div></div>
+              <div class="detail-row"><div class="detail-label">Created</div><div class="detail-value">${createdAt}</div></div>
+              <div class="detail-row"><div class="detail-label">Last Updated</div><div class="detail-value">${updatedAt}</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <div class="p-3 rounded-4 border h-100">
+            <div class="fw-semibold mb-3">Sales information</div>
+            <div class="detail-grid">
+              <div class="detail-row"><div class="detail-label">Total sold quantity</div><div class="detail-value">${stats.soldQty}</div></div>
+              <div class="detail-row"><div class="detail-label">Total sale orders</div><div class="detail-value">${stats.soldOrders}</div></div>
+              <div class="detail-row"><div class="detail-label">Sales revenue</div><div class="detail-value">${formatCurrency(stats.soldRevenue)}</div></div>
+              <div class="detail-row"><div class="detail-label">Last sold</div><div class="detail-value">${lastSoldAt}</div></div>
+              <div class="detail-row"><div class="detail-label">Important</div><div class="detail-value">${product?.important || product?.isImportant ? 'Yes' : 'No'}</div></div>
+              <div class="detail-row"><div class="detail-label">Notes</div><div class="detail-value">${notes}</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="p-3 rounded-4 border bg-body-tertiary">
+            <div class="d-flex flex-wrap align-items-end gap-2">
+              <div class="flex-grow-1">
+                <label for="productAddQtyInput" class="form-label fw-semibold mb-1">Add quantity</label>
+                <input id="productAddQtyInput" type="number" min="1" value="1" class="form-control rounded-4" placeholder="1" />
+              </div>
+              <button type="button" class="btn btn-primary rounded-4" data-action="product-stock-add" data-id="${productKey}">
+                <i class="bi bi-plus-circle me-1"></i>Add Quantity
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     `;
   }
@@ -1764,11 +1860,15 @@ async function handleCardAction(action, key, button = null) {
         break;
       case "view":
         if (!product) return;
-        showToast(`${normalizeName(product)} • ${normalizeCategory(product)} • ${formatCurrency(safeNumber(product?.price))}`, "info", "Product");
+        openRestockDetailModal(product);
         break;
       case "restock-view":
         if (!product) return;
         openRestockDetailModal(product);
+        break;
+      case "product-stock-add":
+        if (!product) return;
+        await addProductQuantity(key, document.getElementById("productAddQtyInput")?.value || 0);
         break;
       case "edit":
         if (!product) return;
