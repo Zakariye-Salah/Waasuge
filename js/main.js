@@ -1,4 +1,5 @@
 import { getGeneralSettings } from "./settings-config.js";
+import { PATHS, getOnce, filterActive } from "./database.js";
 // js/main.js
 export function toArray(value) {
   if (!value) return [];
@@ -257,6 +258,7 @@ export function setHeaderBadgeCount(count, selector = 'button[aria-label="Notifi
   });
 }
 
+
 function readStoredCartItems() {
   try {
     const parsed = JSON.parse(localStorage.getItem("electronicShopCart") || "[]");
@@ -266,7 +268,86 @@ function readStoredCartItems() {
   }
 }
 
-function renderGlobalCartModalBody() {
+function getStoredCartDiscount() {
+  return Math.max(0, Number(localStorage.getItem("electronicShopCartDiscount") || 0));
+}
+
+function toProductArray(rawProducts) {
+  if (!rawProducts) return [];
+  if (Array.isArray(rawProducts)) return rawProducts.filter(Boolean);
+  if (typeof rawProducts !== "object") return [];
+  return Object.entries(rawProducts).map(([key, value]) => ({
+    ...(value && typeof value === "object" ? value : {}),
+    firebaseKey: value?.firebaseKey || key,
+    id: value?.id || key,
+    productId: value?.productId || key
+  }));
+}
+
+function getProductLookupKeys(product = {}, fallbackKey = "") {
+  return [product?.id, product?.productId, product?.firebaseKey, product?.key, fallbackKey]
+    .map((value) => String(value || "").trim())
+    .filter(Boolean);
+}
+
+function pickProductPrice(product = {}) {
+  const candidates = [product?.price, product?.salePrice, product?.unitPrice, product?.sellingPrice, product?.amount];
+  for (const value of candidates) {
+    const num = Number(value);
+    if (Number.isFinite(num) && num >= 0) return num;
+  }
+  return 0;
+}
+
+function normalizeCartLine(item = {}, product = null, index = 0) {
+  const qty = Math.max(0, Number(item?.qty) || 0) || 1;
+  const itemName = String(item?.name || item?.productName || item?.title || "").trim();
+  const productName = String(product?.name || product?.productName || product?.title || product?.label || "").trim();
+  const category = String(item?.category || item?.type || product?.category || product?.type || "").trim();
+  const storedPrice = Number(item?.price ?? item?.unitPrice ?? item?.salePrice);
+  const price = Number.isFinite(storedPrice) && storedPrice >= 0 ? storedPrice : pickProductPrice(product || {});
+  return {
+    ...item,
+    qty,
+    price,
+    name: itemName || productName || `Item ${index + 1}`,
+    category
+  };
+}
+
+async function resolveCartItemsForPreview() {
+  const cart = readStoredCartItems();
+  if (!cart.length) return [];
+
+  const hasEnoughData = cart.every((item) => {
+    const price = Number(item?.price ?? item?.unitPrice ?? item?.salePrice);
+    return Number.isFinite(price) && price > 0 && String(item?.name || item?.productName || item?.title || "").trim();
+  });
+
+  if (hasEnoughData) {
+    return cart.map((item, index) => normalizeCartLine(item, null, index));
+  }
+
+  let products = [];
+  try {
+    const rawProducts = await getOnce(PATHS.products);
+    products = filterActive(toProductArray(rawProducts));
+  } catch {
+    products = [];
+  }
+
+  const byId = new Map();
+  products.forEach((product) => {
+    getProductLookupKeys(product).forEach((key) => byId.set(key, product));
+  });
+
+  return cart.map((item, index) => {
+    const product = byId.get(String(item?.id || item?.productId || item?.firebaseKey || ""));
+    return normalizeCartLine(item, product, index);
+  });
+}
+
+async function renderGlobalCartModalBody() {
   const body = document.getElementById("globalCartModalBody");
   const subtotalEl = document.getElementById("globalCartSubtotal");
   const discountEl = document.getElementById("globalCartDiscount");
@@ -275,9 +356,16 @@ function renderGlobalCartModalBody() {
   const checkoutBtn = document.getElementById("globalCartCheckoutBtn");
   if (!body) return;
 
-  const cart = readStoredCartItems();
+  body.innerHTML = `
+    <div class="text-center text-muted py-5">
+      <div class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></div>
+      Loading cart preview...
+    </div>
+  `;
+
+  const cart = await resolveCartItemsForPreview();
   const subtotal = cart.reduce((sum, item) => sum + (Number(item.qty) || 0) * (Number(item.price) || 0), 0);
-  const discount = Math.max(0, Number(localStorage.getItem("electronicShopCartDiscount") || 0));
+  const discount = Math.min(subtotal, getStoredCartDiscount());
   const total = Math.max(0, subtotal - discount);
 
   if (subtotalEl) subtotalEl.textContent = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(subtotal);
@@ -291,8 +379,38 @@ function renderGlobalCartModalBody() {
     return;
   }
 
+  const mobileCards = cart.map((item) => {
+    const qty = Number(item.qty) || 0;
+    const price = Number(item.price) || 0;
+    const line = qty * price;
+    return `
+      <div class="cart-card">
+        <div class="d-flex justify-content-between align-items-start gap-3">
+          <div class="flex-grow-1">
+            <div class="fw-semibold">${item.name || "Product"}</div>
+            ${item.category ? `<div class="small text-muted">${item.category}</div>` : ""}
+          </div>
+          <div class="text-end small text-nowrap">
+            <div><span class="text-muted">Qty:</span> ${qty}</div>
+            <div><span class="text-muted">Price:</span> ${new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(price)}</div>
+            <div class="fw-semibold"><span class="text-muted">Total:</span> ${new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(line)}</div>
+          </div>
+        </div>
+      </div>`;
+  }).join("");
+
   body.innerHTML = `
-    <div class="table-responsive">
+    <style>
+      #globalCartPreviewModal .modal-content{overflow:hidden;border:1px solid rgba(255,255,255,.08);}
+      #globalCartPreviewModal .modal-body{max-height:min(68vh,640px);overflow:auto;}
+      #globalCartPreviewModal .cart-card{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);border-radius:1rem;padding:.9rem 1rem;}
+      @media (max-width: 575.98px){
+        #globalCartPreviewModal .modal-body{max-height:calc(100vh - 210px);padding:1rem;}
+        #globalCartPreviewModal .modal-footer{flex-direction:column;align-items:stretch;gap:.5rem;}
+        #globalCartPreviewModal .modal-footer .btn{width:100%;}
+      }
+    </style>
+    <div class="d-none d-md-block table-responsive">
       <table class="table align-middle">
         <thead><tr><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead>
         <tbody>
@@ -309,7 +427,12 @@ function renderGlobalCartModalBody() {
           }).join("")}
         </tbody>
       </table>
-    </div>`;
+    </div>
+
+    <div class="d-md-none">
+      ${mobileCards}
+    </div>
+  `;
 }
 
 export function ensureGlobalCartModal() {
@@ -595,6 +718,12 @@ window.addEventListener("storage", (event) => {
   if (event.key === THEME_STORAGE_KEY) {
     applyStoredThemePreference();
   }
+  if (event.key === "electronicShopCart" || event.key === "electronicShopCartCount" || event.key === "electronicShopCartDiscount") {
+    setHeaderBadgeCount(Number(localStorage.getItem("electronicShopCartCount") || 0), 'button[aria-label="Cart"] .badge');
+    if (document.getElementById("globalCartPreviewModal")?.classList.contains("show")) {
+      renderGlobalCartModalBody();
+    }
+  }
 });
 
 Object.assign(window.AppUtils || {}, {
@@ -602,5 +731,6 @@ Object.assign(window.AppUtils || {}, {
   closeBootstrapModal,
   setHeaderBadgeCount,
   ensureGlobalCartModal,
+  renderGlobalCartModalBody,
   renderNotificationMenu
 });
