@@ -792,6 +792,10 @@ function normalizeStatus(value) {
   return "unpaid";
 }
 
+function normalizePaymentStatus(value) {
+  return normalizeStatus(value);
+}
+
 function statusBadge(status) {
   const text = normalizeStatus(status);
   if (text === "paid") return "bg-soft-success text-success-soft";
