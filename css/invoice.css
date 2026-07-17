@@ -1,0 +1,14 @@
+.invoice-card { min-height: 100%; }
+.invoice-card .invoice-title { font-size: 1.02rem; font-weight: 800; }
+.invoice-card .invoice-meta { color: var(--muted); font-size: 0.86rem; }
+.invoice-card .action-btn { min-width: 34px; }
+
+
+.summary-icon i { display: inline-block; animation: iconCardMotion 8s ease-in-out infinite; transform-origin: center; }
+@keyframes iconCardMotion {
+  0% { transform: translateX(0) rotateY(0deg); }
+  20% { transform: translateX(-3px) rotateY(0deg); }
+  50% { transform: translateX(0) rotateY(180deg); }
+  80% { transform: translateX(3px) rotateY(180deg); }
+  100% { transform: translateX(0) rotateY(360deg); }
+}

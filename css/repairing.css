@@ -1,0 +1,34 @@
+.repair-card { min-height: 100%; }
+.repair-card .repair-title { font-size: 1.02rem; font-weight: 800; }
+.repair-card .repair-meta { color: var(--muted); font-size: 0.86rem; }
+.repair-table-shell .table thead th { position: sticky; top: 0; background: var(--card); z-index: 1; }
+
+.summary-icon i {
+  display: inline-block;
+  animation: iconCardMotion 8s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes iconCardMotion {
+  0% { transform: translateX(0) rotateY(0deg); }
+  20% { transform: translateX(-4px) rotateY(0deg); }
+  50% { transform: translateX(0) rotateY(180deg); }
+  80% { transform: translateX(4px) rotateY(180deg); }
+  100% { transform: translateX(0) rotateY(360deg); }
+}
+
+
+.repair-action-btn.is-loading {
+  pointer-events: none;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.repair-action-btn .action-spinner {
+  width: 1rem;
+  height: 1rem;
+}
+

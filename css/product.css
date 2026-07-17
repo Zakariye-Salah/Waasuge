@@ -1,0 +1,5 @@
+.product-card { min-height: 100%; }
+.product-card .card-body { padding: 1rem; }
+.product-card .product-title { font-weight: 800; }
+.product-card .product-price { font-weight: 800; font-size: 1.05rem; }
+.product-card .product-meta { color: var(--muted); font-size: 0.86rem; }

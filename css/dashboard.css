@@ -1,0 +1,15 @@
+.card-dashboard { position: relative; overflow: hidden; }
+.card-dashboard .summary-icon { transition: transform 0.22s ease, rotate 0.22s ease; }
+.card-dashboard:hover .summary-icon { transform: scale(1.06) rotate(-6deg); }
+#dashStockAlertTableBody td { padding-top: 0.8rem; padding-bottom: 0.8rem; }
+#dashStockAlertTableBody tr:hover { background: rgba(37, 99, 235, 0.04); }
+
+
+.summary-icon i { display: inline-block; animation: iconCardMotion 8s ease-in-out infinite; transform-origin: center; }
+@keyframes iconCardMotion {
+  0% { transform: translateX(0) rotateY(0deg); }
+  20% { transform: translateX(-3px) rotateY(0deg); }
+  50% { transform: translateX(0) rotateY(180deg); }
+  80% { transform: translateX(3px) rotateY(180deg); }
+  100% { transform: translateX(0) rotateY(360deg); }
+}

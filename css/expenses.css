@@ -1,0 +1,4 @@
+.expense-page .expense-card,
+.expense-page .expense-panel { min-height: 100%; }
+.expense-page .expense-stat .label { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); font-weight: 700; }
+.expense-page .expense-stat .value { font-size: 1.05rem; font-weight: 800; }
