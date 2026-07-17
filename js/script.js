@@ -1,29 +1,102 @@
-import { getById, getRepairs, getOnce, addRecord, editRecord, normalizeText, formatDateTime, toArray } from "./database.js";
-import { auth } from "./firebase.js";
+import { getById, getRepairs, getOnce, PATHS, addRecord, editRecord, normalizeText, formatDateTime, toArray } from "./database.js";
+import { auth, db } from "./firebase.js";
 import { DEFAULT_SETTINGS, getGeneralSettings, getMessageTemplate, buildMessage, replacePlaceholders } from "./settings-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+import { onValue, ref } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
 
 const THEME_KEY = "waasugePublicTheme";
 const LANG_KEY = "waasugePublicLanguage";
 const RATING_CACHE_KEY = "waasugePublicRatings";
 const DEFAULT_THEME = "dark";
 const DEFAULT_LANG = "en";
+const DEFAULT_PUBLIC_SHOP_NAME = "Waasuge Electronics";
 
-function getShopName() {
-  return getGeneralSettings().shopName || DEFAULT_SETTINGS.general.shopName;
-}
-
-function getShopPhone() {
-  return getGeneralSettings().phone || DEFAULT_SETTINGS.general.phone;
-}
-
-function getShopWhatsapp() {
-  return getGeneralSettings().whatsapp || DEFAULT_SETTINGS.general.whatsapp;
-}
+let sharedPublicSettings = null;
+let sharedPublicSettingsListener = null;
 
 function getShopEmail() {
   return "waasugeelectronics@gmail.com";
 }
+
+function normalizePublicShopSettings(rawSettings) {
+  const source = rawSettings && typeof rawSettings === "object"
+    ? (rawSettings.general && typeof rawSettings.general === "object" ? rawSettings.general : rawSettings)
+    : {};
+  return {
+    shopName: String(source.shopName || DEFAULT_PUBLIC_SHOP_NAME).trim() || DEFAULT_PUBLIC_SHOP_NAME,
+    phone: String(source.phone || DEFAULT_SETTINGS.general.phone).trim() || DEFAULT_SETTINGS.general.phone,
+    whatsapp: String(source.whatsapp || DEFAULT_SETTINGS.general.whatsapp).trim() || DEFAULT_SETTINGS.general.whatsapp,
+    address: String(source.address || DEFAULT_SETTINGS.general.address).trim() || DEFAULT_SETTINGS.general.address,
+    footerText: String(source.footerText || DEFAULT_SETTINGS.general.footerText).trim() || DEFAULT_SETTINGS.general.footerText
+  };
+}
+
+function getPublicGeneralSettings() {
+  return normalizePublicShopSettings(sharedPublicSettings || getGeneralSettings() || {});
+}
+
+function getShopName() {
+  return getPublicGeneralSettings().shopName || DEFAULT_PUBLIC_SHOP_NAME;
+}
+
+function getShopPhone() {
+  return getPublicGeneralSettings().phone || DEFAULT_SETTINGS.general.phone;
+}
+
+function getShopWhatsapp() {
+  return getPublicGeneralSettings().whatsapp || DEFAULT_SETTINGS.general.whatsapp;
+}
+
+function syncPublicShopIdentity() {
+  if (typeof document === "undefined") return;
+  const general = getPublicGeneralSettings();
+  const shopName = general.shopName || DEFAULT_PUBLIC_SHOP_NAME;
+
+  document.querySelectorAll('[data-i18n="brand.main"]').forEach((el) => {
+    el.textContent = shopName;
+  });
+  document.querySelectorAll('[data-i18n="contact.title"]').forEach((el) => {
+    el.textContent = shopName;
+  });
+
+  if (document.title) document.title = shopName;
+
+  const metaDescription = document.querySelector('meta[name="description"]');
+  if (metaDescription) {
+    metaDescription.setAttribute("content", `${shopName} offers professional device repair, electronics sales, accessories, and live tracking.`);
+  }
+}
+
+async function refreshSharedShopSettings() {
+  try {
+    const remote = await getOnce(PATHS.settings);
+    sharedPublicSettings = remote && typeof remote === "object" ? remote : null;
+    syncPublicShopIdentity();
+    updatePublicContactLinks();
+  } catch (error) {
+    console.warn("Failed to load shared shop settings:", error);
+  }
+}
+
+function startSharedShopSettingsListener() {
+  if (sharedPublicSettingsListener || typeof onValue !== "function" || typeof ref !== "function") return;
+  try {
+    sharedPublicSettingsListener = onValue(
+      ref(db, PATHS.settings),
+      (snapshot) => {
+        sharedPublicSettings = snapshot.exists() ? snapshot.val() : null;
+        syncPublicShopIdentity();
+        updatePublicContactLinks();
+      },
+      (error) => {
+        console.warn("Shared shop settings listener failed:", error);
+      }
+    );
+  } catch (error) {
+    console.warn("Shared shop settings listener unavailable:", error);
+  }
+}
+
 
 const STATUS_META = {
   "device received": { labelKey: "status.deviceReceived", label: "Device Received", className: "status-pending", icon: "bi-box-seam", progress: 0 },
@@ -473,6 +546,7 @@ function applyLanguage(lang) {
   });
   if (!refreshTrackingView()) renderEmptyState();
   renderAboutRotator(aboutRotatorIndex);
+  syncPublicShopIdentity();
 }
 
 function toggleLanguage() {
@@ -482,6 +556,7 @@ function toggleLanguage() {
 function initText() {
   applyLanguage(currentLang);
   applyTheme(currentTheme);
+  syncPublicShopIdentity();
   updatePublicContactLinks();
   const year = document.getElementById("yearNow");
   if (year) year.textContent = new Date().getFullYear();
@@ -1447,6 +1522,8 @@ function updatePublicContactLinks() {
 function initPage() {
   initText();
   setDefaultPlaceholders();
+  refreshSharedShopSettings();
+  startSharedShopSettingsListener();
   bindForms();
   bindThemeButtons();
   bindLangButtons();
