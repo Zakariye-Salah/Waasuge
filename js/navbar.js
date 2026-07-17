@@ -182,7 +182,7 @@ function welcomeModalHtml() {
           </div>
         </div>
         <div class="modal-footer border-0 pt-0">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Get started</button>
+          <button type="button" class="btn btn-primary" id="welcomeGetStartedBtn" data-bs-dismiss="modal">Get started</button>
         </div>
       </div>
     </div>
@@ -206,7 +206,20 @@ function ensureWelcomeModal() {
   sessionStorage.setItem("electronicShopWelcomeShown", email);
   setTimeout(() => {
     const modalEl = document.getElementById("welcomeModal");
-    if (modalEl) window.bootstrap?.Modal.getOrCreateInstance(modalEl)?.show();
+    const buttonEl = document.getElementById("welcomeGetStartedBtn");
+    if (modalEl) {
+      const modal = window.bootstrap?.Modal.getOrCreateInstance(modalEl);
+      modal?.show();
+      modalEl.addEventListener("shown.bs.modal", () => {
+        buttonEl?.focus?.();
+      }, { once: true });
+      modalEl.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          buttonEl?.click?.();
+        }
+      });
+    }
   }, 650);
 }
 
