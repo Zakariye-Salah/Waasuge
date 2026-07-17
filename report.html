@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>🏪 Reports | Electronic Shop</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Cdefs%3E%3ClinearGradient id=%22g%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%25%22 stop-color=%22%232563eb%22/%3E%3Cstop offset=%22100%25%22 stop-color=%22%237c3aed%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%2264%22 height=%2264%22 rx=%2216%22 fill=%22url(%23g)%22/%3E%3Cpath d=%22M14 26h36v24H14z%22 fill=%22%23fff%22 opacity=%22.96%22/%3E%3Cpath d=%22M18 22h28l4 4H14z%22 fill=%22%23fff%22 opacity=%22.92%22/%3E%3Cpath d=%22M22 31h8v10h-8zm12 0h10v10H34z%22 fill=%22%232563eb%22/%3E%3Cpath d=%22M27 13h10v11H27z%22 fill=%22%23fff%22 opacity=%22.95%22/%3E%3C/svg%3E"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+<style>
+    :root{
+      --bg: #f5f7fb;
+      --card: rgba(255,255,255,0.95);
+      --text: #111827;
+      --muted: #6b7280;
+      --border: rgba(15, 23, 42, 0.08);
+      --shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+      --primary: #2563eb;
+      --success: #16a34a;
+      --warning: #f59e0b;
+      --danger: #dc2626;
+      --info: #0891b2;
+      --purple: #7c3aed;
+      --dark-bg: #0b1220;
+      --dark-card: #111827;
+      --dark-text: #e5e7eb;
+      --dark-muted: #94a3b8;
+      --dark-border: rgba(148, 163, 184, 0.16);
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.10), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.08), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    body.dark-mode {
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--dark-bg);
+      color: var(--dark-text);
+    }
+
+    .app-header {
+      backdrop-filter: blur(14px);
+    }
+
+    .sidebar {
+      width: 260px;
+      z-index: 1020;
+    }
+
+    .sidebar .nav-link,
+    .mobile-nav .nav-link {
+      color: inherit;
+      border-radius: 14px;
+      padding: 0.9rem 1rem;
+      font-weight: 600;
+    }
+
+    .sidebar .nav-link.active,
+    .mobile-nav .nav-link.active {
+      background: linear-gradient(135deg, var(--primary), #1d4ed8);
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.18);
+    }
+
+    .page-wrap {
+      padding-top: 18px;
+      padding-bottom: 90px;
+    }
+
+    @media (min-width: 992px) {
+      .page-wrap {
+        margin-left: 260px;
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+    }
+
+    .page-title {
+      font-size: clamp(1.45rem, 2.5vw, 2.1rem);
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+    }
+
+    .page-subtitle {
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+
+    .card-shell {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.25s ease, border-color 0.25s ease;
+    }
+
+    body.dark-mode .card-shell {
+      background: var(--dark-card);
+      border-color: var(--dark-border);
+      color: var(--dark-text);
+    }
+
+    .card-shell:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 46px rgba(15, 23, 42, 0.12);
+    }
+
+    .section-header {
+      padding: 18px 18px 0 18px;
+    }
+
+    .section-body {
+      padding: 18px;
+    }
+
+    .mini-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bg-soft-primary { background: rgba(37, 99, 235, 0.12); }
+    .bg-soft-success { background: rgba(22, 163, 74, 0.12); }
+    .bg-soft-warning { background: rgba(245, 158, 11, 0.12); }
+    .bg-soft-danger { background: rgba(220, 38, 38, 0.12); }
+    .bg-soft-info { background: rgba(8, 145, 178, 0.12); }
+    .bg-soft-purple { background: rgba(124, 58, 237, 0.12); }
+
+    .text-primary-soft { color: #2563eb; }
+    .text-success-soft { color: #16a34a; }
+    .text-warning-soft { color: #d97706; }
+    .text-danger-soft { color: #dc2626; }
+    .text-info-soft { color: #0891b2; }
+    .text-purple-soft { color: #7c3aed; }
+
+    body.dark-mode .text-muted,
+    body.dark-mode .page-subtitle,
+    body.dark-mode .summary-label,
+    body.dark-mode .small-muted {
+      color: var(--dark-muted) !important;
+    }
+
+    .summary-card {
+      padding: 18px;
+      height: 100%;
+    }
+
+    .summary-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #fff;
+      flex: 0 0 auto;
+    }
+
+    .summary-label {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
+
+    .summary-value {
+      font-size: 1.45rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 0.15rem;
+    }
+
+    .summary-trend {
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .search-input {
+      border-radius: 14px;
+      height: 48px;
+      border: 1px solid var(--border);
+      box-shadow: none !important;
+      padding-left: 42px;
+    }
+
+    body.dark-mode .search-input,
+    body.dark-mode .form-control,
+    body.dark-mode .form-select,
+    body.dark-mode textarea.form-control {
+      background: #0f172a;
+      color: var(--dark-text);
+      border-color: var(--dark-border);
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-wrap .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 14px;
+      transform: translateY(-50%);
+      color: var(--muted);
+    }
+
+    .form-control,
+    .form-select {
+      border-radius: 14px;
+      height: 48px;
+      border: 1px solid var(--border);
+      box-shadow: none !important;
+    }
+
+    textarea.form-control {
+      height: auto;
+      min-height: 96px;
+    }
+
+    .filter-chip {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.58);
+      padding: 0.55rem 0.9rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    body.dark-mode .filter-chip {
+      background: rgba(17, 24, 39, 0.55);
+      border-color: var(--dark-border);
+      color: var(--dark-text);
+    }
+
+    .chart-placeholder {
+      min-height: 320px;
+      border-radius: 18px;
+      border: 1px dashed rgba(148, 163, 184, 0.45);
+      background: linear-gradient(180deg, rgba(248,250,252,0.95), rgba(241,245,249,0.95));
+    }
+
+    body.dark-mode .chart-placeholder {
+      background: linear-gradient(180deg, rgba(17,24,39,0.95), rgba(15,23,42,0.95));
+      border-color: rgba(148, 163, 184, 0.24);
+    }
+
+    .report-badge {
+      border-radius: 999px;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .table thead th {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .table td {
+      vertical-align: middle;
+    }
+
+    body.dark-mode .table {
+      color: var(--dark-text);
+    }
+
+    body.dark-mode .table > :not(caption) > * > * {
+      background-color: transparent;
+      border-color: var(--dark-border);
+    }
+
+    body.dark-mode .table thead th {
+      color: var(--dark-muted);
+    }
+
+    .mobile-bottom-nav {
+      z-index: 1030;
+    }
+
+    .mobile-bottom-nav a {
+      color: inherit;
+      text-decoration: none;
+      font-size: 0.76rem;
+      font-weight: 700;
+      opacity: 0.82;
+    }
+
+    .mobile-bottom-nav a.active {
+      color: var(--primary);
+      opacity: 1;
+    }
+
+    .quick-box {
+      border: 1px dashed var(--border);
+      background: rgba(255,255,255,0.5);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    body.dark-mode .quick-box {
+      background: rgba(17,24,39,0.42);
+      border-color: var(--dark-border);
+    }
+
+    .tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.55);
+    }
+
+    body.dark-mode .tag-pill {
+      background: rgba(17,24,39,0.55);
+      border-color: var(--dark-border);
+    }
+
+    .action-btn {
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
+    .progress-soft {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.18);
+      overflow: hidden;
+    }
+
+    .progress-soft .progress-bar {
+      border-radius: 999px;
+    }
+
+    .note-box {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(255,255,255,0.55);
+    }
+
+    body.dark-mode .note-box {
+      background: rgba(17,24,39,0.55);
+      border-color: var(--dark-border);
+    }
+  
+
+    :root {
+      --sidebar-collapsed-width: 84px;
+    }
+
+    .sidebar {
+      width: 260px;
+      overflow: hidden;
+      transition: width 0.28s ease, padding 0.28s ease, background-color 0.28s ease, border-color 0.28s ease;
+    }
+
+    .sidebar .nav-link {
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .sidebar .nav-link i {
+      flex-shrink: 0;
+    }
+
+    .sidebar .nav-link .nav-label,
+    .sidebar .sidebar-brand-text,
+    .sidebar .sidebar-footer-text {
+      transition: opacity 0.2s ease, transform 0.2s ease, max-width 0.28s ease;
+    }
+
+    .sidebar .sidebar-toggle {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+    }
+
+    .sidebar .sidebar-logo {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+    }
+
+    body.sidebar-collapsed .sidebar {
+      width: var(--sidebar-collapsed-width) !important;
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+    }
+
+    body.sidebar-collapsed .sidebar .sidebar-brand-text,
+    body.sidebar-collapsed .sidebar .sidebar-footer-box,
+    body.sidebar-collapsed .sidebar .nav-label {
+      display: none !important;
+    }
+
+    body.sidebar-collapsed .sidebar .nav-link {
+      justify-content: center !important;
+      gap: 0 !important;
+      padding-left: 0.6rem !important;
+      padding-right: 0.6rem !important;
+    }
+
+    body.sidebar-collapsed .sidebar .nav-link i {
+      margin-right: 0 !important;
+    }
+
+    body.sidebar-collapsed .page-wrap {
+      margin-left: var(--sidebar-collapsed-width) !important;
+    }
+
+    body.sidebar-collapsed .sidebar .sidebar-toggle i {
+      transform: rotate(180deg);
+    }
+
+    @media (max-width: 991.98px) {
+      body.sidebar-collapsed .page-wrap {
+        margin-left: 0 !important;
+      }
+    }
+
+
+    .app-header {
+      transition: margin-left 0.28s ease, width 0.28s ease, left 0.28s ease, right 0.28s ease;
+      will-change: margin-left, width;
+    }
+
+    @media (min-width: 992px) {
+      .app-header {
+        margin-left: 260px;
+        width: calc(100% - 260px);
+      }
+      body.sidebar-collapsed .app-header {
+        margin-left: var(--sidebar-collapsed-width);
+        width: calc(100% - var(--sidebar-collapsed-width));
+      }
+    }
+
+    @media (max-width: 991.98px) {
+      .app-header {
+        margin-left: 0 !important;
+        width: 100% !important;
+      }
+      .header-sidebar-toggle {
+        display: inline-flex !important;
+      }
+    }
+
+    .header-sidebar-toggle {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-sidebar-toggle i {
+      font-size: 1.05rem;
+    }
+
+  </style>
+<link href="./css/style.css" rel="stylesheet"/>
+<link href="./css/report.css" rel="stylesheet"/>
+</head>
+<body class="dark-mode" data-bs-theme="dark">
+<!-- Header -->
+<header class="app-header sticky-top bg-white border-bottom shadow-sm">
+<div class="container-fluid py-2 px-3 px-lg-4">
+<div class="d-flex align-items-center justify-content-between gap-3">
+
+<div class="d-flex align-items-center gap-2 d-lg-none"><div class="rounded-3 d-flex align-items-center justify-content-center bg-primary text-white flex-shrink-0" style="width:42px;height:42px;"><i class="bi bi-shop"></i></div><div class="lh-sm"><div class="fw-bold">Waasuge Electronics</div><small class="text-muted">Reports</small></div></div>
+<div class="d-none d-md-block search-wrap position-relative" style="max-width: 390px; width:100%;">
+<i class="bi bi-search search-icon"></i>
+<input aria-label="Search reports" class="form-control search-input" id="reportSearch" placeholder="Search reports, summaries, or stock..." type="search"/>
+</div>
+<div class="d-flex align-items-center gap-2 gap-md-3">
+<button aria-label="Toggle theme" class="btn btn-light border rounded-circle position-relative" id="themeToggle" type="button">
+<i class="bi bi-moon-stars" id="themeIcon"></i>
+</button>
+<div class="dropdown header-more-dropdown">
+<button class="btn btn-light border rounded-circle position-relative header-more-btn" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="More options" data-header-more-toggle="">
+<i class="bi bi-three-dots-vertical"></i>
+</button>
+<ul class="dropdown-menu dropdown-menu-end shadow border-0 header-more-menu">
+<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#headerProfileModal"><i class="bi bi-person-gear text-primary"></i><span>Edit Profile</span></button></li>
+<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#headerAboutModal"><i class="bi bi-info-circle text-info"></i><span>About Us</span></button></li>
+<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#headerDeveloperModal"><i class="bi bi-code-slash text-success"></i><span>Developer</span></button></li>
+
+<li>
+  <a href="settings.html" style="text-decoration: none;"><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#">
+    <i  class="bi bi-gear-fill text-primary"></i> <span>Settings</span></button></a>
+</li>
+<li><hr class="dropdown-divider"></li>
+<li><button class="dropdown-item text-danger" type="button" data-bs-toggle="modal" data-bs-target="#headerLogoutModal"><i class="bi bi-box-arrow-right"></i><span>Logout</span></button></li>
+</ul>
+</div>
+<div class="dropdown">
+<button aria-expanded="false" aria-label="Notifications" class="btn btn-light border rounded-circle position-relative" data-bs-toggle="dropdown" type="button">
+<i class="bi bi-bell"></i>
+<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+</button>
+<ul class="dropdown-menu dropdown-menu-end shadow border-0 p-2" style="min-width: 340px;">
+<li class="px-2 py-2 text-muted small">Loading notifications...</li>
+</ul>
+</div>
+<button aria-label="Cart" class="btn btn-light border rounded-circle position-relative" type="button">
+<i class="bi bi-cart3"></i>
+<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">2</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Desktop Sidebar -->
+<aside class="sidebar d-none d-lg-flex flex-column bg-white border-end position-fixed top-0 start-0 vh-100 p-3">
+<div class="d-flex align-items-center justify-content-between gap-2 mb-4 mt-2 sidebar-brand-row"><div class="d-flex align-items-center gap-2 min-w-0 flex-grow-1"><div class="rounded-3 d-flex align-items-center justify-content-center bg-primary text-white sidebar-logo"><i class="bi bi-shop"></i></div><div class="sidebar-brand-text lh-sm min-w-0"><div class="fw-bold text-truncate">Waasuge Electronics</div><small class="text-muted text-truncate d-block">Shop management tools</small></div></div><button aria-label="Collapse sidebar" class="btn btn-light border rounded-circle sidebar-toggle" data-sidebar-toggle="" title="Collapse sidebar" type="button"><i class="bi bi-list"></i></button></div>
+<ul class="nav nav-pills flex-column gap-2">
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="dashboard.html"><i class="bi bi-grid-1x2-fill"></i> <span class="nav-label">Dashboard</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="invoice.html"><i class="bi bi-receipt-cutoff"></i> <span class="nav-label">Invoice</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="product.html"><i class="bi bi-box-seam"></i> <span class="nav-label">Products</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="repairing.html"><i class="bi bi-tools"></i> <span class="nav-label">Repairing</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="customers.html"><i class="bi bi-people-fill"></i> <span class="nav-label">Customers</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2 active" href="report.html"><i class="bi bi-bar-chart-line"></i> <span class="nav-label">Reports</span></a>
+</li>
+</ul>
+<div class="mt-auto pt-4">
+<div class="quick-box sidebar-footer-box"><div class="sidebar-footer-kicker d-inline-flex align-items-center gap-2 px-2 py-1 rounded-pill mb-2" style="background: rgba(37,99,235,.10); color:#2563eb; font-size:.78rem; font-weight:700;"><i class="bi bi-bar-chart-line"></i> Report flow</div>
+<div class="fw-bold mb-1">Report flow</div>
+<small class="text-muted d-block sidebar-footer-text">Today, weekly, monthly, yearly, and all-time analytics with clean summaries.</small>
+</div>
+</div>
+</aside>
+<!-- Mobile Nav -->
+<div aria-labelledby="mobileNavLabel" class="offcanvas offcanvas-start d-lg-none mobile-nav" id="mobileNav" tabindex="-1">
+<div class="offcanvas-header border-bottom">
+<h5 class="offcanvas-title fw-bold" id="mobileNavLabel">Menu</h5>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
+</div>
+<div class="offcanvas-body p-3">
+<ul class="nav nav-pills flex-column gap-2">
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="dashboard.html"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a></li>
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="invoice.html"><i class="bi bi-receipt-cutoff"></i> Invoice</a></li>
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="product.html"><i class="bi bi-box-seam"></i> Products</a></li>
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="repairing.html"><i class="bi bi-tools"></i> Repairing</a></li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="customers.html">
+<i class="bi bi-people-fill"></i> Customers
+          </a>
+</li>
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2 active" href="report.html"><i class="bi bi-bar-chart-line"></i> Reports</a></li>
+
+</ul>
+</div>
+</div>
+<!-- Main -->
+<main class="page-wrap">
+<div class="container-fluid px-3 px-lg-4">
+<!-- Title -->
+<div class="row align-items-end g-3 mb-4">
+<div class="col-12 col-xl-7">
+<h1 class="page-title">Reports</h1>
+<p class="page-subtitle">Track revenue, expense, profit, stock movement, invoice performance, and repairs with strong filters.</p>
+</div>
+<div class="col-12 col-xl-5">
+<div class="d-flex flex-wrap justify-content-xl-end gap-2">
+<div class="dropdown">
+  <button class="btn btn-primary rounded-4 px-3 dropdown-toggle" id="reportTopExportBtn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="bi bi-download me-1"></i> Export
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4 p-2">
+    <li><button class="dropdown-item rounded-3" id="reportTopExportPdfBtn" type="button"><i class="bi bi-filetype-pdf me-2 text-danger"></i> Export PDF</button></li>
+    <li><button class="dropdown-item rounded-3" id="reportTopExportExcelBtn" type="button"><i class="bi bi-file-earmark-excel me-2 text-success"></i> Export Excel</button></li>
+  </ul>
+</div>
+<button class="btn btn-outline-secondary rounded-4 px-3" id="reportTopPrintBtn" type="button">
+<i class="bi bi-printer me-1"></i> Print
+        </button>
+<button class="btn btn-outline-success rounded-4 px-3" id="reportTopFilterBtn" type="button">
+<i class="bi bi-funnel me-1"></i> Filter
+        </button>
+</div>
+</div>
+</div>
+<!-- Filter row -->
+<div class="card-shell mb-4">
+<div class="section-body">
+<div class="row g-3 align-items-center">
+<div class="col-12 col-lg-4">
+<div class="search-wrap">
+<i class="bi bi-search search-icon"></i>
+<input class="form-control search-input" placeholder="Search in reports..." type="search"/>
+</div>
+</div>
+<div class="col-12 col-md-4 col-lg-2">
+<select class="form-select" id="reportPeriodFilter">
+<option selected="" value="today">Today</option>
+<option>Weekly</option>
+<option>Monthly</option>
+<option>Yearly</option>
+<option>All Time</option>
+</select>
+</div>
+<div class="col-12 col-md-4 col-lg-2">
+<select class="form-select" id="reportMetricFilter">
+<option selected="" value="revenue">Revenue</option>
+<option>Expense</option>
+<option>Profit</option>
+<option>Stock Movement</option>
+<option>Invoices</option>
+<option>Repairs</option>
+</select>
+</div>
+<div class="col-12 col-md-4 col-lg-2">
+<select class="form-select" id="reportCategoryFilter">
+<option selected="" value="all">All</option>
+<option value="products">Products</option>
+<option value="invoices">Invoices</option>
+<option value="repairs">Repairs</option>
+<option value="expenses">Expenses</option>
+<option value="customers">Customers</option>
+</select>
+</div>
+<div class="col-12 col-lg-2 d-grid">
+<button class="btn btn-outline-primary rounded-4" id="reportApplyBtn" type="button">
+<i class="bi bi-arrow-repeat me-1"></i> Apply
+          </button>
+</div>
+</div>
+<div class="d-flex flex-wrap gap-2 mt-3">
+<span class="tag-pill"><i class="bi bi-calendar-check"></i> Today</span>
+<span class="tag-pill"><i class="bi bi-calendar-week"></i> Weekly</span>
+<span class="tag-pill"><i class="bi bi-calendar3"></i> Monthly</span>
+<span class="tag-pill"><i class="bi bi-calendar2-range"></i> Yearly</span>
+<span class="tag-pill"><i class="bi bi-infinity"></i> All Time</span>
+</div>
+<p class="mobile-note mt-3 mb-0">
+        Weekly filters should follow the Islamic week: Saturday to Friday.
+      </p>
+</div>
+</div>
+<!-- Summary cards -->
+<div class="row g-3 g-xl-4 mb-4">
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Revenue</p>
+<div class="summary-value">$00</div>
+<div class="summary-trend text-success-soft"><i class="bi bi-cash-coin me-1"></i> Income generated</div>
+</div>
+<div class="summary-icon bg-soft-success"><i class="bi bi-cash-coin"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Total Customers</p>
+<div class="summary-value">0</div>
+<div class="summary-trend text-info-soft"><i class="bi bi-people-fill me-1"></i> Active customers</div>
+</div>
+<div class="summary-icon bg-soft-info"><i class="bi bi-people-fill"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Expense</p>
+<div class="summary-value">$0</div>
+<div class="summary-trend text-danger-soft"><i class="bi bi-receipt me-1"></i> Total cost</div>
+</div>
+<div class="summary-icon bg-soft-danger"><i class="bi bi-receipt"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Profit</p>
+<div class="summary-value">$0</div>
+<div class="summary-trend text-primary-soft"><i class="bi bi-graph-up-arrow me-1"></i> Net gain</div>
+</div>
+<div class="summary-icon bg-soft-primary"><i class="bi bi-graph-up-arrow"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Stock Movement</p>
+<div class="summary-value">324</div>
+<div class="summary-trend text-info-soft"><i class="bi bi-arrow-left-right me-1"></i> In / out</div>
+</div>
+<div class="summary-icon bg-soft-info"><i class="bi bi-arrow-left-right"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Paid</p>
+<div class="summary-value">0</div>
+<div class="summary-trend text-success-soft"><i class="bi bi-check-circle-fill me-1"></i> Successful payments</div>
+</div>
+<div class="summary-icon bg-soft-success"><i class="bi bi-check-circle-fill"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Partial</p>
+<div class="summary-value">0</div>
+<div class="summary-trend text-warning-soft"><i class="bi bi-cash-coin me-1"></i> Part payments</div>
+</div>
+<div class="summary-icon bg-soft-warning"><i class="bi bi-cash-coin"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Unpaid</p>
+<div class="summary-value">0</div>
+<div class="summary-trend text-danger-soft"><i class="bi bi-exclamation-circle-fill me-1"></i> Device Received balance</div>
+</div>
+<div class="summary-icon bg-soft-danger"><i class="bi bi-exclamation-circle-fill"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Low Stock</p>
+<div class="summary-value">9</div>
+<div class="summary-trend text-danger-soft"><i class="bi bi-exclamation-triangle-fill me-1"></i> Restock soon</div>
+</div>
+<div class="summary-icon bg-soft-danger"><i class="bi bi-exclamation-triangle-fill"></i></div>
+</div>
+</div>
+</div>
+
+<div class="col-12 col-sm-6 col-xl-3">
+  <div class="card-shell summary-card">
+  <div class="d-flex align-items-center justify-content-between gap-3">
+  <div>
+  <p class="summary-label">Total Products</p>
+  <div class="summary-value">0</div>
+  <div class="summary-trend text-primary-soft"><i class="bi bi-box-seam me-1"></i> All active products</div>
+  </div>
+  <div class="summary-icon bg-soft-primary"><i class="bi bi-box-seam"></i></div>
+  </div>
+  </div>
+  </div>
+  
+  <div class="col-12 col-sm-6 col-xl-3">
+  <div class="card-shell summary-card">
+  <div class="d-flex align-items-center justify-content-between gap-3">
+  <div>
+  <p class="summary-label">Total Invoices</p>
+  <div class="summary-value">0</div>
+  <div class="summary-trend text-info-soft"><i class="bi bi-receipt-cutoff me-1"></i> Period invoices</div>
+  </div>
+  <div class="summary-icon bg-soft-info"><i class="bi bi-receipt-cutoff"></i></div>
+  </div>
+  </div>
+  </div>
+  
+  <div class="col-12 col-sm-6 col-xl-3">
+  <div class="card-shell summary-card">
+  <div class="d-flex align-items-center justify-content-between gap-3">
+  <div>
+  <p class="summary-label">Total Repairs</p>
+  <div class="summary-value">0</div>
+  <div class="summary-trend text-warning-soft"><i class="bi bi-tools me-1"></i> Period repairs</div>
+  </div>
+  <div class="summary-icon bg-soft-warning"><i class="bi bi-tools"></i></div>
+  </div>
+  </div>
+  </div>
+  
+  <div class="col-12 col-sm-6 col-xl-3">
+  <div class="card-shell summary-card">
+  <div class="d-flex align-items-center justify-content-between gap-3">
+  <div>
+  <p class="summary-label">Product Sale</p>
+  <div class="summary-value">$0</div>
+  <div class="summary-trend text-success-soft"><i class="bi bi-cart-check me-1"></i> Period product sales</div>
+  </div>
+  <div class="summary-icon bg-soft-success"><i class="bi bi-cart-check"></i></div>
+  </div>
+  </div>
+  </div>
+
+  
+</div>
+
+
+<!-- Charts -->
+<div class="row g-4 mb-4">
+<div class="col-12 col-xl-8">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+<div>
+<h5 class="fw-bold mb-1">Revenue, Expense &amp; Profit</h5>
+<p class="text-muted mb-0">Main performance chart area.</p>
+</div>
+<div class="d-flex gap-2 flex-wrap">
+<span class="mini-pill bg-soft-primary text-primary-soft">Today</span>
+<span class="mini-pill bg-soft-success text-success-soft">Weekly</span>
+<span class="mini-pill bg-soft-warning text-warning-soft">Monthly</span>
+</div>
+</div>
+<div class="section-body">
+<div class="chart-placeholder d-flex align-items-center justify-content-center text-center p-4">
+<div>
+<i class="bi bi-bar-chart-line fs-1 text-primary"></i>
+<h6 class="fw-bold mt-3 mb-1">Financial Chart Placeholder</h6>
+<p class="text-muted mb-0">Add a Chart.js revenue/expense/profit graph here later.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12 col-xl-4">
+<div class="card-shell h-100">
+<div class="section-header">
+<h5 class="fw-bold mb-1">Paid / Partial / Unpaid</h5>
+<p class="text-muted mb-0">Invoice payment summary.</p>
+</div>
+<div class="section-body">
+<div class="chart-placeholder d-flex align-items-center justify-content-center text-center p-4" style="min-height: 320px;">
+<div>
+<i class="bi bi-pie-chart fs-1 text-success"></i>
+<h6 class="fw-bold mt-3 mb-1">Payment Chart Placeholder</h6>
+<p class="text-muted mb-0">Show payment distribution here.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12 col-lg-6">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center">
+<div>
+<h5 class="fw-bold mb-1">Stock Movement</h5>
+<p class="text-muted mb-0">Incoming and outgoing stock trends.</p>
+</div>
+<span class="mini-pill bg-soft-info text-info-soft">All items</span>
+</div>
+<div class="section-body">
+<div class="chart-placeholder d-flex align-items-center justify-content-center text-center p-4" style="min-height: 280px;">
+<div>
+<i class="bi bi-arrow-left-right fs-1 text-info"></i>
+<h6 class="fw-bold mt-3 mb-1">Stock Movement Placeholder</h6>
+<p class="text-muted mb-0">Track stock in and stock out behavior.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12 col-lg-6">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center">
+<div>
+<h5 class="fw-bold mb-1">Product Performance</h5>
+<p class="text-muted mb-0">Best performing items and categories.</p>
+</div>
+<span class="mini-pill bg-soft-warning text-warning-soft">Top products</span>
+</div>
+<div class="section-body">
+<div class="chart-placeholder d-flex align-items-center justify-content-center text-center p-4" style="min-height: 280px;">
+<div>
+<i class="bi bi-bar-chart fs-1 text-warning"></i>
+<h6 class="fw-bold mt-3 mb-1">Product Performance Placeholder</h6>
+<p class="text-muted mb-0">Show top-selling and priority products.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Tables -->
+<div class="row g-4 mb-4">
+<div class="col-12 col-xl-6">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center">
+<div>
+<h5 class="fw-bold mb-1">Invoice Performance</h5>
+<p class="text-muted mb-0">Paid, partial, and unpaid invoice summary.</p>
+</div>
+</div>
+<div class="section-body">
+<div class="table-responsive">
+<table class="table align-middle mb-0">
+<thead>
+<tr>
+<th>Status</th>
+<th>Count</th>
+<th>Amount</th>
+<th>Trend</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="badge bg-soft-success text-success-soft report-badge">Paid</span></td>
+<td class="fw-semibold">31</td>
+<td class="fw-semibold">$5,900</td>
+<td><span class="text-success-soft fw-semibold"><i class="bi bi-arrow-up-right"></i> Up</span></td>
+</tr>
+<tr>
+<td><span class="badge bg-soft-warning text-warning-soft report-badge">Partial</span></td>
+<td class="fw-semibold">12</td>
+<td class="fw-semibold">$1,250</td>
+<td><span class="text-warning-soft fw-semibold"><i class="bi bi-dash"></i> Stable</span></td>
+</tr>
+<tr>
+<td><span class="badge bg-soft-danger text-danger-soft report-badge">Unpaid</span></td>
+<td class="fw-semibold">11</td>
+<td class="fw-semibold">$1,270</td>
+<td><span class="text-danger-soft fw-semibold"><i class="bi bi-arrow-down-right"></i> Needs follow-up</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12 col-xl-6">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center">
+<div>
+<h5 class="fw-bold mb-1">Repair Performance</h5>
+<p class="text-muted mb-0">Repair stage summary and flow.</p>
+</div>
+</div>
+<div class="section-body">
+<div class="table-responsive">
+<table class="table align-middle mb-0">
+<thead>
+<tr>
+<th>Status</th>
+<th>Count</th>
+<th>Amount</th>
+<th>Progress</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="badge bg-soft-warning text-warning-soft report-badge">Device Received</span></td>
+<td class="fw-semibold">11</td>
+<td class="fw-semibold">$385</td>
+<td>
+<div class="progress-soft">
+<div class="progress-bar bg-warning" style="width: 26%;"></div>
+</div>
+</td>
+</tr>
+<tr>
+<td><span class="badge bg-soft-info text-info-soft report-badge">Processing</span></td>
+<td class="fw-semibold">8</td>
+<td class="fw-semibold">$248</td>
+<td>
+<div class="progress-soft">
+<div class="progress-bar bg-info" style="width: 40%;"></div>
+</div>
+</td>
+</tr>
+<tr>
+<td><span class="badge bg-soft-success text-success-soft report-badge">Completed</span></td>
+<td class="fw-semibold">15</td>
+<td class="fw-semibold">$520</td>
+<td>
+<div class="progress-soft">
+<div class="progress-bar bg-success" style="width: 72%;"></div>
+</div>
+</td>
+</tr>
+<tr>
+<td><span class="badge bg-light text-dark report-badge">Delivered</span></td>
+<td class="fw-semibold">3</td>
+<td class="fw-semibold">$127</td>
+<td>
+<div class="progress-soft">
+<div class="progress-bar bg-secondary" style="width: 18%;"></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="row g-4 mb-4">
+<div class="col-12">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+<div>
+<h5 class="fw-bold mb-1">Sold Products</h5>
+<p class="text-muted mb-0">Grouped product sales from invoices for the selected period.</p>
+</div>
+<span class="mini-pill bg-soft-success text-success-soft" id="soldProductsTotalAmount">$0</span>
+</div>
+<div class="section-body">
+<div class="table-responsive">
+<table class="table align-middle mb-0">
+<thead>
+<tr>
+<th>Product ID</th>
+<th>Product</th>
+<th>Qty Sold</th>
+<th>Discount</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody id="soldProductsTbody"></tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row g-4 mb-4">
+<div class="col-12 col-xl-6">
+<div class="card-shell h-100">
+<div class="section-header">
+<h5 class="fw-bold mb-1">Low Stock Summary</h5>
+<p class="text-muted mb-0">Products that need restocking.</p>
+</div>
+<div class="section-body">
+<div class="table-responsive">
+<table class="table align-middle mb-0">
+<thead>
+<tr>
+<th>Product</th>
+<th>Category</th>
+<th>Stock</th>
+<th>Alert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="fw-semibold">Type-C Charger</td>
+<td>Chargerska mobilada</td>
+<td>4</td>
+<td><span class="badge bg-soft-danger text-danger-soft report-badge">Low</span></td>
+</tr>
+<tr>
+<td class="fw-semibold">USB Cable</td>
+<td>Fiilooyinka iyo cables</td>
+<td>2</td>
+<td><span class="badge bg-soft-danger text-danger-soft report-badge">Low</span></td>
+</tr>
+<tr>
+<td class="fw-semibold">LED Bulb</td>
+<td>Nalalka iyo laambadaha</td>
+<td>1</td>
+<td><span class="badge bg-soft-danger text-danger-soft report-badge">Critical</span></td>
+</tr>
+<tr>
+<td class="fw-semibold">Mini Feature Phone</td>
+<td>Teleefannada yaryar</td>
+<td>2</td>
+<td><span class="badge bg-soft-danger text-danger-soft report-badge">Low</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12 col-xl-6">
+<div class="card-shell h-100">
+<div class="section-header">
+<h5 class="fw-bold mb-1">Important Product Summary</h5>
+<p class="text-muted mb-0">Products marked as important with threshold alerts.</p>
+</div>
+<div class="section-body">
+<div class="table-responsive">
+<table class="table align-middle mb-0">
+<thead>
+<tr>
+<th>Product</th>
+<th>Threshold</th>
+<th>Stock</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody id="importantProductSummaryBody">
+<tr>
+<td class="fw-semibold">20,000mAh Power Bank</td>
+<td>10</td>
+<td>11</td>
+<td><span class="badge bg-soft-success text-success-soft report-badge">Safe</span></td>
+</tr>
+<tr>
+<td class="fw-semibold">Rechargeable Lamp</td>
+<td>10</td>
+<td>6</td>
+<td><span class="badge bg-soft-warning text-warning-soft report-badge">Near Threshold</span></td>
+</tr>
+<tr>
+<td class="fw-semibold">Type-C Fast Charger</td>
+<td>10</td>
+<td>4</td>
+<td><span class="badge bg-soft-danger text-danger-soft report-badge">Alert</span></td>
+</tr>
+<tr>
+<td class="fw-semibold">Mini Feature Phone</td>
+<td>10</td>
+<td>2</td>
+<td><span class="badge bg-soft-danger text-danger-soft report-badge">Critical</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row g-4 mb-4">
+<div class="col-12">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center">
+<div>
+<h5 class="fw-bold mb-1">Top 5 Customers</h5>
+<p class="text-muted mb-0">Top customers for the selected period.</p>
+</div>
+</div>
+<div class="section-body table-responsive">
+<table class="table align-middle mb-0">
+<thead>
+<tr>
+<th>No</th>
+<th>Customer</th>
+<th>Phone</th>
+<th>Invoices</th>
+<th>Repairs</th>
+<th>Total All</th>
+<th>Total Paid</th>
+<th>Total Remaining</th>
+<th>Last Activity</th>
+</tr>
+</thead>
+<tbody id="bestCustomersBody"></tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="col-12">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center">
+<div>
+<h5 class="fw-bold mb-1">Largest Remaining Invoices</h5>
+<p class="text-muted mb-0">Unpaid and partial invoices with the highest balance.</p>
+</div>
+</div>
+<div class="section-body table-responsive">
+<table class="table align-middle mb-0">
+<thead>
+<tr>
+<th>Invoice</th>
+<th>Customer</th>
+<th>Phone</th>
+<th>Status</th>
+<th>Total</th>
+<th>Paid</th>
+<th>Balance</th>
+<th>Date</th>
+</tr>
+</thead>
+<tbody id="largestRemainingInvoicesBody"></tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="row g-4 mb-4">
+<div class="col-12">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center">
+<div>
+<h5 class="fw-bold mb-1">Repair History</h5>
+<p class="text-muted mb-0">Recent repair records in the selected period.</p>
+</div>
+</div>
+<div class="section-body table-responsive">
+<table class="table align-middle mb-0">
+<thead>
+<tr>
+<th>Repair</th>
+<th>Customer</th>
+<th>Device</th>
+<th>Status</th>
+<th>Total</th>
+<th>Paid</th>
+<th>Balance</th>
+<th>Date</th>
+</tr>
+</thead>
+<tbody id="reportRepairHistoryBody"></tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<!-- Notes + actions -->
+<div class="row g-4">
+<div class="col-12 col-lg-8">
+<div class="card-shell h-100">
+<div class="section-header">
+<h5 class="fw-bold mb-1">Reporting Notes</h5>
+<p class="text-muted mb-0">Guides for the report system.</p>
+</div>
+<div class="section-body">
+<div class="row g-3">
+<div class="col-12 col-md-6">
+<div class="note-box h-100">
+<div class="fw-bold mb-1">Weekly rule</div>
+<small class="text-muted">Weekly reports should use the Islamic week: Saturday to Friday.</small>
+</div>
+</div>
+<div class="col-12 col-md-6">
+<div class="note-box h-100">
+<div class="fw-bold mb-1">Payment summaries</div>
+<small class="text-muted">Show paid, unpaid, and partial payment summaries clearly.</small>
+</div>
+</div>
+<div class="col-12 col-md-6">
+<div class="note-box h-100">
+<div class="fw-bold mb-1">Stock alerts</div>
+<small class="text-muted">Include low stock and important product alerts in all report views.</small>
+</div>
+</div>
+<div class="col-12 col-md-6">
+<div class="note-box h-100">
+<div class="fw-bold mb-1">Repair summary</div>
+<small class="text-muted">Track pending, processing, completed, and delivered repair counts.</small>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12 col-lg-4">
+<div class="card-shell h-100">
+<div class="section-header">
+<h5 class="fw-bold mb-1">Report Actions</h5>
+<p class="text-muted mb-0">Quick controls for exporting and filtering.</p>
+</div>
+<div class="section-body">
+<div class="d-grid gap-3">
+<button class="btn btn-outline-primary rounded-4" id="reportExportPdfBtn" type="button"><i class="bi bi-download me-1"></i> Export PDF</button>
+<button class="btn btn-outline-success rounded-4" id="reportExportExcelBtn" type="button"><i class="bi bi-file-earmark-excel me-1"></i> Export Excel</button>
+<button class="btn btn-outline-secondary rounded-4" id="reportPrintBtn" type="button"><i class="bi bi-printer me-1"></i> Print Report</button>
+<button class="btn btn-outline-warning rounded-4" id="reportApplyTopBtn" type="button"><i class="bi bi-funnel me-1"></i> Apply Filter</button>
+<button class="btn btn-outline-danger rounded-4" id="reportResetBtn" type="button"><i class="bi bi-arrow-repeat me-1"></i> Reset</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile bottom navigation -->
+<nav class="mobile-bottom-nav d-lg-none position-fixed bottom-0 start-0 w-100 bg-white border-top shadow-sm">
+<div class="d-flex justify-content-around py-2">
+<a class="text-center" href="dashboard.html">
+<div><i class="bi bi-grid-1x2-fill"></i></div>
+<small>Dashboard</small>
+</a>
+<a class="text-center" href="invoice.html">
+<div><i class="bi bi-receipt-cutoff"></i></div>
+<small>Invoice</small>
+</a>
+<a class="text-center" href="product.html">
+<div><i class="bi bi-box-seam"></i></div>
+<small>Products</small>
+</a>
+<a class="text-center" href="repairing.html">
+<div><i class="bi bi-tools"></i></div>
+<small>Repairing</small>
+</a>
+<a class="text-center active" href="report.html">
+<div><i class="bi bi-bar-chart-line"></i></div>
+<small>Reports</small>
+</a>
+</div>
+</nav>
+<script>
+    const THEME_KEY = 'electronicShopTheme';
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function applyTheme(theme) {
+      const nextTheme = theme === 'light' ? 'light' : 'dark';
+      const isDark = nextTheme === 'dark';
+      document.body.classList.toggle('dark-mode', isDark);
+      document.body.dataset.theme = nextTheme;
+      document.body.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
+      document.documentElement.dataset.theme = nextTheme;
+      document.documentElement.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
+      if (themeIcon) themeIcon.className = isDark ? 'bi bi-sun' : 'bi bi-moon-stars';
+      localStorage.setItem(THEME_KEY, nextTheme);
+    }
+
+    applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+
+    themeToggle?.addEventListener('click', () => {
+      applyTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+    });
+  </script>
+<script type="module">
+  import { requireAuth } from "./js/auth.js";
+  requireAuth({ redirectUrl: "login.html" });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="./js/report.js" type="module"></script>
+<script src="./js/navbar.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="./js/settings-config.js"></script>
+</body>
+</html>

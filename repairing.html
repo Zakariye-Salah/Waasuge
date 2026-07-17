@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>🏪 Repairing | Electronic Shop</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Cdefs%3E%3ClinearGradient id=%22g%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%25%22 stop-color=%22%232563eb%22/%3E%3Cstop offset=%22100%25%22 stop-color=%22%237c3aed%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%2264%22 height=%2264%22 rx=%2216%22 fill=%22url(%23g)%22/%3E%3Cpath d=%22M14 26h36v24H14z%22 fill=%22%23fff%22 opacity=%22.96%22/%3E%3Cpath d=%22M18 22h28l4 4H14z%22 fill=%22%23fff%22 opacity=%22.92%22/%3E%3Cpath d=%22M22 31h8v10h-8zm12 0h10v10H34z%22 fill=%22%232563eb%22/%3E%3Cpath d=%22M27 13h10v11H27z%22 fill=%22%23fff%22 opacity=%22.95%22/%3E%3C/svg%3E"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+<style>
+    :root{
+      --bg: #f5f7fb;
+      --card: rgba(255,255,255,0.95);
+      --text: #111827;
+      --muted: #6b7280;
+      --border: rgba(15, 23, 42, 0.08);
+      --shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+      --primary: #2563eb;
+      --success: #16a34a;
+      --warning: #f59e0b;
+      --danger: #dc2626;
+      --info: #0891b2;
+      --purple: #7c3aed;
+      --dark-bg: #0b1220;
+      --dark-card: #111827;
+      --dark-text: #e5e7eb;
+      --dark-muted: #94a3b8;
+      --dark-border: rgba(148, 163, 184, 0.16);
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.10), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.08), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    body.dark-mode {
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--dark-bg);
+      color: var(--dark-text);
+    }
+
+    .app-header {
+      backdrop-filter: blur(14px);
+    }
+
+    .sidebar {
+      width: 260px;
+      z-index: 1020;
+    }
+
+    .sidebar .nav-link,
+    .mobile-nav .nav-link {
+      color: inherit;
+      border-radius: 14px;
+      padding: 0.9rem 1rem;
+      font-weight: 600;
+    }
+
+    .sidebar .nav-link.active,
+    .mobile-nav .nav-link.active {
+      background: linear-gradient(135deg, var(--primary), #1d4ed8);
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.18);
+    }
+
+    .page-wrap {
+      padding-top: 18px;
+      padding-bottom: 90px;
+    }
+
+    @media (min-width: 992px) {
+      .page-wrap {
+        margin-left: 260px;
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+    }
+
+    .page-title {
+      font-size: clamp(1.45rem, 2.5vw, 2.1rem);
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+    }
+
+    .page-subtitle {
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+
+    .card-shell {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.25s ease, border-color 0.25s ease;
+    }
+
+    body.dark-mode .card-shell {
+      background: var(--dark-card);
+      border-color: var(--dark-border);
+      color: var(--dark-text);
+    }
+
+    .card-shell:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 46px rgba(15, 23, 42, 0.12);
+    }
+
+    .section-header {
+      padding: 18px 18px 0 18px;
+    }
+
+    .section-body {
+      padding: 18px;
+    }
+
+    .mini-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bg-soft-primary { background: rgba(37, 99, 235, 0.12); }
+    .bg-soft-success { background: rgba(22, 163, 74, 0.12); }
+    .bg-soft-warning { background: rgba(245, 158, 11, 0.12); }
+    .bg-soft-danger { background: rgba(220, 38, 38, 0.12); }
+    .bg-soft-info { background: rgba(8, 145, 178, 0.12); }
+    .bg-soft-purple { background: rgba(124, 58, 237, 0.12); }
+
+    .text-primary-soft { color: #2563eb; }
+    .text-success-soft { color: #16a34a; }
+    .text-warning-soft { color: #d97706; }
+    .text-danger-soft { color: #dc2626; }
+    .text-info-soft { color: #0891b2; }
+    .text-purple-soft { color: #7c3aed; }
+
+    body.dark-mode .text-muted,
+    body.dark-mode .page-subtitle,
+    body.dark-mode .summary-label,
+    body.dark-mode .small-muted {
+      color: var(--dark-muted) !important;
+    }
+
+    .summary-card {
+      padding: 18px;
+      height: 100%;
+    }
+
+    .summary-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #fff;
+      flex: 0 0 auto;
+      background: linear-gradient(135deg, rgba(37,99,235,0.22), rgba(124,58,237,0.18));
+      border: 1px solid rgba(255,255,255,0.28);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.10), inset 0 1px 0 rgba(255,255,255,0.36);
+      backdrop-filter: blur(10px);
+    }
+
+    .summary-icon i {
+      display: inline-block;
+      animation: iconCardMotion 8s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    @keyframes iconCardMotion {
+      0% { transform: translateX(0) rotateY(0deg); }
+      20% { transform: translateX(-3px) rotateY(0deg); }
+      50% { transform: translateX(0) rotateY(180deg); }
+      80% { transform: translateX(3px) rotateY(180deg); }
+      100% { transform: translateX(0) rotateY(360deg); }
+    }
+
+    .summary-label {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
+
+    .summary-value {
+      font-size: 1.45rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 0.15rem;
+    }
+
+    .summary-trend {
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .search-input {
+      border-radius: 14px;
+      height: 48px;
+      border: 1px solid var(--border);
+      box-shadow: none !important;
+      padding-left: 42px;
+    }
+
+    body.dark-mode .search-input,
+    body.dark-mode .form-control,
+    body.dark-mode .form-select,
+    body.dark-mode textarea.form-control {
+      background: #0f172a;
+      color: var(--dark-text);
+      border-color: var(--dark-border);
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-wrap .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 14px;
+      transform: translateY(-50%);
+      color: var(--muted);
+    }
+
+    .form-control,
+    .form-select {
+      border-radius: 14px;
+      height: 48px;
+      border: 1px solid var(--border);
+      box-shadow: none !important;
+    }
+
+    textarea.form-control {
+      height: auto;
+      min-height: 96px;
+    }
+
+    .status-pill {
+      border-radius: 999px;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .repair-card {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.9);
+      box-shadow: var(--shadow);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body.dark-mode .repair-card {
+      background: #111827;
+      border-color: var(--dark-border);
+    }
+
+    .repair-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 46px rgba(15, 23, 42, 0.12);
+    }
+
+    .repair-head {
+      padding: 16px 16px 0 16px;
+    }
+
+    .repair-body {
+      padding: 16px;
+    }
+
+    .repair-title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      margin-bottom: 0.2rem;
+    }
+
+    .repair-meta {
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    .priority-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+    .timeline {
+      border-left: 2px solid var(--border);
+      padding-left: 16px;
+      margin-left: 6px;
+    }
+
+    body.dark-mode .timeline {
+      border-color: var(--dark-border);
+    }
+
+    .timeline-step {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .timeline-step::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      position: absolute;
+      left: -23px;
+      top: 6px;
+      box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.12);
+    }
+
+    .table thead th {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .table td {
+      vertical-align: middle;
+    }
+
+    body.dark-mode .table {
+      color: var(--dark-text);
+    }
+
+    body.dark-mode .table > :not(caption) > * > * {
+      background-color: transparent;
+      border-color: var(--dark-border);
+    }
+
+    body.dark-mode .table thead th {
+      color: var(--dark-muted);
+    }
+
+    .mobile-bottom-nav {
+      z-index: 1030;
+    }
+
+    .mobile-bottom-nav a {
+      color: inherit;
+      text-decoration: none;
+      font-size: 0.76rem;
+      font-weight: 700;
+      opacity: 0.82;
+    }
+
+    .mobile-bottom-nav a.active {
+      color: var(--primary);
+      opacity: 1;
+    }
+
+    .quick-box {
+      border: 1px dashed var(--border);
+      background: rgba(255,255,255,0.5);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    body.dark-mode .quick-box {
+      background: rgba(17,24,39,0.42);
+      border-color: var(--dark-border);
+    }
+
+    .tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.55);
+    }
+
+    body.dark-mode .tag-pill {
+      background: rgba(17,24,39,0.55);
+      border-color: var(--dark-border);
+    }
+
+    .action-btn,
+    .repair-row-action-btn {
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
+    .ticket-box {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(255,255,255,0.55);
+    }
+
+    body.dark-mode .ticket-box {
+      background: rgba(17,24,39,0.55);
+      border-color: var(--dark-border);
+    }
+
+    .mobile-note {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .repair-picker {
+      position: relative;
+      z-index: 18;
+      overflow: visible;
+    }
+
+    .repair-picker-panel {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      z-index: 1060;
+      max-height: 340px;
+      background: rgba(255,255,255,0.96);
+      border: 1px solid rgba(15, 23, 42, 0.10);
+      border-radius: 20px;
+      box-shadow: 0 26px 60px rgba(15, 23, 42, 0.20);
+      overflow: hidden;
+      backdrop-filter: blur(14px);
+      transform-origin: top center;
+    }
+
+    body.dark-mode .repair-picker-panel {
+      background: rgba(15, 23, 42, 0.96);
+      border-color: rgba(148, 163, 184, 0.16);
+      box-shadow: 0 28px 66px rgba(0, 0, 0, 0.42);
+    }
+
+    .repair-picker-header {
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      background: rgba(148, 163, 184, 0.08);
+    }
+
+    body.dark-mode .repair-picker-header {
+      color: var(--dark-muted);
+      border-bottom-color: var(--dark-border);
+      background: rgba(148, 163, 184, 0.12);
+    }
+
+    .repair-picker-list {
+      max-height: 270px;
+      overflow-y: auto;
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .repair-picker-item {
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.86);
+      padding: 10px 12px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .repair-picker-item:hover {
+      transform: translateY(-1px);
+      border-color: rgba(37, 99, 235, 0.38);
+      background: rgba(37, 99, 235, 0.10);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.10);
+    }
+
+    body.dark-mode .repair-picker-item {
+      background: rgba(15, 23, 42, 0.90);
+      border-color: rgba(148, 163, 184, 0.16);
+      color: var(--dark-text);
+    }
+
+    body.dark-mode .repair-picker-item:hover {
+      background: rgba(37, 99, 235, 0.18);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+    }
+
+    .repair-picker-empty {
+      padding: 18px 14px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .repair-picker-search-row .btn {
+      border-radius: 14px;
+      border-color: rgba(148, 163, 184, 0.26);
+      background: rgba(255,255,255,0.82);
+    }
+
+    body.dark-mode .repair-picker-search-row .btn {
+      background: rgba(15, 23, 42, 0.90);
+      border-color: rgba(148, 163, 184, 0.18);
+      color: var(--dark-text);
+    }
+
+    .repair-picker-selected {
+      margin-top: 10px;
+    }
+
+    :root {
+      --sidebar-collapsed-width: 84px;
+    }
+
+    .sidebar {
+      width: 260px;
+      overflow: hidden;
+      transition: width 0.28s ease, padding 0.28s ease, background-color 0.28s ease, border-color 0.28s ease;
+    }
+
+    .sidebar .nav-link {
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .sidebar .nav-link i {
+      flex-shrink: 0;
+    }
+
+    .sidebar .nav-link .nav-label,
+    .sidebar .sidebar-brand-text,
+    .sidebar .sidebar-footer-text {
+      transition: opacity 0.2s ease, transform 0.2s ease, max-width 0.28s ease;
+    }
+
+    .sidebar .sidebar-toggle {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+    }
+
+    .sidebar .sidebar-logo {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+    }
+
+    body.sidebar-collapsed .sidebar {
+      width: var(--sidebar-collapsed-width) !important;
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+    }
+
+    body.sidebar-collapsed .sidebar .sidebar-brand-text,
+    body.sidebar-collapsed .sidebar .sidebar-footer-box,
+    body.sidebar-collapsed .sidebar .nav-label {
+      display: none !important;
+    }
+
+    body.sidebar-collapsed .sidebar .nav-link {
+      justify-content: center !important;
+      gap: 0 !important;
+      padding-left: 0.6rem !important;
+      padding-right: 0.6rem !important;
+    }
+
+    body.sidebar-collapsed .sidebar .nav-link i {
+      margin-right: 0 !important;
+    }
+
+    body.sidebar-collapsed .page-wrap {
+      margin-left: var(--sidebar-collapsed-width) !important;
+    }
+
+    body.sidebar-collapsed .sidebar .sidebar-toggle i {
+      transform: rotate(180deg);
+    }
+
+    @media (max-width: 991.98px) {
+      body.sidebar-collapsed .page-wrap {
+        margin-left: 0 !important;
+      }
+    }
+
+
+    .app-header {
+      transition: margin-left 0.28s ease, width 0.28s ease, left 0.28s ease, right 0.28s ease;
+      will-change: margin-left, width;
+    }
+
+    @media (min-width: 992px) {
+      .app-header {
+        margin-left: 260px;
+        width: calc(100% - 260px);
+      }
+      body.sidebar-collapsed .app-header {
+        margin-left: var(--sidebar-collapsed-width);
+        width: calc(100% - var(--sidebar-collapsed-width));
+      }
+    }
+
+    @media (max-width: 991.98px) {
+      .app-header {
+        margin-left: 0 !important;
+        width: 100% !important;
+      }
+      .header-sidebar-toggle {
+        display: inline-flex !important;
+      }
+    }
+
+    .header-sidebar-toggle {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-sidebar-toggle i {
+      font-size: 1.05rem;
+    }
+
+  
+    .ticket-box {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,250,252,.92));
+      box-shadow: 0 12px 26px rgba(15, 23, 42, 0.05);
+    }
+    body.dark-mode .ticket-box {
+      background: linear-gradient(180deg, rgba(17,24,39,.96), rgba(15,23,42,.92));
+      border-color: var(--dark-border);
+    }
+    .status-pill {
+      font-weight: 700;
+      border-radius: 999px;
+      padding: .45rem .8rem;
+      white-space: nowrap;
+    }
+    .status-board-list {
+      display: grid;
+      gap: .65rem;
+      max-height: 250px;
+      overflow: auto;
+      padding-right: .1rem;
+    }
+    .status-board-item {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: .85rem .95rem;
+      background: rgba(255,255,255,.76);
+    }
+    body.dark-mode .status-board-item {
+      background: rgba(255,255,255,.02);
+      border-color: var(--dark-border);
+    }
+    .status-board-item .meta {
+      font-size: .82rem;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem 1rem;
+    }
+    .status-board-item .queue-chip {
+      border-radius: 999px;
+      padding: .22rem .55rem;
+      font-size: .76rem;
+      font-weight: 700;
+    }
+    .status-board-empty {
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      padding: .85rem;
+      color: var(--muted);
+      text-align: center;
+      background: rgba(148,163,184,.04);
+    }
+
+
+    @media (max-width: 767.98px) {
+      .repair-table-shell .section-header {
+        align-items: flex-start !important;
+      }
+      .repair-table-shell .table-responsive {
+        margin-inline: -0.35rem;
+        padding-inline: 0.35rem;
+      }
+      .repair-table-shell table {
+        min-width: 720px;
+      }
+      .repair-table-shell .table th,
+      .repair-table-shell .table td {
+        white-space: nowrap;
+      }
+    }
+
+</style>
+<link href="./css/style.css" rel="stylesheet"/>
+<link href="./css/repairing.css" rel="stylesheet"/>
+</head>
+<body class="dark-mode" data-bs-theme="dark">
+<!-- Header -->
+<header class="app-header sticky-top bg-white border-bottom shadow-sm">
+<div class="container-fluid py-2 px-3 px-lg-4">
+<div class="d-flex align-items-center justify-content-between gap-3">
+
+
+    
+<div class="d-flex align-items-center gap-2 d-lg-none"><div class="rounded-3 d-flex align-items-center justify-content-center bg-primary text-white flex-shrink-0" style="width:42px;height:42px;"><i class="bi bi-shop"></i></div><div class="lh-sm"><div class="fw-bold">Waasuge Electronics</div><small class="text-muted">Repairing</small></div></div>
+<div class="d-none d-md-block search-wrap position-relative" style="max-width: 390px; width:100%;">
+<i class="bi bi-search search-icon"></i>
+<input aria-label="Search repairs" class="form-control search-input" placeholder="Search by customer, device, or repair ID..." type="search"/>
+</div>
+<div class="d-flex align-items-center gap-2 gap-md-3">
+<button aria-label="Toggle theme" class="btn btn-light border rounded-circle position-relative" id="themeToggle" type="button">
+<i class="bi bi-moon-stars" id="themeIcon"></i>
+</button>
+<div class="dropdown">
+<button aria-expanded="false" aria-label="Notifications" class="btn btn-light border rounded-circle position-relative" data-bs-toggle="dropdown" type="button">
+<i class="bi bi-bell"></i>
+<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">6</span>
+</button>
+<ul class="dropdown-menu dropdown-menu-end shadow border-0 p-2" style="min-width: 340px;">
+<li class="px-2 py-1 fw-bold">Notifications</li>
+<li><hr class="dropdown-divider"/></li>
+<li>
+<a class="dropdown-item rounded-3 py-2" href="#">
+<div class="d-flex gap-2">
+<i class="bi bi-hourglass-split text-warning"></i>
+<div>
+<div class="fw-semibold">Pending repair</div>
+<small class="text-muted">A new device repair was created.</small>
+</div>
+</div>
+</a>
+</li>
+<li>
+<a class="dropdown-item rounded-3 py-2" href="#">
+<div class="d-flex gap-2">
+<i class="bi bi-arrow-repeat text-info"></i>
+<div>
+<div class="fw-semibold">Processing update</div>
+<small class="text-muted">One repair moved to processing.</small>
+</div>
+</div>
+</a>
+</li>
+<li>
+<a class="dropdown-item rounded-3 py-2" href="#">
+<div class="d-flex gap-2">
+<i class="bi bi-check-circle-fill text-success"></i>
+<div>
+<div class="fw-semibold">Completed repair</div>
+<small class="text-muted">A repair is ready for delivery.</small>
+</div>
+</div>
+</a>
+</li>
+</ul>
+</div>
+<div class="dropdown header-more-dropdown">
+<button class="btn btn-light border rounded-circle position-relative header-more-btn" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="More options" data-header-more-toggle="">
+<i class="bi bi-three-dots-vertical"></i>
+</button>
+<ul class="dropdown-menu dropdown-menu-end shadow border-0 header-more-menu">
+<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#headerProfileModal"><i class="bi bi-person-gear text-primary"></i><span>Edit Profile</span></button></li>
+<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#headerAboutModal"><i class="bi bi-info-circle text-info"></i><span>About Us</span></button></li>
+<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#headerDeveloperModal"><i class="bi bi-code-slash text-success"></i><span>Developer</span></button></li>
+<li>
+  <a href="settings.html" style="text-decoration: none;"><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#">
+    <i  class="bi bi-gear-fill text-primary"></i> <span>Settings</span></button></a>
+</li>
+<li><hr class="dropdown-divider"></li>
+<li><button class="dropdown-item text-danger" type="button" data-bs-toggle="modal" data-bs-target="#headerLogoutModal"><i class="bi bi-box-arrow-right"></i><span>Logout</span></button></li>
+</ul>
+</div>
+<button aria-label="Cart" class="btn btn-light border rounded-circle position-relative" type="button">
+<i class="bi bi-cart3"></i>
+<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">2</span>
+</button>
+</div>
+</div>
+</div>
+
+
+  </header>
+<!-- Desktop Sidebar -->
+<aside class="sidebar d-none d-lg-flex flex-column bg-white border-end position-fixed top-0 start-0 vh-100 p-3">
+<div class="d-flex align-items-center justify-content-between gap-2 mb-4 mt-2 sidebar-brand-row"><div class="d-flex align-items-center gap-2 min-w-0 flex-grow-1"><div class="rounded-3 d-flex align-items-center justify-content-center bg-primary text-white sidebar-logo"><i class="bi bi-shop"></i></div><div class="sidebar-brand-text lh-sm min-w-0"><div class="fw-bold text-truncate">Waasuge Electronics</div><small class="text-muted text-truncate d-block">Shop management tools</small></div></div><button aria-label="Collapse sidebar" class="btn btn-light border rounded-circle sidebar-toggle" data-sidebar-toggle="" title="Collapse sidebar" type="button"><i class="bi bi-list"></i></button></div>
+
+
+<ul class="nav nav-pills flex-column gap-2">
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="dashboard.html"><i class="bi bi-grid-1x2-fill"></i> <span class="nav-label">Dashboard</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="invoice.html"><i class="bi bi-receipt-cutoff"></i> <span class="nav-label">Invoice</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="product.html"><i class="bi bi-box-seam"></i> <span class="nav-label">Products</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2 active" href="repairing.html"><i class="bi bi-tools"></i> <span class="nav-label">Repairing</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="customers.html"><i class="bi bi-people-fill"></i> <span class="nav-label">Customers</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="report.html"><i class="bi bi-bar-chart-line"></i> <span class="nav-label">Reports</span></a>
+</li>
+</ul>
+<div class="mt-auto pt-4">
+<div class="quick-box sidebar-footer-box"><div class="sidebar-footer-kicker d-inline-flex align-items-center gap-2 px-2 py-1 rounded-pill mb-2" style="background: rgba(37,99,235,.10); color:#2563eb; font-size:.78rem; font-weight:700;"><i class="bi bi-tools"></i> Repair flow</div>
+<div class="fw-bold mb-1">Repair flow</div>
+<small class="text-muted d-block sidebar-footer-text">Track pending, processing, completed, and delivered repairs.</small>
+</div>
+</div>
+
+
+  </aside>
+<!-- Mobile Nav -->
+<div aria-labelledby="mobileNavLabel" class="offcanvas offcanvas-start d-lg-none mobile-nav" id="mobileNav" tabindex="-1">
+<div class="offcanvas-header border-bottom">
+<h5 class="offcanvas-title fw-bold" id="mobileNavLabel">Menu</h5>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
+</div>
+<div class="offcanvas-body p-3">
+<ul class="nav nav-pills flex-column gap-2">
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="dashboard.html"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a></li>
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="invoice.html"><i class="bi bi-receipt-cutoff"></i> Invoice</a></li>
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="product.html"><i class="bi bi-box-seam"></i> Products</a></li>
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2 active" href="repairing.html"><i class="bi bi-tools"></i> Repairing</a></li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="customers.html">
+<i class="bi bi-people-fill"></i> Customers
+          </a>
+</li>
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="report.html"><i class="bi bi-bar-chart-line"></i> Reports</a></li>
+</ul>
+</div>
+</div>
+<!-- Main -->
+<main class="page-wrap is-loading">
+<div class="container-fluid px-3 px-lg-4">
+<!-- Main grid -->
+<div class="row align-items-end g-3 mb-4">
+<div class="col-12 col-xl-7">
+<h1 class="page-title">Repairing</h1>
+<p class="page-subtitle">Manage mobile and electronic repairs with clear status flow, notes, filters, and customer search.</p>
+</div>
+<div class="col-12 col-xl-5">
+<div class="d-flex flex-wrap justify-content-xl-end gap-2">
+<button class="btn btn-outline-primary rounded-4 px-3" data-repair-view="active">
+<i class="bi bi-list-check me-1"></i> Active Repairs
+        </button>
+<button class="btn btn-outline-danger rounded-4 px-3" data-bs-target="#repairTrashModal" data-bs-toggle="modal" type="button">
+<i class="bi bi-trash3 me-1"></i> Trash <span class="ms-1 badge bg-danger" id="trashCount">0</span>
+</button>
+<button class="btn btn-primary rounded-4 px-3" data-bs-target="#newRepairModal" data-bs-toggle="modal">
+<i class="bi bi-plus-lg me-1"></i> New Repair
+        </button>
+<button class="btn btn-outline-primary rounded-4 px-3" id="openRepairTypeManagerBtn" type="button">
+<i class="bi bi-tags me-1"></i> Add Type
+        </button>
+</div>
+</div>
+</div>
+
+<!-- Search / filters -->
+<div class="card-shell mb-4">
+  <div class="section-body">
+  <div class="row g-3 align-items-center">
+  <div class="col-12 col-lg-4">
+  <div class="search-wrap">
+  <i class="bi bi-search search-icon"></i>
+  <input class="form-control search-input" id="repairSearch" placeholder="Search by customer, phone, model, or repair ID..." type="search"/>
+  </div>
+  </div>
+  <div class="col-12 col-md-4 col-lg-2">
+  <select class="form-select" id="repairStatusFilter">
+  <option selected="" value="all">All Status</option>
+  <option value="pending">Pending</option>
+  <option value="processing">Processing</option>
+  <option value="in repair">In repair</option>
+  <option value="waiting for parts">Waiting for parts</option>
+  <option value="completed">Completed</option>
+  <option value="delivered">Delivered</option>
+  </select>
+  </div>
+  <div class="col-12 col-md-4 col-lg-2">
+  <select class="form-select" id="repairDateFilter">
+  <option selected="" value="all">Date</option>
+  <option value="today">Today</option>
+  <option value="week">Weekly</option>
+  <option value="month">Monthly</option>
+  <option value="year">Yearly</option>
+  </select>
+  </div>
+  <div class="col-12 col-md-4 col-lg-2">
+  <select class="form-select" id="repairPaymentFilter">
+  <option selected="" value="all">All Payments</option>
+  <option value="paid">Paid</option>
+  <option value="partial">Partial</option>
+  <option value="unpaid">Unpaid</option>
+  </select>
+  </div>
+  <div class="col-12 col-md-4 col-lg-2">
+  <div class="searchable-filter" id="repairProblemFilterDropdown">
+  <input class="form-select searchable-filter-trigger" data-dropdown-trigger="" readonly="" type="text" value="All Problems"/>
+  <div class="searchable-filter-panel d-none" data-dropdown-panel="">
+  <div class="p-2 border-bottom bg-body sticky-top">
+  <input class="form-control form-control-sm" data-dropdown-search="" placeholder="Search problems..." type="search"/>
+  </div>
+  <div class="px-2 pt-2 small text-muted d-flex justify-content-between"><span>Problems</span><span data-dropdown-count="">0</span></div>
+  <div class="searchable-filter-results p-2" data-dropdown-results=""></div>
+  <div class="searchable-filter-empty d-none p-3 text-center text-muted" data-dropdown-empty="">
+  <i class="bi bi-exclamation-circle d-block fs-4 mb-2"></i>
+                  No problems found
+                </div>
+  </div>
+  </div>
+  </div>
+  <div class="col-12 col-md-4 col-lg-2">
+  <div class="searchable-filter" id="repairServiceFilterDropdown">
+  <input class="form-select searchable-filter-trigger" data-dropdown-trigger="" readonly="" type="text" value="All Parts / Services"/>
+  <div class="searchable-filter-panel d-none" data-dropdown-panel="">
+  <div class="p-2 border-bottom bg-body sticky-top">
+  <input class="form-control form-control-sm" data-dropdown-search="" placeholder="Search parts or services..." type="search"/>
+  </div>
+  <div class="px-2 pt-2 small text-muted d-flex justify-content-between"><span>Parts / Services</span><span data-dropdown-count="">0</span></div>
+  <div class="searchable-filter-results p-2" data-dropdown-results=""></div>
+  <div class="searchable-filter-empty d-none p-3 text-center text-muted" data-dropdown-empty="">
+  <i class="bi bi-tools d-block fs-4 mb-2"></i>
+                  No parts / services found
+                </div>
+  </div>
+  </div>
+  </div>
+  <div class="col-12 col-md-4 col-lg-2">
+  <select class="form-select" id="repairSortFilter">
+  <option selected="">Sort By</option>
+  <option>Newest</option>
+  <option>Oldest</option>
+  <option>Highest Price</option>
+  <option>Status</option>
+  </select>
+  </div>
+  <div class="col-12 col-lg-2">
+  <input aria-label="Exact repair date" class="form-control" id="repairExactDate" type="date"/>
+  </div>
+  <div class="col-12 col-md-4 col-lg-2">
+  <select class="form-select" id="repairRowsFilter">
+  <option selected="" value="5">Latest 5 rows</option>
+  <option value="10">Latest 10 rows</option>
+  <option value="20">Latest 20 rows</option>
+  <option value="50">Latest 50 rows</option>
+  <option value="all">All rows</option>
+  </select>
+  </div>
+  </div>
+  </div>
+  </div>
+<!-- Summary cards -->
+<div class="row g-3 g-xl-4 mb-4">
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Total Repairs</p>
+<div class="summary-value" id="totalRepairs">0</div>
+<div class="summary-trend text-primary-soft"><i class="bi bi-tools me-1"></i> All repair jobs</div>
+</div>
+<div class="summary-icon bg-soft-primary"><i class="bi bi-tools"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Device Received</p>
+<div class="summary-value" id="pendingRepairs">0</div>
+<div class="summary-trend text-warning-soft"><i class="bi bi-box-seam me-1"></i> Checked in at the shop</div>
+</div>
+<div class="summary-icon bg-soft-warning"><i class="bi bi-hourglass-split"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Inspection Started</p>
+<div class="summary-value" id="processingRepairs">0</div>
+<div class="summary-trend text-info-soft"><i class="bi bi-search me-1"></i> Inspection in progress</div>
+</div>
+<div class="summary-icon bg-soft-info"><i class="bi bi-arrow-repeat"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Repair in Progress</p>
+<div class="summary-value" id="inRepairRepairs">0</div>
+<div class="summary-trend text-primary-soft"><i class="bi bi-tools me-1"></i> Active repair work</div>
+</div>
+<div class="summary-icon bg-soft-primary"><i class="bi bi-tools"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Waiting for Parts</p>
+<div class="summary-value" id="waitingPartsRepairs">0</div>
+<div class="summary-trend text-purple-soft"><i class="bi bi-box-seam me-1"></i> Parts being sourced</div>
+</div>
+<div class="summary-icon bg-soft-purple"><i class="bi bi-box-seam"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Quality Testing</p>
+<div class="summary-value" id="completedRepairs">0</div>
+<div class="summary-trend text-success-soft"><i class="bi bi-check-circle-fill me-1"></i> Quality checks complete</div>
+</div>
+<div class="summary-icon bg-soft-success"><i class="bi bi-check-circle-fill"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Ready for Pickup</p>
+<div class="summary-value" id="deliveredRepairs">0</div>
+<div class="summary-trend text-primary-soft"><i class="bi bi-bag-check me-1"></i> Waiting for pickup</div>
+</div>
+<div class="summary-icon bg-soft-primary"><i class="bi bi-truck"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Today Repairs</p>
+<div class="summary-value" id="todayRepairs">0</div>
+<div class="summary-trend text-success-soft"><i class="bi bi-calendar-check me-1"></i> New today</div>
+</div>
+<div class="summary-icon bg-soft-success"><i class="bi bi-calendar-check"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Revenue</p>
+<div class="summary-value" id="repairRevenue">$00</div>
+<div class="summary-trend text-success-soft"><i class="bi bi-cash-coin me-1"></i> Repair income</div>
+</div>
+<div class="summary-icon bg-soft-success"><i class="bi bi-cash-coin"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Total Paid</p>
+<div class="summary-value" id="repairPaidTotal">$0</div>
+<div class="summary-trend text-success-soft"><i class="bi bi-wallet2 me-1"></i> Money collected</div>
+</div>
+<div class="summary-icon bg-soft-success"><i class="bi bi-wallet2"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Total Not Paid</p>
+<div class="summary-value" id="repairUnpaidTotal">$0</div>
+<div class="summary-trend text-danger-soft"><i class="bi bi-exclamation-circle me-1"></i> Remaining balance</div>
+</div>
+<div class="summary-icon bg-soft-danger"><i class="bi bi-exclamation-circle"></i></div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Repair table --><!-- Repair table -->
+<div class="card-shell mb-4 repair-table-shell">
+  <div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+  <div>
+  <h5 class="fw-bold mb-1">Repair Table</h5>
+  <p class="text-muted mb-0">A responsive table for detailed management.</p>
+  </div>
+  <div class="d-flex flex-wrap gap-2">
+  <span class="mini-pill bg-soft-success text-success-soft">Editable</span>
+  <span class="mini-pill bg-soft-danger text-danger-soft">Deletable</span>
+  <span class="mini-pill bg-soft-primary text-primary-soft">Printable</span>
+  </div>
+  </div>
+  <div class="section-body">
+  <div class="table-responsive">
+  <table class="table align-middle">
+  <thead>
+  <tr>
+  <th>Customer</th>
+  <th>Device</th>
+  <th>Status</th>
+  <th>Price</th>
+  <th>Balance</th>
+  <th>Date</th>
+  <th class="text-end">Actions</th>
+  </tr>
+  </thead>
+  <tbody id="repairTableBody">
+  <tr class="repair-skeleton-row">
+    <td colspan="7">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 p-2">
+        <div class="flex-grow-1">
+          <div class="skeleton-line mb-2" style="width: 140px;"></div>
+          <div class="skeleton-line" style="width: 80px;"></div>
+        </div>
+        <div class="flex-grow-1">
+          <div class="skeleton-line mb-2" style="width: 130px;"></div>
+          <div class="skeleton-line" style="width: 90px;"></div>
+        </div>
+        <div class="flex-grow-1">
+          <div class="skeleton-line mb-2" style="width: 120px;"></div>
+          <div class="skeleton-line" style="width: 75px;"></div>
+        </div>
+      </div>
+    </td>
+  </tr>
+  <tr class="repair-skeleton-row">
+    <td colspan="7">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 p-2">
+        <div class="flex-grow-1">
+          <div class="skeleton-line mb-2" style="width: 140px;"></div>
+          <div class="skeleton-line" style="width: 80px;"></div>
+        </div>
+        <div class="flex-grow-1">
+          <div class="skeleton-line mb-2" style="width: 130px;"></div>
+          <div class="skeleton-line" style="width: 90px;"></div>
+        </div>
+        <div class="flex-grow-1">
+          <div class="skeleton-line mb-2" style="width: 120px;"></div>
+          <div class="skeleton-line" style="width: 75px;"></div>
+        </div>
+      </div>
+    </td>
+  </tr>
+  <tr class="repair-skeleton-row">
+    <td colspan="7">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 p-2">
+        <div class="flex-grow-1">
+          <div class="skeleton-line mb-2" style="width: 140px;"></div>
+          <div class="skeleton-line" style="width: 80px;"></div>
+        </div>
+        <div class="flex-grow-1">
+          <div class="skeleton-line mb-2" style="width: 130px;"></div>
+          <div class="skeleton-line" style="width: 90px;"></div>
+        </div>
+        <div class="flex-grow-1">
+          <div class="skeleton-line mb-2" style="width: 120px;"></div>
+          <div class="skeleton-line" style="width: 75px;"></div>
+        </div>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+  </table>
+  </div>
+  </div>
+  </div>
+<div id="activeRepairsSection">
+<div class="row g-4 mb-4">
+<div class="col-12 col-xl-7">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+<div>
+<h5 class="fw-bold mb-1">Repair List</h5>
+<p class="text-muted mb-0">Search and manage all repair records. Showing <span id="visibleRepairCount">0</span> active repairs.</p>
+</div>
+
+
+<div class="d-flex flex-wrap gap-2">
+<span class="mini-pill bg-soft-warning text-warning-soft">Pending</span>
+<span class="mini-pill bg-soft-info text-info-soft">Processing</span>
+<span class="mini-pill bg-soft-success text-success-soft">Completed</span>
+</div>
+</div>
+
+
+<div class="section-body">
+<div class="row row-cols-1 row-cols-lg-2 g-3 repair-cards-shell" id="repairCards">
+<div class="col"><div class="repair-card card-shell h-100 p-3"><div class="skeleton-box mb-3" style="height: 140px;"></div><div class="skeleton-line mb-2" style="width: 60%;"></div><div class="skeleton-line mb-2" style="width: 45%;"></div><div class="skeleton-line" style="width: 35%;"></div></div></div>
+<div class="col"><div class="repair-card card-shell h-100 p-3"><div class="skeleton-box mb-3" style="height: 140px;"></div><div class="skeleton-line mb-2" style="width: 60%;"></div><div class="skeleton-line mb-2" style="width: 45%;"></div><div class="skeleton-line" style="width: 35%;"></div></div></div>
+<div class="col"><div class="repair-card card-shell h-100 p-3"><div class="skeleton-box mb-3" style="height: 140px;"></div><div class="skeleton-line mb-2" style="width: 60%;"></div><div class="skeleton-line mb-2" style="width: 45%;"></div><div class="skeleton-line" style="width: 35%;"></div></div></div>
+<div class="col"><div class="repair-card card-shell h-100 p-3"><div class="skeleton-box mb-3" style="height: 140px;"></div><div class="skeleton-line mb-2" style="width: 60%;"></div><div class="skeleton-line mb-2" style="width: 45%;"></div><div class="skeleton-line" style="width: 35%;"></div></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Status board + timeline -->
+<div class="row g-4 mb-4">
+  <div class="col-12 col-lg-6">
+    <div class="card-shell h-100">
+      <div class="section-header d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="fw-bold mb-1">Repair Status Board</h5>
+          <p class="text-muted mb-0">Easy overview of all repair stages.</p>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="d-grid gap-3" id="repairStatusBoard">
+          <div class="ticket-box p-3">
+            <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+              <div>
+                <div class="fw-bold">Device Received</div>
+                <small class="text-muted" id="statusDeviceReceivedLabel">0 repair jobs</small>
+              </div>
+              <span class="badge bg-soft-warning text-warning-soft status-pill">Received</span>
+            </div>
+            <div class="status-board-list" id="statusDeviceReceivedList"></div>
+          </div>
+
+          <div class="ticket-box p-3">
+            <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+              <div>
+                <div class="fw-bold">Inspection Started</div>
+                <small class="text-muted" id="statusInspectionStartedLabel">0 repair jobs</small>
+              </div>
+              <span class="badge bg-soft-primary text-primary-soft status-pill">Inspecting</span>
+            </div>
+            <div class="status-board-list" id="statusInspectionStartedList"></div>
+          </div>
+
+          <div class="ticket-box p-3">
+            <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+              <div>
+                <div class="fw-bold">Diagnosis Completed</div>
+                <small class="text-muted" id="statusDiagnosisCompletedLabel">0 repair jobs</small>
+              </div>
+              <span class="badge bg-soft-primary text-primary-soft status-pill">Checked</span>
+            </div>
+            <div class="status-board-list" id="statusDiagnosisCompletedList"></div>
+          </div>
+
+          <div class="ticket-box p-3">
+            <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+              <div>
+                <div class="fw-bold">Waiting for Approval</div>
+                <small class="text-muted" id="statusWaitingForApprovalLabel">0 repair jobs</small>
+              </div>
+              <span class="badge bg-soft-warning text-warning-soft status-pill">Approval</span>
+            </div>
+            <div class="status-board-list" id="statusWaitingForApprovalList"></div>
+          </div>
+
+          <div class="ticket-box p-3">
+            <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+              <div>
+                <div class="fw-bold">Waiting for Parts</div>
+                <small class="text-muted" id="statusWaitingPartsLabel">0 repair jobs</small>
+              </div>
+              <span class="badge bg-soft-warning text-warning-soft status-pill">Parts</span>
+            </div>
+            <div class="status-board-list" id="statusWaitingPartsList"></div>
+          </div>
+
+          <div class="ticket-box p-3">
+            <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+              <div>
+                <div class="fw-bold">Repair in Progress</div>
+                <small class="text-muted" id="statusRepairInProgressLabel">0 repair jobs</small>
+              </div>
+              <span class="badge bg-soft-info text-info-soft status-pill">Active</span>
+            </div>
+            <div class="status-board-list" id="statusRepairInProgressList"></div>
+          </div>
+
+          <div class="ticket-box p-3">
+            <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+              <div>
+                <div class="fw-bold">Quality Testing</div>
+                <small class="text-muted" id="statusQualityTestingLabel">0 repair jobs</small>
+              </div>
+              <span class="badge bg-soft-success text-success-soft status-pill">Testing</span>
+            </div>
+            <div class="status-board-list" id="statusQualityTestingList"></div>
+          </div>
+
+          <div class="ticket-box p-3">
+            <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+              <div>
+                <div class="fw-bold">Ready for Pickup</div>
+                <small class="text-muted" id="statusReadyForPickupLabel">0 repair jobs</small>
+              </div>
+              <span class="badge bg-soft-success text-success-soft status-pill">Ready</span>
+            </div>
+            <div class="status-board-list" id="statusReadyForPickupList"></div>
+          </div>
+
+          <div class="ticket-box p-3">
+            <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+              <div>
+                <div class="fw-bold">Delivered</div>
+                <small class="text-muted" id="statusDeliveredLabel">0 repair jobs</small>
+              </div>
+              <span class="badge bg-light text-dark status-pill">Done</span>
+            </div>
+            <div class="status-board-list" id="statusDeliveredList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-6">
+    <div class="card-shell h-100">
+      <div class="section-header">
+        <h5 class="fw-bold mb-1">Activity Timeline</h5>
+        <p class="text-muted mb-0">Latest repair events and updates.</p>
+      </div>
+      <div class="section-body">
+        <div class="timeline" id="repairActivityTimeline">
+          <div class="timeline-step">
+            <div class="fw-bold">Loading activity...</div>
+            <small class="text-muted">Please wait while we load recent repair events.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Quick actions and notes -->
+<div class="row g-4">
+<div class="col-12 col-lg-8">
+<div class="card-shell h-100">
+<div class="section-header">
+<h5 class="fw-bold mb-1">Quick Actions</h5>
+<p class="text-muted mb-0">Fast tools for repair management.</p>
+</div>
+<div class="section-body">
+<div class="row g-3">
+<input id="repairRecordId" type="hidden" value=""/>
+<div class="col-12 col-md-6 col-xl-4">
+<button class="btn btn-outline-primary w-100 rounded-4 py-3">
+<i class="bi bi-plus-circle me-1"></i> New Repair
+                </button>
+</div>
+<div class="col-12 col-md-6 col-xl-4">
+<button class="btn btn-outline-success w-100 rounded-4 py-3">
+<i class="bi bi-whatsapp me-1"></i> Send WhatsApp
+                </button>
+</div>
+<div class="col-12 col-md-6 col-xl-4">
+<button class="btn btn-outline-secondary w-100 rounded-4 py-3">
+<i class="bi bi-chat-dots me-1"></i> Send SMS
+                </button>
+</div>
+<div class="col-12 col-md-6 col-xl-4">
+<button class="btn btn-outline-primary w-100 rounded-4 py-3">
+<i class="bi bi-printer me-1"></i> Print Ticket
+                </button>
+</div>
+<div class="col-12 col-md-6 col-xl-4">
+<button class="btn btn-outline-danger w-100 rounded-4 py-3">
+<i class="bi bi-trash3 me-1"></i> Delete Repair
+                </button>
+</div>
+<div class="col-12 col-md-6 col-xl-4">
+<button class="btn btn-outline-warning w-100 rounded-4 py-3">
+<i class="bi bi-pencil-square me-1"></i> Edit Repair
+                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12 col-lg-4">
+<div class="card-shell h-100">
+<div class="section-header">
+<h5 class="fw-bold mb-1">Repair Notes</h5>
+<p class="text-muted mb-0">Helpful reminders for staff.</p>
+</div>
+<div class="section-body">
+<div class="d-grid gap-3">
+<div class="p-3 rounded-4 border">
+<div class="fw-bold">Default new repair status</div>
+<small class="text-muted">All new repairs should start as Pending.</small>
+</div>
+<div class="p-3 rounded-4 border">
+<div class="fw-bold">Multiple services allowed</div>
+<small class="text-muted">List more than one part or service if needed.</small>
+</div>
+<div class="p-3 rounded-4 border">
+<div class="fw-bold">Customer notifications</div>
+<small class="text-muted">Use WhatsApp or SMS templates for updates.</small>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Repair Recycle Bin Modal -->
+<div aria-hidden="true" class="modal fade" id="repairTrashModal" tabindex="-1">
+<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
+<div class="modal-content">
+<div class="modal-header border-bottom flex-wrap gap-2">
+<div>
+<h5 class="modal-title fw-bold mb-0">Repair Trash</h5>
+<small class="text-muted">Restore deleted repairs or delete them forever.</small>
+</div>
+<div class="d-flex flex-wrap gap-2 ms-auto me-2">
+<button class="btn btn-sm btn-outline-success rounded-3" id="repairRestoreAllBtn" type="button"><i class="bi bi-arrow-counterclockwise me-1"></i> Restore All</button>
+<button class="btn btn-sm btn-outline-danger rounded-3" id="repairDeleteAllForeverBtn" type="button"><i class="bi bi-trash3 me-1"></i> Delete All</button>
+</div>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body p-4" style="max-height:70vh; overflow:auto;">
+<div class="row g-3 align-items-center mb-3">
+<div class="col-12 col-md-6">
+<select class="form-select" id="repairTrashDateFilter">
+<option selected="" value="today">Today</option>
+<option value="week">This Week</option>
+<option value="month">This Month</option>
+<option value="year">This Year</option>
+<option value="all">All</option>
+</select>
+</div>
+<div class="col-12 col-md-6">
+<select class="form-select" id="repairTrashRowsFilter">
+<option selected="" value="5">Latest 5 rows</option>
+<option value="10">Latest 10 rows</option>
+<option value="20">Latest 20 rows</option>
+<option value="50">Latest 50 rows</option>
+<option value="all">All rows</option>
+</select>
+</div>
+</div>
+<div class="table-responsive">
+<table class="table align-middle">
+<thead>
+<tr>
+<th>Customer</th>
+<th>Device</th>
+<th>Status</th>
+<th>Deleted At</th>
+<th class="text-end">Restore</th>
+</tr>
+</thead>
+<tbody id="repairTrashModalBody">
+<tr><td class="text-center text-muted py-4" colspan="5">Trash is empty.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Mobile bottom navigation -->
+<nav class="mobile-bottom-nav d-lg-none position-fixed bottom-0 start-0 w-100 bg-white border-top shadow-sm">
+<div class="d-flex justify-content-around py-2">
+<a class="text-center" href="dashboard.html">
+<div><i class="bi bi-grid-1x2-fill"></i></div>
+<small>Dashboard</small>
+</a>
+<a class="text-center" href="invoice.html">
+<div><i class="bi bi-receipt-cutoff"></i></div>
+<small>Invoice</small>
+</a>
+<a class="text-center" href="product.html">
+<div><i class="bi bi-box-seam"></i></div>
+<small>Products</small>
+</a>
+<a class="text-center active" href="repairing.html">
+<div><i class="bi bi-tools"></i></div>
+<small>Repairing</small>
+</a>
+<a class="text-center" href="report.html">
+<div><i class="bi bi-bar-chart-line"></i></div>
+<small>Reports</small>
+</a>
+</div>
+</nav>
+
+<!-- New Repair Modal -->
+<div aria-hidden="true" class="modal fade" id="newRepairModal" tabindex="-1">
+<div class="modal-dialog modal-lg modal-dialog-centered">
+<div class="modal-content">
+<div class="modal-header border-bottom">
+<h5 class="modal-title fw-bold" id="repairModalTitle">New Repair Modal</h5>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<form id="repairForm"><div class="modal-body p-4">
+<div class="row g-3">
+<div class="col-12 col-md-6">
+<label class="form-label fw-semibold">Customer Name</label>
+<div class="customer-suggest-wrap repair-customer-suggest-wrap">
+<input class="form-control" autocomplete="off" id="repairCustomerName" placeholder="Enter customer name" required="" type="text"/>
+<div class="customer-suggestions" id="repairCustomerSuggestions"></div>
+</div>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label fw-semibold">Customer Phone Number</label>
+<input class="form-control" id="repairCustomerPhone" placeholder="Enter phone number" required="" type="tel"/>
+<div class="d-flex justify-content-end mt-2"><button class="btn btn-outline-primary btn-sm rounded-3" id="repairNewCustomerBtn" type="button"><i class="bi bi-person-plus me-1"></i> + New Customer</button></div>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label fw-semibold">WhatsApp Number</label>
+<input class="form-control" id="repairCustomerWhatsapp" placeholder="WhatsApp number" readonly="" type="tel"/>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label fw-semibold">Money Sender Number</label>
+<input class="form-control" id="repairSenderNumber" placeholder="Sender number" type="tel"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label fw-semibold">Payment Type</label>
+<select class="form-select" id="repairPaymentType"><option selected="">Mobile Money</option><option>Cash</option></select>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label fw-semibold">Provider</label>
+<select class="form-select" id="repairPaymentProvider"><option selected="">Evc Plus</option><option>Edahab</option><option>Jeeb</option><option>Other</option></select>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label fw-semibold">Cash Currency</label>
+<select class="form-select" id="repairCashCurrency"><option selected="">Somali Shillings</option><option>USD</option><option>Other</option></select>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label fw-semibold">Device Name / Model</label>
+<input class="form-control" id="repairDeviceName" placeholder="Example: Samsung A15 4G" required="" type="text"/>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label fw-semibold">Device Type</label>
+<select class="form-select" id="repairDeviceType" required="">
+<option selected="">Mobile Phone</option>
+<option>Tablet</option>
+<option>Laptop</option>
+<option>Smartwatch</option>
+<option>Other</option>
+</select>
+</div>
+<div class="col-12 col-lg-6">
+  <div class="repair-picker position-relative" id="repairProblemPicker">
+    <label class="form-label fw-semibold">Problem of the Device</label>
+    <div class="input-group repair-picker-search-row">
+      <input class="form-control" id="repairProblemSearch" placeholder="Search problems..." type="search"/>
+      <button class="btn btn-outline-secondary" id="repairProblemClearBtn" type="button" title="Clear search" aria-label="Clear search"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="repair-picker-panel d-none" id="repairProblemPanel">
+      <div class="repair-picker-header">
+        <span>Problems</span>
+        <span id="repairProblemCount">0</span>
+      </div>
+      <div class="repair-picker-list" id="repairProblemList"></div>
+      <div class="repair-picker-empty d-none" id="repairProblemEmpty">No problems found</div>
+    </div>
+    <input class="form-control repair-picker-selected" id="repairProblem" placeholder="Select a problem from the list below" readonly="" required="" type="text"/>
+  </div>
+</div>
+<div class="col-12 col-lg-6">
+  <div class="repair-picker position-relative" id="repairServicePicker">
+    <label class="form-label fw-semibold">Parts / Service Needed</label>
+    <div class="input-group repair-picker-search-row">
+      <input class="form-control" id="repairServiceSearch" placeholder="Search parts or service..." type="search"/>
+      <button class="btn btn-outline-secondary" id="repairServiceClearBtn" type="button" title="Clear search" aria-label="Clear search"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="repair-picker-panel d-none" id="repairServicePanel">
+      <div class="repair-picker-header">
+        <span>Parts / Services</span>
+        <span id="repairServiceCount">0</span>
+      </div>
+      <div class="repair-picker-list" id="repairServiceList"></div>
+      <div class="repair-picker-empty d-none" id="repairServiceEmpty">No parts / services found</div>
+    </div>
+    <input class="form-control repair-picker-selected" id="repairParts" placeholder="Select parts / services from the list below" readonly="" required="" type="text"/>
+  </div>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label fw-semibold">Price</label>
+<input class="form-control" id="repairPrice" placeholder="0" required="" type="number"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label fw-semibold">Discount</label>
+<input class="form-control" id="repairDiscount" placeholder="0" type="number" value="0"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label fw-semibold" id="repairPaidAmountLabel">Paid Amount</label>
+<input class="form-control" id="repairPaidAmount" placeholder="0" type="number" value="0"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label fw-semibold">Total</label>
+<input class="form-control" id="repairFinalTotal" placeholder="0" readonly="" type="text"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label fw-semibold">Total Paid</label>
+<input class="form-control" id="repairTotalPaid" placeholder="0" readonly="" type="text"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label fw-semibold">Remaining</label>
+<input class="form-control" id="repairRemaining" placeholder="0" readonly="" type="text"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label fw-semibold">Status</label>
+<select class="form-select" disabled="" id="repairStatus">
+<option selected="">Unpaid</option>
+<option>Partial</option>
+<option>Paid</option>
+</select>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label fw-semibold">Warranty Days</label>
+<input class="form-control" id="repairWarrantyDays" min="0" placeholder="0" type="number" value="0"/>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label fw-semibold">Warranty Status</label>
+<input class="form-control" id="repairWarrantyStatus" readonly="" type="text" value="No warranty"/>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label fw-semibold">Warranty Start</label>
+<input class="form-control" id="repairWarrantyStart" type="date"/>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label fw-semibold">Warranty Expiry</label>
+<input class="form-control" id="repairWarrantyExpiry" readonly="" type="date"/>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label fw-semibold">Repair Date</label>
+<input class="form-control" id="repairDate" type="date"/>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label fw-semibold">Notes</label>
+<textarea class="form-control" id="repairNotes" placeholder="Add repair notes here"></textarea>
+</div>
+</div>
+</div>
+<div class="modal-footer border-top">
+<button class="btn btn-light border rounded-4" data-bs-dismiss="modal" type="button">Cancel</button>
+<button class="btn btn-primary rounded-4" id="repairSubmitBtn" type="submit">Save Repair</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- Repair Type Manager Modal -->
+<div aria-hidden="true" class="modal fade" id="repairTypeManagerModal" tabindex="-1">
+<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
+<div class="modal-content">
+<div class="modal-header border-bottom">
+<div>
+<h5 class="modal-title fw-bold mb-0">Repair Device Types</h5>
+<small class="text-muted">Add, edit, or delete device types.</small>
+</div>
+<div class="d-flex flex-wrap gap-2 ms-auto me-2">
+<button class="btn btn-sm btn-outline-success rounded-3" id="repairRestoreAllBtn" type="button"><i class="bi bi-arrow-counterclockwise me-1"></i> Restore All</button>
+<button class="btn btn-sm btn-outline-danger rounded-3" id="repairDeleteAllForeverBtn" type="button"><i class="bi bi-trash3 me-1"></i> Delete All</button>
+</div>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body p-4" style="max-height:70vh; overflow:auto;">
+<div class="row g-2 mb-3">
+<div class="col-12 col-md-8">
+<input class="form-control rounded-4" id="repairTypeInput" placeholder="New device type" type="text"/>
+</div>
+<div class="col-12 col-md-4 d-grid">
+<button class="btn btn-primary rounded-4" id="repairTypeAddBtn" type="button"><i class="bi bi-plus-lg me-1"></i>Add Type</button>
+</div>
+</div>
+<div id="repairTypeManagerBody"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Customer History Modal -->
+<div aria-hidden="true" class="modal fade" id="repairCustomerHistoryModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-sm-down modal-dialog-scrollable">
+<div class="modal-content">
+<div class="modal-header border-bottom">
+<div>
+<div class="text-uppercase small fw-bold text-muted">Customer history</div>
+<h5 class="modal-title fw-bold mb-0" id="repairCustomerHistoryTitle">Customer History</h5>
+</div>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body p-4" id="repairCustomerHistoryBody"></div>
+</div>
+</div>
+</div>
+
+<!-- Repair Tracking Modal -->
+<div aria-hidden="true" class="modal fade" id="repairTrackingModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-sm-down modal-dialog-scrollable">
+<div class="modal-content rounded-4 border-0 shadow-lg">
+<div class="modal-header border-bottom">
+<div>
+<div class="text-uppercase small fw-bold text-muted">Repair tracking</div>
+<h5 class="modal-title fw-bold mb-0" id="repairTrackingModalTitle">Tracking</h5>
+</div>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body p-4" id="repairTrackingModalBody" style="max-height:75vh; overflow:auto;"></div>
+<div class="modal-footer border-top flex-wrap gap-2" id="repairTrackingModalFooter"></div>
+</div>
+</div>
+</div>
+<!-- Repair Delete Confirm Modal -->
+<div aria-hidden="true" class="modal fade" id="repairDeleteConfirmModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-sm-down">
+<div class="modal-content">
+<div class="modal-header border-bottom">
+<div>
+<h5 class="modal-title fw-bold" id="repairDeleteConfirmTitle">Delete Repair</h5>
+<small class="text-muted">Review the repair details before deleting.</small>
+</div>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body p-4" id="repairDeleteConfirmBody"></div>
+<div class="modal-footer border-top d-flex justify-content-between">
+<button class="btn btn-light border rounded-4" data-bs-dismiss="modal" type="button">Cancel</button>
+<div class="d-flex gap-2">
+<button class="btn btn-outline-danger rounded-4" data-repair-soft-delete="" type="button"><i class="bi bi-trash3 me-1"></i>Move to Trash</button>
+<button class="btn btn-danger rounded-4" data-repair-hard-delete="" type="button"><i class="bi bi-trash3-fill me-1"></i>Delete Forever</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+    const THEME_KEY = 'electronicShopTheme';
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function applyTheme(theme) {
+      const nextTheme = theme === 'light' ? 'light' : 'dark';
+      const isDark = nextTheme === 'dark';
+      document.body.classList.toggle('dark-mode', isDark);
+      document.body.dataset.theme = nextTheme;
+      document.body.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
+      document.documentElement.dataset.theme = nextTheme;
+      document.documentElement.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
+      if (themeIcon) themeIcon.className = isDark ? 'bi bi-sun' : 'bi bi-moon-stars';
+      localStorage.setItem(THEME_KEY, nextTheme);
+    }
+
+    applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+
+    themeToggle?.addEventListener('click', () => {
+      applyTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+    });
+  </script>
+
+<script type="module">
+  import { requireAuth } from "./js/auth.js";
+  requireAuth({ redirectUrl: "login.html" });
+</script>
+<script src="js/repairing.js" type="module"></script>
+<script src="./js/navbar.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</div></div></main><script type="module" src="./js/settings-config.js"></script>
+</body>
+</html>

@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Waasuge Electronics & Mobile Repairing</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232563eb%22/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%237c3aed%22/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%3C/defs%3E%0A%20%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2216%22%20fill%3D%22url%28%23g%29%22/%3E%0A%20%20%3Cpath%20d%3D%22M14%2026h36v24H14z%22%20fill%3D%22%23fff%22%20opacity%3D%22.96%22/%3E%0A%20%20%3Cpath%20d%3D%22M18%2022h28l4%204H14z%22%20fill%3D%22%23fff%22%20opacity%3D%22.92%22/%3E%0A%20%20%3Cpath%20d%3D%22M22%2031h8v10h-8zm12%200h10v10H34z%22%20fill%3D%22%232563eb%22/%3E%0A%20%20%3Cpath%20d%3D%22M27%2013h10v11H27z%22%20fill%3D%22%23fff%22/%3E%0A%20%20%3Cpath%20d%3D%22M30.5%2016.5h3v3h-3z%22%20fill%3D%22%237c3aed%22/%3E%0A%3C/svg%3E" />
+  <meta name="description" content="Waasuge Electronics & Mobile Repairing offers professional device repair, electronics sales, accessories, and live tracking for repair IDs." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --bg-2:#eef3ff;
+      --surface:rgba(255,255,255,.82);
+      --surface-strong:#fff;
+      --surface-soft:rgba(248,250,252,.92);
+      --text:#0f172a;
+      --muted:#64748b;
+      --border:rgba(15,23,42,.10);
+      --border-strong:rgba(15,23,42,.14);
+      --primary:#2563eb;
+      --primary-2:#1d4ed8;
+      --accent:#7c3aed;
+      --success:#16a34a;
+      --warning:#f59e0b;
+      --danger:#dc2626;
+      --shadow:0 18px 48px rgba(15,23,42,.10);
+      --shadow-lg:0 28px 80px rgba(15,23,42,.14);
+      --radius:26px;
+    }
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.16), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(124,58,237,.12), transparent 28%),
+        var(--bg);
+      overflow-x:hidden;
+      transition:background .25s ease, color .25s ease;
+    }
+    body.dark-mode{
+      --bg:#0b1220;
+      --bg-2:#121c31;
+      --surface:rgba(15,23,42,.72);
+      --surface-strong:#0f172a;
+      --surface-soft:rgba(15,23,42,.86);
+      --text:#e5e7eb;
+      --muted:#94a3b8;
+      --border:rgba(148,163,184,.16);
+      --border-strong:rgba(148,163,184,.20);
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.12), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(124,58,237,.10), transparent 28%),
+        var(--bg);
+    }
+    .glass{
+      background:var(--surface);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+    }
+    .navbar-top{
+      position:sticky;top:0;z-index:1030;
+      border-bottom:1px solid var(--border);
+    }
+    .brand-box{
+      width:34px;height:34px;border-radius:12px;
+      display:inline-flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,var(--primary),var(--accent));
+      color:#fff;box-shadow:0 10px 22px rgba(37,99,235,.22);
+      flex:0 0 auto;
+    }
+    .nav-link.custom-link{
+      color:var(--text);font-weight:700;padding:.34rem .62rem;border-radius:999px;font-size:.84rem;line-height:1.1;
+      transition:transform .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease;
+    }
+    .nav-link.custom-link:hover,
+    .nav-link.custom-link.active{
+      color:var(--primary);background:rgba(37,99,235,.12);box-shadow:0 8px 20px rgba(37,99,235,.08);transform:translateY(-1px)
+    }
+    .hero{padding:34px 0 8px}
+    .hero-panel{
+      border-radius:34px;overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--border);
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,.20), transparent 24%),
+        linear-gradient(135deg, #081120 0%, #1d4ed8 44%, #7c3aed 100%);
+      color:#fff;position:relative;
+    }
+    .hero-panel::before,.hero-panel::after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.08)}
+    .hero-panel::before{width:240px;height:240px;top:-78px;right:-72px}
+    .hero-panel::after{width:160px;height:160px;left:-40px;bottom:-40px}
+    .hero-copy{position:relative;z-index:1}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:.5rem;padding:.46rem .88rem;border-radius:999px;
+      background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);
+      font-size:.86rem;font-weight:800;letter-spacing:.02em
+    }
+    .hero h1{
+      font-size:clamp(2.25rem, 5vw, 4.55rem);line-height:1.02;font-weight:900;letter-spacing:-.05em;margin:1rem 0 1rem;
+    }
+    .hero p.lead{color:rgba(255,255,255,.86);max-width:44rem}
+    .hero-mini-note{color:rgba(255,255,255,.82);font-size:.95rem}
+    .hero-card{
+      border-radius:28px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);box-shadow:0 14px 32px rgba(0,0,0,.10)
+    }
+    .metric-card,.card-soft,.service-card,.step-card,.about-card,.tracking-box,.rating-card,.contact-card,.footer-card{
+      background:var(--surface-strong);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)
+    }
+    .section-title{font-size:clamp(1.55rem,2.7vw,2.4rem);font-weight:900;letter-spacing:-.03em}
+    .section-subtitle{color:var(--muted);max-width:54rem}
+    .icon-chip{
+      width:48px;height:48px;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;
+      background:rgba(37,99,235,.10);color:var(--primary);font-size:1.15rem;flex:0 0 auto
+    }
+    .service-card{transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;height:100%}
+    .service-card:hover,.step-card:hover,.metric-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:rgba(37,99,235,.18)}
+    .tracking-box{background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,250,252,.94))}
+    body.dark-mode .tracking-box{background:linear-gradient(180deg, rgba(15,23,42,.92), rgba(15,23,42,.82))}
+    .tracking-result{
+      border:1px dashed rgba(37,99,235,.25);border-radius:28px;background:linear-gradient(180deg, rgba(37,99,235,.05), rgba(124,58,237,.04));min-height:260px
+    }
+    
+    .about-showcase{
+      border:1px solid var(--border);
+      border-radius:28px;
+      background:linear-gradient(135deg, rgba(37,99,235,.07), rgba(124,58,237,.06));
+      box-shadow:var(--shadow);
+    }
+    .about-showcase-copy{max-width:360px}
+    .about-rotator-card{
+      flex:1 1 360px;
+      border:1px solid var(--border);
+      border-radius:24px;
+      background:var(--surface);
+      box-shadow:var(--shadow);
+      padding:1rem 1.05rem;
+      display:grid;
+      grid-template-columns:64px minmax(0,1fr);
+      gap:1rem;
+      align-items:start;
+      transition:transform .25s ease, opacity .25s ease;
+    }
+    .about-rotator-card.is-switching{opacity:.85; transform:translateY(4px) scale(.99);}
+    .about-rotator-icon{
+      width:64px;height:64px;border-radius:20px;
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,var(--primary),var(--accent));
+      color:#fff;
+      box-shadow:0 14px 30px rgba(37,99,235,.22);
+      font-size:1.5rem;
+      animation:pulseSoft 2.5s ease-in-out infinite;
+    }
+    .about-rotator-copy{min-width:0}
+    .about-rotator-copy .fw-bold{line-height:1.1}
+    .about-rotator-copy .text-muted{font-size:.95rem}
+    .about-rotator-card .mini-badge{background:rgba(255,255,255,.24)}
+    body.dark-mode .about-rotator-card .mini-badge{background:rgba(15,23,42,.5)}
+    
+    .tracking-result .tracking-premium-shell{width:100%}
+    .glass-card{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      color:var(--text);
+    }
+    .tracking-vertical-stack{
+      display:grid;
+      gap:1rem;
+    }
+    .tracking-info-list{
+      display:grid;
+      gap:.72rem;
+    }
+    .tracking-info-row{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:1rem;
+      padding:.86rem .95rem;
+      border-radius:18px;
+      background:rgba(148,163,184,.08);
+      border:1px solid rgba(148,163,184,.12);
+      animation:fadeInUp .45s ease both;
+    }
+    body.dark-mode .tracking-info-row{background:rgba(148,163,184,.10)}
+    .tracking-info-label{
+      display:flex;
+      align-items:flex-start;
+      gap:.55rem;
+      min-width:0;
+      color:var(--muted);
+      font-weight:700;
+    }
+    .tracking-info-label i{font-size:1rem;line-height:1.2;margin-top:.1rem;color:var(--primary)}
+    .tracking-info-row strong{
+      text-align:right;
+      font-weight:800;
+      overflow-wrap:anywhere;
+      max-width:min(58%, 360px);
+    }
+    .tracking-finance-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:.75rem;
+    }
+    .tracking-finance-grid > div{
+      padding:.82rem .9rem;
+      border-radius:18px;
+      background:rgba(148,163,184,.08);
+      border:1px solid rgba(148,163,184,.12);
+    }
+    body.dark-mode .tracking-finance-grid > div{background:rgba(148,163,184,.10)}
+    .tracking-finance-grid span{
+      display:block;
+      color:var(--muted);
+      font-weight:700;
+      font-size:.86rem;
+      margin-bottom:.2rem;
+    }
+    .tracking-finance-grid strong{
+      font-size:1.02rem;
+      font-weight:800;
+      overflow-wrap:anywhere;
+    }
+    .status-pill{
+      display:inline-flex;align-items:center;gap:.4rem;padding:.46rem .82rem;border-radius:999px;font-weight:800;font-size:.85rem
+    }
+    .status-pending{background:rgba(245,158,11,.14);color:#b45309}
+    .status-processing{background:rgba(59,130,246,.14);color:#1d4ed8}
+    .status-in-repair{background:rgba(168,85,247,.14);color:#7c3aed}
+    .status-waiting-for-parts{background:rgba(14,165,233,.14);color:#0f766e}
+    .status-completed{background:rgba(34,197,94,.14);color:#15803d}
+    .status-delivered{background:rgba(22,163,74,.16);color:#166534}
+    .status-pill--animated{
+      animation:statusGlow 2.2s ease-in-out infinite;
+    }
+    .status-processing.status-pill--animated{box-shadow:0 0 0 0 rgba(59,130,246,.0)}
+    .status-waiting-for-parts.status-pill--animated{box-shadow:0 0 0 0 rgba(14,165,233,.0)}
+    .status-completed.status-pill--animated{box-shadow:0 0 0 0 rgba(34,197,94,.0)}
+    @keyframes statusGlow{
+      0%,100%{transform:translateY(0);filter:saturate(1)}
+      50%{transform:translateY(-2px);filter:saturate(1.1)}
+    }
+    .progress-rail{height:12px;background:rgba(148,163,184,.20);border-radius:999px;overflow:hidden}
+    .progress-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .35s ease}
+    .timeline-step{position:relative;padding-top:1.4rem}
+    .timeline-step::before{
+      content:"";position:absolute;top:.6rem;left:50%;transform:translateX(-50%);width:12px;height:12px;border-radius:50%;
+      background:rgba(148,163,184,.30);box-shadow:0 0 0 5px rgba(148,163,184,.10)
+    }
+    .timeline-step.active::before{background:var(--primary);box-shadow:0 0 0 5px rgba(37,99,235,.16)}
+    .timeline-step.active .timeline-box{border-color:rgba(37,99,235,.26);background:rgba(37,99,235,.06)}
+    .timeline-box{
+      border:1px solid var(--border);border-radius:22px;padding:.85rem .8rem;height:100%;background:var(--surface-soft)
+    }
+    .star-btn{
+      width:42px;height:42px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;
+      border:1px solid var(--border);background:transparent;color:var(--muted);transition:all .2s ease
+    }
+    .star-btn.active,.star-btn:hover{background:rgba(245,158,11,.12);color:#f59e0b;border-color:rgba(245,158,11,.18)}
+    .floating-whatsapp,.floating-call{
+      position:fixed;right:18px;width:58px;height:58px;border-radius:18px;z-index:1045;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:#fff
+    }
+    .floating-whatsapp{bottom:18px;background:#25d366;box-shadow:0 16px 30px rgba(37,211,102,.30)}
+    .floating-call{bottom:88px;background:#0f172a;box-shadow:0 16px 30px rgba(15,23,42,.22)}
+    .footer-link{color:var(--muted);text-decoration:none}
+    .footer-link:hover{color:var(--primary)}
+
+    .tracking-info-card,
+    .tracking-status-card,
+    .tracking-compact-card,
+    .about-showcase,
+    .about-rotator-card,
+    .service-card,
+    .metric-card,
+    .hero-card,
+    .contact-card{
+      color:var(--text);
+    }
+    .text-muted{color:var(--muted)!important}
+    .border{border-color:var(--border)!important}
+    .form-control, .form-select{
+      background:var(--surface-strong);
+      color:var(--text);
+      border-color:var(--border);
+    }
+    .form-control::placeholder{color:var(--muted)}
+    body.dark-mode .btn-light{
+      background:#e5e7eb;
+      color:#0f172a;
+      border-color:#e5e7eb;
+    }
+
+    .search-inline .form-control,.search-inline .btn,.track-form .form-control,.track-form .btn{min-height:52px;border-radius:16px}
+    .page-section{padding:28px 0}
+    .fade-in-up{animation:fadeInUp .55s ease both}
+    .pulse-soft{animation:pulseSoft 2.4s ease-in-out infinite}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    @keyframes pulseSoft{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+    .text-gradient{background:linear-gradient(135deg,#fff 0%, #dbeafe 55%, #e9d5ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .section-anchor{scroll-margin-top:110px}
+    .mini-badge{border:1px solid var(--border);background:var(--surface-soft);border-radius:999px;padding:.3rem .7rem;font-size:.82rem;font-weight:700}
+
+    .navbar-top .navbar-nav .nav-link.custom-link{padding:.3rem .56rem;font-size:.82rem}
+    .navbar-top .btn{min-height:38px;font-size:.9rem;padding:.46rem .68rem}
+    .navbar-top .btn i{font-size:.9rem}
+    .desktop-header-shell{min-width:0}
+    .desktop-nav-links{
+      transition:opacity .24s ease, transform .24s ease, max-width .24s ease;
+    }
+    .desktop-track-form{
+      display:flex;
+      align-items:center;
+      gap:.55rem;
+      max-width:250px;
+      transition:max-width .28s ease, transform .28s ease, opacity .28s ease, flex-basis .28s ease;
+      min-width:0;
+    }
+    .desktop-track-input-wrap{
+      display:flex;
+      align-items:center;
+      width:100%;
+      min-width:0;
+    }
+    .desktop-track-form .form-control{
+      width:100%;
+      min-width:170px;
+      padding-right:3.05rem;
+    }
+    .desktop-search-toggle{
+      position:absolute;
+      right:.28rem;
+      top:50%;
+      transform:translateY(-50%);
+      width:2.1rem;
+      height:2.1rem;
+      border:0;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(37,99,235,.12);
+      color:var(--primary);
+      box-shadow:none;
+      padding:0;
+    }
+    .desktop-search-toggle:hover{background:rgba(37,99,235,.18);color:var(--primary-2)}
+    .desktop-track-submit{display:none;white-space:nowrap}
+    .desktop-theme-btn{
+      width:2.5rem;
+      height:2.5rem;
+      padding:0 !important;
+    }
+    .desktop-theme-btn i{font-size:1rem}
+    body.desktop-search-open .desktop-nav-links,
+    body.desktop-search-open .desktop-action-group{
+      opacity:0;
+      transform:translateY(-6px);
+      pointer-events:none;
+      visibility:hidden;
+    }
+    body.desktop-search-open .desktop-track-form{
+      max-width:min(100%, 560px);
+      flex:1 1 560px;
+    }
+    body.desktop-search-open .desktop-track-submit{display:inline-flex}
+    body.desktop-search-open .desktop-track-form .form-control{min-width:220px}
+    .search-inline{max-width:180px;transition:max-width .28s ease, transform .28s ease, opacity .28s ease;overflow:hidden;transform-origin:right center}
+    .search-inline:focus-within{max-width:360px;transform:scaleX(1.01)}
+    .search-inline .form-control{width:100%;min-width:160px}
+    .tracking-box{overflow:hidden}
+    .tracking-result{width:100%;min-height:420px}
+    .tracking-status-dots{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:.72rem;
+      margin-top:1rem;
+      position:relative;
+      padding-left:1rem;
+    }
+    .tracking-status-dots::before{
+      content:"";
+      position:absolute;
+      left:18px;
+      top:0;
+      bottom:0;
+      width:3px;
+      border-radius:999px;
+      background:linear-gradient(180deg, var(--primary), rgba(148,163,184,.26));
+      opacity:.75;
+    }
+    .tracking-status-dot{
+      position:relative;
+      display:flex;
+      align-items:flex-start;
+      justify-content:flex-start;
+      gap:.85rem;
+      text-align:left;
+      font-size:.8rem;
+      color:var(--muted);
+      padding:.35rem 0 .35rem 0;
+    }
+    .tracking-status-dot .dot{
+      flex:0 0 auto;
+      margin-top:.12rem;
+      z-index:1;
+      width:14px;
+      height:14px;
+      box-shadow:none;
+    }
+    .tracking-status-dot.active .dot{
+      width:20px;
+      height:20px;
+      animation:pulseSoft 1.8s ease-in-out infinite;
+    }
+    .tracking-status-label{line-height:1.2;font-weight:800}
+    .tracking-status-pct{margin-left:auto;font-weight:700}
+    
+    .menu-link.active{background:rgba(37,99,235,.12)!important;color:var(--primary)!important}
+    .navbar-top .nav-link.custom-link.active{color:var(--primary)!important;background:rgba(37,99,235,.14)!important}
+    .tracker-copy{max-width:40rem}
+    .btn-loading{pointer-events:none;opacity:.9;transform:scale(.99)}
+    .search-inline:focus-within .form-control{box-shadow:0 12px 28px rgba(37,99,235,.10)}
+    .btn-loading .spinner-border{width:1rem;height:1rem;border-width:.16em}
+    .form-control,.form-select{border-radius:16px;border-color:var(--border-strong);background:var(--surface-strong);color:var(--text)}
+    .form-control:focus,.form-select:focus{box-shadow:0 0 0 .25rem rgba(37,99,235,.16);border-color:rgba(37,99,235,.35)}
+    .dropdown-menu{border-radius:18px;border-color:var(--border);background:var(--surface-strong)}
+    .badge-soft{background:rgba(37,99,235,.12);color:var(--primary);border:1px solid rgba(37,99,235,.12)}
+    body.dark-mode .text-muted{color:var(--muted)!important}
+    body:not(.dark-mode) .text-muted{color:#475569!important}
+    body:not(.dark-mode) .section-title,
+    body:not(.dark-mode) .card-soft .fw-bold,
+    body:not(.dark-mode) .card-soft .text-body,
+    body:not(.dark-mode) .about-card .text-body,
+    body:not(.dark-mode) .service-card .text-body{color:#0f172a!important}
+    body:not(.dark-mode) .about-card,
+    body:not(.dark-mode) .service-card,
+    body:not(.dark-mode) .metric-card,
+    body:not(.dark-mode) .tracking-box,
+    body:not(.dark-mode) .card-soft{background:rgba(255,255,255,.96)}
+    body.dark-mode .navbar-toggler{border-color:var(--border)!important}
+    body.dark-mode .btn-outline-primary{color:#bfdbfe;border-color:rgba(96,165,250,.35)}
+    body.dark-mode .btn-outline-primary:hover{background:rgba(37,99,235,.18);border-color:rgba(96,165,250,.45)}
+    body.dark-mode .btn-outline-success{color:#86efac;border-color:rgba(34,197,94,.35)}
+    body.dark-mode .btn-outline-success:hover{background:rgba(34,197,94,.16)}
+    body.dark-mode .btn-light{background:#e2e8f0;border-color:#e2e8f0;color:#0f172a}
+    body.dark-mode .offcanvas{background:var(--surface-strong);color:var(--text)}
+    body.dark-mode .offcanvas .border-bottom{border-color:var(--border)!important}
+    @media (max-width: 991.98px){
+      .hero{padding-top:18px}
+      .hero-panel{border-radius:28px}
+      .floating-whatsapp{right:14px;bottom:14px}
+      .floating-call{right:14px;bottom:82px}
+    }
+  
+    .navbar-top .navbar-brand{color:var(--text)!important}
+    .navbar-top .navbar-brand .text-muted{color:var(--muted)!important}
+    body.dark-mode .navbar-top .navbar-brand{color:#fff!important}
+    body.dark-mode .navbar-top .navbar-brand .text-muted{color:rgba(255,255,255,.78)!important}
+.navbar-top .navbar-toggler{
+  color:#64748b;
+}
+.navbar-top .navbar-toggler-icon{
+  width:1.5em;
+  height:1.5em;
+  display:inline-block;
+  background-image:none !important;
+  background-color:#64748b;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='black' stroke-linecap='round' stroke-width='1.6' d='M2 3.5h12M2 8h12M2 12.5h12'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='black' stroke-linecap='round' stroke-width='1.6' d='M2 3.5h12M2 8h12M2 12.5h12'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+body.dark-mode .navbar-top .navbar-toggler-icon{
+  background-color:#ffffff;
+}
+    body:not(.dark-mode) .offcanvas .menu-link{
+      color:#64748b !important;
+      border-color:rgba(148,163,184,.28) !important;
+    }
+    body.dark-mode .offcanvas .menu-link{
+      color:#ffffff !important;
+      border-color:rgba(255,255,255,.18) !important;
+    }
+    body.dark-mode .offcanvas .menu-link.active{
+      color:#ffffff !important;
+      background:rgba(255,255,255,.10) !important;
+    }
+    body.dark-mode .offcanvas .btn,
+    body.dark-mode .offcanvas .btn .bi{
+      color:#ffffff !important;
+    }
+    .about-section-grid{margin-top:.25rem}
+    .about-card .section-title{font-size:clamp(1.9rem,3vw,3rem)}
+    .about-card p{font-size:1.05rem;line-height:1.8}
+    .about-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .about-feature{
+      padding:1rem 1rem;
+      border-radius:20px;
+      background:rgba(148,163,184,.08);
+      border:1px solid rgba(148,163,184,.12);
+    }
+    body.dark-mode .about-feature{background:rgba(148,163,184,.10)}
+    .feature-title{font-size:1rem;font-weight:800}
+    .feature-text{font-size:.98rem;color:var(--muted);line-height:1.7}
+    .about-showcase{margin-top:1rem}
+    .about-showcase-copy .section-title{font-size:clamp(1.6rem,2.4vw,2.2rem)}
+    .about-rotator-card{
+      width:100%;
+      min-height:168px;
+      padding:1.15rem 1.1rem;
+      grid-template-columns:74px minmax(0,1fr);
+      gap:1rem;
+      align-items:start;
+    }
+    .about-rotator-icon{
+      width:74px;height:74px;border-radius:22px;
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg, rgba(37,99,235,.14), rgba(124,58,237,.12));
+      color:var(--primary);font-size:1.45rem;flex:0 0 auto;
+    }
+    .about-rotator-copy{min-width:0}
+    #aboutRotatorTitle{font-size:1.38rem}
+    #aboutRotatorText{font-size:1.02rem;line-height:1.75}
+    .about-rotator-card .mini-badge{font-size:.86rem;padding:.38rem .68rem}
+    .tracking-premium-shell{width:100%}
+    .tracking-status-card .section-title,
+    .tracking-info-card .section-title,
+    .tracking-compact-card .section-title{font-size:clamp(1.35rem,2.2vw,2rem)}
+    .tracking-info-row strong{font-size:1.05rem}
+    .tracking-status-card .display-6{font-size:clamp(2.2rem,5vw,4rem)}
+    .timeline-vertical{
+      position:relative;
+      display:grid;
+      gap:1.15rem;
+      padding-left:.1rem;
+    }
+    .timeline-vertical::before{
+      content:"";
+      position:absolute;
+      left:24px;
+      top:18px;
+      bottom:18px;
+      width:4px;
+      border-radius:999px;
+      background:linear-gradient(180deg,var(--primary),rgba(124,58,237,.18));
+      opacity:.5;
+    }
+    .timeline-item{
+      position:relative;
+      display:grid;
+      grid-template-columns:56px minmax(0,1fr);
+      gap:1rem;
+      align-items:flex-start;
+    }
+    .timeline-marker{
+      position:relative;
+      display:flex;
+      justify-content:center;
+      min-height:48px;
+    }
+    .timeline-marker::after{
+      content:"";
+      position:absolute;
+      top:48px;
+      left:50%;
+      transform:translateX(-50%);
+      width:2px;
+      height:calc(100% + 1rem);
+      background:rgba(148,163,184,.18);
+    }
+    .timeline-item:last-child .timeline-marker::after{display:none}
+    .timeline-dot{
+      width:48px;
+      height:48px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:var(--surface-strong);
+      border:2px solid rgba(148,163,184,.24);
+      color:var(--muted);
+      box-shadow:0 14px 28px rgba(15,23,42,.10);
+    }
+    .timeline-item.done .timeline-dot{
+      background:linear-gradient(135deg,#16a34a,#22c55e);
+      border-color:rgba(22,163,74,.18);
+      color:#fff;
+    }
+    .timeline-item.active .timeline-dot{
+      background:linear-gradient(135deg,var(--primary),var(--accent));
+      border-color:rgba(37,99,235,.2);
+      color:#fff;
+      animation:pulseSoft 1.8s ease-in-out infinite;
+    }
+    .timeline-item.future .timeline-dot{
+      background:var(--surface-soft);
+      color:var(--muted);
+    }
+    .timeline-body{
+      padding:.05rem 0 1rem;
+      border-bottom:1px dashed rgba(148,163,184,.18);
+    }
+    .timeline-item:last-child .timeline-body{border-bottom:none;padding-bottom:0}
+    .timeline-title{
+      font-size:1.08rem;
+      font-weight:900;
+      letter-spacing:-.02em;
+    }
+    .timeline-time{
+      margin-top:.38rem;
+      color:var(--muted);
+      font-size:.92rem;
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      gap:.35rem;
+    }
+    .timeline-desc{
+      font-size:.95rem;
+      color:var(--muted);
+      margin-top:.18rem;
+    }
+    .status-pending{background:rgba(245,158,11,.16);color:#b45309}
+    .status-processing{background:rgba(59,130,246,.16);color:#1d4ed8}
+    .status-in-repair{background:rgba(168,85,247,.16);color:#7c3aed}
+    .status-waiting-for-parts{background:rgba(14,165,233,.16);color:#0369a1}
+    .status-completed{background:rgba(34,197,94,.16);color:#15803d}
+    .status-delivered{background:rgba(100,116,139,.16);color:#334155}
+    @media (max-width: 767.98px){
+      .about-feature-grid{grid-template-columns:1fr}
+      .timeline-vertical::before{left:22px}
+      .timeline-item{grid-template-columns:52px minmax(0,1fr);gap:.85rem}
+    }
+
+    /* === Requested polish updates === */
+    body:not(.dark-mode) .navbar-top .navbar-brand,
+    body:not(.dark-mode) .navbar-top .navbar-brand .fw-bold,
+    body:not(.dark-mode) .navbar-top .navbar-brand span:first-child {
+      color: #0f172a !important;
+    }
+    body:not(.dark-mode) .navbar-top .navbar-brand .text-muted {
+      color: #475569 !important;
+    }
+    body.dark-mode .navbar-top .navbar-brand,
+    body.dark-mode .navbar-top .navbar-brand .fw-bold,
+    body.dark-mode .navbar-top .navbar-brand span:first-child {
+      color: #ffffff !important;
+    }
+
+    .about-card .section-title {
+      font-size: clamp(2.25rem, 3.4vw, 3.55rem);
+    }
+    .about-card p,
+    .about-showcase-copy .section-subtitle,
+    .about-rotator-copy .text-muted {
+      font-size: 1.12rem;
+      line-height: 1.9;
+    }
+    .about-feature-grid .about-feature {
+      padding: 1.15rem 1.1rem;
+    }
+    .about-feature .feature-title {
+      font-size: 1.08rem;
+    }
+    .about-feature .feature-text {
+      font-size: 1.02rem;
+      line-height: 1.8;
+    }
+
+    .mobile-search-toggle {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      color: var(--muted);
+    }
+    .mobile-search-toggle:hover{background:rgba(37,99,235,.08);color:var(--primary)}
+    .mobile-search-panel {
+      display: none;
+      padding: 0;
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+    body.mobile-search-open .mobile-search-panel {
+      display: block;
+      position: absolute;
+      left: clamp(64px, 14vw, 116px);
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 4;
+      margin: 0;
+    }
+    body.mobile-search-open .navbar-brand .d-flex.flex-column {
+      display: none !important;
+    }
+    body.mobile-search-open .navbar-brand {
+      flex: 0 0 auto;
+      min-width: 0;
+      padding-right: 0;
+    }
+    body.mobile-search-open .navbar-top .container {
+      position: relative;
+      align-items: center;
+      flex-wrap: nowrap;
+      gap: .5rem;
+      min-height: 72px;
+    }
+    body.mobile-search-open .navbar-top .navbar-toggler {
+      flex: 0 0 auto;
+      margin-left: auto;
+    }
+    .mobile-search-panel .search-inline {
+      max-width: none;
+      width: 100%;
+      display: flex;
+      gap: .55rem;
+      align-items: center;
+      min-width: 0;
+    }
+    .mobile-search-panel .search-inline .position-relative {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .mobile-search-panel .search-inline .form-control {
+      min-width: 0;
+      width: 100%;
+    }
+    .mobile-search-panel .search-inline .btn {
+      width: auto;
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+
+    .tracking-status-card {
+      scroll-margin-top: 110px;
+    }
+    .tracking-status-card .text-uppercase.fw-bold {
+      letter-spacing: .05em;
+    }
+    .tracking-status-card .display-6 {
+      letter-spacing: -.05em;
+      font-size: clamp(2.6rem, 5vw, 4.4rem);
+      line-height: .95;
+    }
+    .tracking-status-card .progress-rail {
+      height: 14px;
+    }
+    .tracking-status-card .progress-label {
+      font-size: .92rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--muted);
+    }
+    .tracking-status-card .progress-percent {
+      font-size: clamp(2.2rem, 4.4vw, 3.8rem);
+      font-weight: 900;
+      line-height: .95;
+    }
+    .tracking-status-card .progress-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+    }
+    .tracking-status-card .status-badges-row {
+      justify-content: flex-start !important;
+    }
+    .tracking-status-card .status-badges-row .mini-badge {
+      font-size: .9rem;
+    }
+
+    .timeline-item {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .timeline-item.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .timeline-dot {
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .timeline-item.active .timeline-dot,
+    .timeline-item.done .timeline-dot {
+      transform: scale(1.02);
+    }
+    .timeline-item .timeline-body {
+      padding-top: .1rem;
+    }
+    .timeline-title {
+      font-size: 1.16rem;
+    }
+    .timeline-time {
+      font-size: .95rem;
+    }
+    .timeline-desc {
+      font-size: 1rem;
+    }
+
+    .tracking-search-loading {
+      display: grid;
+      place-items: center;
+      min-height: 260px;
+      text-align: center;
+      padding: 2rem 1.25rem;
+    }
+    .tracking-search-loading .spinner-border {
+      width: 3.1rem;
+      height: 3.1rem;
+      border-width: .28em;
+    }
+
+    @media (max-width: 991.98px) {
+      .about-card .section-title {
+        font-size: clamp(1.9rem, 7vw, 2.7rem);
+      }
+      .about-card p,
+      .about-showcase-copy .section-subtitle {
+        font-size: 1rem;
+      }
+      .mobile-search-toggle {
+        margin-left: auto;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .timeline-item,
+      .timeline-dot,
+      .about-rotator-card,
+      .tracking-status-dot.active .dot {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* Mobile header fix */
+.navbar-top{
+  overflow: visible;
+}
+
+@media (max-width: 991.98px){
+  .navbar-top .container{
+    display:flex;
+    align-items:center;
+    flex-wrap:nowrap;
+    gap:.5rem;
+    position:relative;
+    min-height:72px;
+  }
+
+  .navbar-top .navbar-brand{
+    flex:1 1 auto;
+    min-width:0;
+  }
+
+  .mobile-header-actions{
+    flex:0 0 auto;
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    gap:.5rem;
+    position:relative;
+  }
+
+  .mobile-search-toggle{
+    margin-left:0 !important;
+    width:46px;
+    height:46px;
+    border-radius:14px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    flex:0 0 auto;
+  }
+
+  .navbar-top .navbar-toggler{
+    flex:0 0 auto;
+  }
+
+  .mobile-search-panel{
+    display:none;
+    position:absolute;
+    top:50%;
+    right:66px;
+    left:auto;
+    transform:translateY(-50%);
+    z-index:1085;
+    padding:0;
+    min-width:0;
+  }
+
+  body.mobile-search-open .mobile-search-panel{
+    display:block;
+  }
+
+  body.mobile-search-open .navbar-brand .d-flex.flex-column{
+    display:none !important;
+  }
+
+  .mobile-search-panel .search-inline{
+    width:100%;
+    display:flex;
+    gap:.55rem;
+    align-items:center;
+    min-width:0;
+  }
+
+  .mobile-search-panel .search-inline .position-relative{
+    flex:1 1 auto;
+    min-width:0;
+  }
+
+  .mobile-search-panel .search-inline .form-control{
+    min-width:0;
+    width:100%;
+  }
+
+  .mobile-search-panel .search-inline .btn{
+    flex:0 0 auto;
+    white-space:nowrap;
+  }
+}
+
+@media (max-width: 575.98px){
+  .mobile-search-panel{
+    left:74px;
+    right:62px;
+  }
+}
+  </style>
+</head>
+<body class="dark-mode" data-page="home">
+  <nav class="navbar navbar-expand-lg navbar-light navbar-top glass">
+    <div class="container py-2 position-relative d-flex align-items-center gap-2">
+      <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="#home">
+        <span class="brand-box"><i class="bi bi-shop"></i></span>
+        <span class="d-flex flex-column lh-1">
+          <span data-i18n="brand.main">Waasuge Electronics</span>
+          <small class="text-muted fw-semibold small" data-i18n="brand.sub">Shop & Mobile Repairing</small>
+        </span>
+      </a>
+
+      <div class="d-none d-lg-flex align-items-center gap-3 ms-auto flex-grow-1 desktop-header-shell" id="desktopHeaderShell">
+        <div class="navbar-nav flex-row align-items-center justify-content-center gap-2 flex-grow-1 desktop-nav-links" id="desktopNavLinks">
+          <a class="nav-link custom-link active" href="#home" data-nav-link="home" data-i18n="nav.home">Home</a>
+          <a class="nav-link custom-link" href="#about" data-nav-link="about" data-i18n="nav.about">About Us</a>
+          <a class="nav-link custom-link" href="#services" data-nav-link="services" data-i18n="nav.services">Services</a>
+          <a class="nav-link custom-link" href="#tracking" data-nav-link="tracking" data-i18n="nav.tracking">Tracking</a>
+        </div>
+
+        <form class="search-inline flex-shrink-0 desktop-track-form" id="topTrackForm">
+          <div class="position-relative desktop-track-input-wrap">
+            <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+            <input class="form-control ps-5" id="topTrackInput" type="search" placeholder="R-123456789" data-i18n-placeholder="placeholders.track" aria-label="Search repair ID">
+            <button class="btn desktop-search-toggle" type="button" id="desktopSearchToggleBtn" aria-label="Toggle search" aria-expanded="false">
+              <i class="bi bi-arrow-right-circle" id="desktopSearchToggleIcon"></i>
+            </button>
+          </div>
+          <button class="btn btn-primary fw-semibold d-inline-flex align-items-center justify-content-center gap-2 desktop-track-submit" type="submit" id="topTrackBtn">
+            <i class="bi bi-search"></i>
+            <span data-i18n="actions.track">Track</span>
+          </button>
+        </form>
+
+        <div class="d-flex align-items-center gap-2 flex-shrink-0 desktop-action-group" id="desktopActionGroup">
+          <button class="btn btn-outline-secondary rounded-pill d-inline-flex align-items-center justify-content-center fw-semibold desktop-theme-btn" type="button" id="themeToggleBtn" aria-label="Dark mode">
+            <i class="bi bi-moon-stars-fill" id="themeToggleIcon"></i>
+          </button>
+          <button class="btn btn-outline-secondary rounded-pill d-inline-flex align-items-center justify-content-center gap-2 fw-semibold" type="button" id="langToggleBtn">
+            <i class="bi bi-translate"></i>
+            <span id="langToggleLabel">SO</span>
+          </button>
+          <a class="btn btn-light rounded-pill fw-semibold d-inline-flex align-items-center justify-content-center gap-2" id="accountBtnDesktop" href="login.html">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span data-auth-label data-i18n="actions.login">Login</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="mobile-header-actions ms-auto d-flex align-items-center gap-2 position-relative d-lg-none">
+        <button class="btn btn-outline-secondary mobile-search-toggle d-lg-none" type="button" id="mobileSearchToggleBtn" aria-label="Open search">
+          <i class="bi bi-search" id="mobileSearchToggleIcon"></i>
+        </button>
+
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-controls="mobileMenu" aria-label="Open menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+
+      <div class="mobile-search-panel d-lg-none">
+        <form class="search-inline" id="mobileHeaderTrackForm">
+          <div class="position-relative">
+            <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+            <input class="form-control ps-5" id="mobileHeaderTrackInput" type="search" placeholder="R-123456789" data-i18n-placeholder="placeholders.track" aria-label="Search repair ID">
+          </div>
+          <button class="btn btn-primary fw-semibold d-inline-flex align-items-center justify-content-center gap-2" type="submit" id="mobileHeaderTrackBtn">
+            <i class="bi bi-arrow-right-circle"></i>
+            <span data-i18n="actions.track">Track</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </nav>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
+    <div class="offcanvas-header border-bottom">
+      <div>
+        <h5 class="offcanvas-title fw-bold mb-0" id="mobileMenuLabel" data-i18n="menu.title">Menu</h5>
+        <small class="text-muted" data-i18n="menu.subtitle">Quick links and tools</small>
+      </div>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="d-grid gap-2 mb-4">
+        <a class="btn btn-outline-primary rounded-pill fw-semibold menu-link active" href="#home" data-nav-link="home" data-i18n="nav.home">Home</a>
+        <a class="btn btn-outline-primary rounded-pill fw-semibold menu-link" href="#about" data-nav-link="about" data-i18n="nav.about">About Us</a>
+        <a class="btn btn-outline-primary rounded-pill fw-semibold menu-link" href="#services" data-nav-link="services" data-i18n="nav.services">Services</a>
+        <a class="btn btn-outline-primary rounded-pill fw-semibold menu-link" href="#tracking" data-nav-link="tracking" data-i18n="nav.tracking">Tracking</a>
+      </div>
+
+      <form class="track-form d-grid gap-2 mb-4" id="mobileTrackForm">
+        <label class="form-label fw-semibold mb-0" for="mobileTrackInput" data-i18n="tracking.label">Enter repair ID</label>
+        <input class="form-control" id="mobileTrackInput" type="search" placeholder="R-123456789" data-i18n-placeholder="placeholders.track" />
+        <button class="btn btn-primary d-inline-flex align-items-center justify-content-center gap-2 fw-semibold" type="submit" id="mobileTrackBtn">
+          <i class="bi bi-search"></i>
+          <span data-i18n="actions.track">Track</span>
+        </button>
+      </form>
+
+      <div class="d-grid gap-2 mb-4">
+        <button class="btn btn-outline-secondary rounded-pill d-inline-flex align-items-center justify-content-center gap-2 fw-semibold" type="button" id="mobileThemeToggleBtn">
+          <i class="bi bi-moon-stars-fill" id="mobileThemeIcon"></i>
+          <span data-i18n="actions.darkMode">Dark mode</span>
+        </button>
+        <button class="btn btn-outline-secondary rounded-pill d-inline-flex align-items-center justify-content-center gap-2 fw-semibold" type="button" id="mobileLangToggleBtn">
+          <i class="bi bi-translate"></i>
+          <span id="mobileLangToggleLabel">SO</span>
+        </button>
+        <a class="btn btn-light rounded-pill fw-semibold d-inline-flex align-items-center justify-content-center gap-2" id="accountBtnMobile" href="login.html">
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span data-auth-label data-i18n="actions.login">Login</span>
+        </a>
+      </div>
+
+      <div class="small text-muted">
+        <div class="fw-bold mb-1" data-i18n="contact.title">Waasuge Electronics & Mobile Repairing</div>
+        <div id="contactPhoneText">0617125558</div>
+        <div data-i18n="contact.subtitle">Service center and repair desk</div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero section-anchor" id="home">
+      <div class="container">
+        <div class="hero-panel p-4 p-lg-5">
+          <div class="row align-items-center g-4">
+            <div class="col-lg-7 hero-copy fade-in-up">
+              <span class="eyebrow"><i class="bi bi-stars"></i><span data-i18n="hero.badge">Trusted electronics and repair shop</span></span>
+              <h1 data-i18n-html="hero.title">Premium electronics sales, fast repairs, and live tracking in one place.</h1>
+              <p class="lead fs-5" data-i18n="hero.lead">We repair mobile phones and electronics, sell quality accessories, and let customers track repair progress instantly with a repair ID.</p>
+              <div class="d-flex flex-wrap gap-2 mt-4">
+                <a class="btn btn-light btn-lg rounded-pill fw-bold d-inline-flex align-items-center gap-2" href="#tracking"><i class="bi bi-search"></i><span data-i18n="hero.trackNow">Track your repair</span></a>
+                <a class="btn btn-outline-light btn-lg rounded-pill fw-bold d-inline-flex align-items-center gap-2" id="heroWhatsappBtn" href="https://wa.me/252617125558?text=Asc%20fadlan%20iga%20caawi%20sida%20aan%20repair%20ID%20ugu%20raadini%20lahaay%20halkaan." target="_blank" rel="noopener"><i class="bi bi-whatsapp"></i><span data-i18n="hero.whatsapp">WhatsApp us</span></a>
+              </div>
+              <div class="row g-3 mt-4 hero-metrics">
+                <div class="col-sm-4">
+                  <div class="hero-card p-3 h-100">
+                    <div class="mini-badge mb-2"><i class="bi bi-phone me-1"></i><span data-i18n="metrics.devices">Phones & devices</span></div>
+                    <div class="fw-bold fs-4">100+</div>
+                    <div class="hero-mini-note" data-i18n="metrics.devicesText">Repairs, accessories, and electronics support.</div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="hero-card p-3 h-100">
+                    <div class="mini-badge mb-2"><i class="bi bi-clock-history me-1"></i><span data-i18n="metrics.speed">Fast service</span></div>
+                    <div class="fw-bold fs-4" data-i18n="metrics.speedValue">Same-day</div>
+                    <div class="hero-mini-note" data-i18n="metrics.speedText">Quick diagnosis, clear updates, and smooth pickup.</div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="hero-card p-3 h-100">
+                    <div class="mini-badge mb-2"><i class="bi bi-geo-alt me-1"></i><span data-i18n="metrics.location">Service area</span></div>
+                    <div class="fw-bold fs-4">Mogadishu</div>
+                    <div class="hero-mini-note" data-i18n="metrics.locationText">Visit the shop or contact us on WhatsApp.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-5 fade-in-up">
+              <div class="hero-card p-4 p-lg-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                  <div>
+                    <div class="text-uppercase fw-bold small opacity-75" data-i18n="tracking.quickTitle">Quick tracking</div>
+                    <div class="fs-5 fw-bold" data-i18n="tracking.quickSubtitle">Enter repair ID to view the full repair file</div>
+                  </div>
+                  <div class="icon-chip bg-white text-primary"><i class="bi bi-broadcast"></i></div>
+                </div>
+                <form class="d-grid gap-2 track-form" id="heroTrackForm">
+                  <label class="form-label mb-0 fw-semibold text-white-50" for="heroTrackInput" data-i18n="tracking.label">Enter repair ID</label>
+                  <input class="form-control form-control-lg" id="heroTrackInput" type="search" placeholder="R-123456789" data-i18n-placeholder="placeholders.track" />
+                  <button class="btn btn-light btn-lg rounded-4 fw-bold d-inline-flex align-items-center justify-content-center gap-2" type="submit" id="heroTrackBtn">
+                    <i class="bi bi-search"></i>
+                    <span data-i18n="actions.track">Track</span>
+                  </button>
+                </form>
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                  <span class="badge rounded-pill badge-soft" data-i18n="hero.badge1">Mobile repairing</span>
+                  <span class="badge rounded-pill badge-soft" data-i18n="hero.badge2">Electronics sales</span>
+                  <span class="badge rounded-pill badge-soft" data-i18n="hero.badge3">Live status</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="page-section section-anchor" id="about">
+      <div class="container">
+        <div class="row g-4 align-items-stretch about-section-grid">
+          <div class="col-lg-6">
+            <div class="about-card p-4 p-lg-5 h-100">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="icon-chip"><i class="bi bi-shop"></i></div>
+                <div>
+                  <div class="fw-bold fs-2 mb-1" data-i18n="about.cardTitle">Who we are</div>
+                  <div class="text-muted fs-5" data-i18n="about.cardSubtitle">A trusted shop for mobile and electricity solutions.</div>
+                </div>
+              </div>
+              <p class="text-muted fs-5 mb-4 lh-lg" data-i18n="about.cardText">Waasuge Electronics & Mobile Repairing helps customers buy quality devices, repair phones, and solve common electronics problems with clear updates and professional service.</p>
+              <div class="row g-3 about-feature-grid">
+                <div class="col-12 col-md-6">
+                  <div class="about-feature h-100">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                      <div class="icon-chip" style="width:40px;height:40px;border-radius:14px;"><i class="bi bi-bullseye"></i></div>
+                      <div class="feature-title" data-i18n="about.missionTitle">Mission</div>
+                    </div>
+                    <div class="feature-text" data-i18n="about.missionText">Deliver fast, honest, and affordable repair service.</div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="about-feature h-100">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                      <div class="icon-chip" style="width:40px;height:40px;border-radius:14px;"><i class="bi bi-stars"></i></div>
+                      <div class="feature-title" data-i18n="about.visionTitle">Vision</div>
+                    </div>
+                    <div class="feature-text" data-i18n="about.visionText">Become a clean, modern service center customers trust.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="about-card p-4 p-lg-5 h-100">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="icon-chip"><i class="bi bi-bullseye"></i></div>
+                <div>
+                  <div class="fw-bold fs-2 mb-1" data-i18n="about.goalTitle">What we do</div>
+                  <div class="text-muted fs-5" data-i18n="about.goalText">We handle diagnosis, repair, parts replacement, accessory sales, and after-service support for mobile and electronic devices.</div>
+                </div>
+              </div>
+
+              <div class="row g-3 about-feature-grid mb-4">
+                <div class="col-12 col-md-6">
+                  <div class="about-feature h-100">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                      <div class="icon-chip" style="width:40px;height:40px;border-radius:14px;"><i class="bi bi-tools"></i></div>
+                      <div class="feature-title">Repair service</div>
+                    </div>
+                    <div class="feature-text">Screen, battery, charging, and motherboard repair with clear progress updates.</div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="about-feature h-100">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                      <div class="icon-chip" style="width:40px;height:40px;border-radius:14px;"><i class="bi bi-bag-check"></i></div>
+                      <div class="feature-title">Shop products</div>
+                    </div>
+                    <div class="feature-text">Phones, accessories, charging items, and electricity products in one place.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-4 mt-lg-5">
+          <div class="col-12">
+            <div class="about-showcase p-4 p-lg-4">
+              <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-4">
+                <div class="about-showcase-copy">
+                  <div class="section-title mb-2" data-i18n="about.highlightsTitle">Highlights</div>
+                  <p class="section-subtitle mb-0 fs-5" data-i18n="about.highlightsText">Every visit feels clean, fast, and easy to use on mobile.</p>
+                </div>
+                <div class="about-rotator-card w-100" id="aboutRotatorCard" aria-live="polite">
+                  <div class="about-rotator-icon" id="aboutRotatorIcon"><i class="bi bi-shop"></i></div>
+                  <div class="about-rotator-copy">
+                    <div class="fw-bold mb-1" id="aboutRotatorTitle">Clean service</div>
+                    <div class="text-muted" id="aboutRotatorText">Modern tracking, friendly support, and quick repairs.</div>
+                    <div class="d-flex flex-wrap gap-2 mt-3" id="aboutRotatorBadges">
+                      <span class="mini-badge">Fast updates</span>
+                      <span class="mini-badge">Friendly help</span>
+                      <span class="mini-badge">Modern look</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div></section>
+
+    
+    <section class="page-section section-anchor" id="services">
+      <div class="container">
+        <div class="text-center mb-4 mb-lg-5">
+          <div class="section-title mb-2" data-i18n="services.title">Services and products</div>
+          <p class="section-subtitle mx-auto mb-0" data-i18n="services.subtitle">We repair devices and sell useful electronics items for home, shop, and mobile use.</p>
+        </div>
+        <div class="row g-3 g-lg-4">
+          <div class="col-md-6 col-xl-4"><div class="service-card p-4"><div class="d-flex align-items-start gap-3"><div class="icon-chip"><i class="bi bi-phone"></i></div><div><div class="fw-bold fs-5" data-i18n="services.mobileTitle">Mobile phones</div><p class="text-muted mb-0" data-i18n="services.mobileText">Sales, setup, software help, and repair for smartphones and small phones.</p></div></div></div></div>
+          <div class="col-md-6 col-xl-4"><div class="service-card p-4"><div class="d-flex align-items-start gap-3"><div class="icon-chip"><i class="bi bi-battery-charging"></i></div><div><div class="fw-bold fs-5" data-i18n="services.chargingTitle">Fast charging accessories</div><p class="text-muted mb-0" data-i18n="services.chargingText">Super-fast chargers, adapters, USB cables, and charging ports.</p></div></div></div></div>
+          <div class="col-md-6 col-xl-4"><div class="service-card p-4"><div class="d-flex align-items-start gap-3"><div class="icon-chip"><i class="bi bi-power"></i></div><div><div class="fw-bold fs-5" data-i18n="services.powerTitle">Power banks & batteries</div><p class="text-muted mb-0" data-i18n="services.powerText">Power banks, batteries, battery replacement, and charging support.</p></div></div></div></div>
+          <div class="col-md-6 col-xl-4"><div class="service-card p-4"><div class="d-flex align-items-start gap-3"><div class="icon-chip"><i class="bi bi-earbuds"></i></div><div><div class="fw-bold fs-5" data-i18n="services.audioTitle">Earphones and headsets</div><p class="text-muted mb-0" data-i18n="services.audioText">Earphones, headphones, earbuds, and audio accessories.</p></div></div></div></div>
+          <div class="col-md-6 col-xl-4"><div class="service-card p-4"><div class="d-flex align-items-start gap-3"><div class="icon-chip"><i class="bi bi-lightbulb"></i></div><div><div class="fw-bold fs-5" data-i18n="services.electricTitle">Electricity items</div><p class="text-muted mb-0" data-i18n="services.electricText">LED bulbs, switches, sockets, plugs, extension cords, and wiring accessories.</p></div></div></div></div>
+          <div class="col-md-6 col-xl-4"><div class="service-card p-4"><div class="d-flex align-items-start gap-3"><div class="icon-chip"><i class="bi bi-tools"></i></div><div><div class="fw-bold fs-5" data-i18n="services.repairTitle">Repair services</div><p class="text-muted mb-0" data-i18n="services.repairText">Screen replacement, charging issues, signal issues, battery faults, and more.</p></div></div></div></div>
+          <div class="col-md-6 col-xl-4"><div class="service-card p-4"><div class="d-flex align-items-start gap-3"><div class="icon-chip"><i class="bi bi-wifi"></i></div><div><div class="fw-bold fs-5" data-i18n="services.networkTitle">Signal and network</div><p class="text-muted mb-0" data-i18n="services.networkText">Zero signal, network issues, SIM problems, and device troubleshooting.</p></div></div></div></div>
+          <div class="col-md-6 col-xl-4"><div class="service-card p-4"><div class="d-flex align-items-start gap-3"><div class="icon-chip"><i class="bi bi-display"></i></div><div><div class="fw-bold fs-5" data-i18n="services.smartTitle">Smart devices</div><p class="text-muted mb-0" data-i18n="services.smartText">Smart watches, speakers, chargers, and small smart accessories.</p></div></div></div></div>
+          <div class="col-md-6 col-xl-4"><div class="service-card p-4"><div class="d-flex align-items-start gap-3"><div class="icon-chip"><i class="bi bi-box-seam"></i></div><div><div class="fw-bold fs-5" data-i18n="services.partsTitle">Parts & service</div><p class="text-muted mb-0" data-i18n="services.partsText">Original and compatible parts, service bundles, and repair updates.</p></div></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section section-anchor" id="howto">
+      <div class="container">
+        <div class="text-center mb-4 mb-lg-5">
+          <div class="section-title mb-2" data-i18n="howto.title">How to use the tracking</div>
+          <p class="section-subtitle mx-auto mb-0" data-i18n="howto.subtitle">Type your repair ID, press track, and the page will scroll to the result automatically.</p>
+        </div>
+        <div class="row g-3 g-lg-4">
+          <div class="col-md-4"><div class="step-card p-4 h-100"><div class="step-num mb-3">1</div><div class="fw-bold fs-5 mb-2" data-i18n="howto.step1Title">Enter your repair ID</div><p class="text-muted mb-0" data-i18n="howto.step1Text">Use the repair number you received from the shop.</p></div></div>
+          <div class="col-md-4"><div class="step-card p-4 h-100"><div class="step-num mb-3">2</div><div class="fw-bold fs-5 mb-2" data-i18n="howto.step2Title">Press the track button</div><p class="text-muted mb-0" data-i18n="howto.step2Text">A loading spinner appears while the system looks up your file.</p></div></div>
+          <div class="col-md-4"><div class="step-card p-4 h-100"><div class="step-num mb-3">3</div><div class="fw-bold fs-5 mb-2" data-i18n="howto.step3Title">Read the full repair file</div><p class="text-muted mb-0" data-i18n="howto.step3Text">See status, price, progress, notes, and rating options.</p></div></div>
+        </div>
+      </div>
+    </section>
+<section class="page-section section-anchor" id="tracking">
+
+      <div class="container">
+        <div class="tracking-box p-4 p-lg-5">
+          <div class="row g-4 align-items-start tracking-card-columns">
+            <div class="col-12 tracker-copy">
+              <div class="section-title mb-2" data-i18n="tracking.title">Repair tracking</div>
+              <p class="section-subtitle mb-3" data-i18n="tracking.subtitle">Check the full repair data for a customer, device, problem, parts, status, payment, and timeline.</p>
+              <div class="card-soft p-4 mb-3">
+                <form class="track-form d-grid gap-2" id="trackForm">
+                  <label class="form-label fw-semibold mb-0" for="trackInput" data-i18n="tracking.label">Enter repair ID</label>
+                  <div class="position-relative">
+                    <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                    <input class="form-control ps-5" id="trackInput" type="search" placeholder="R-123456789" data-i18n-placeholder="placeholders.track" />
+                  </div>
+                  <button class="btn btn-primary fw-bold d-inline-flex align-items-center justify-content-center gap-2" type="submit" id="trackBtn">
+                    <i class="bi bi-search"></i>
+                    <span data-i18n="actions.track">Track</span>
+                  </button>
+                </form>
+                <div id="trackMessage" class="mt-3"></div>
+              </div>
+              <div class="contact-card p-4">
+                <div class="d-flex align-items-center gap-3 mb-2">
+                  <div class="icon-chip"><i class="bi bi-headset"></i></div>
+                  <div>
+                    <div class="fw-bold fs-5" data-i18n="contact.title">Waasuge Electronics & Mobile Repairing</div>
+                    <div class="text-muted" data-i18n="contact.subtitle">Service center and repair desk</div>
+                  </div>
+                </div>
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                  <a class="btn btn-outline-primary rounded-pill fw-semibold" id="contactCallBtn" href="tel:0617125558"><i class="bi bi-telephone me-2"></i><span id="contactCallText">0617125558</span></a>
+                  <a class="btn btn-outline-success rounded-pill fw-semibold" id="contactWhatsAppBtn" href="https://wa.me/252617125558?text=Asc%20fadlan%20iga%20caawi%20sida%20aan%20repair%20ID%20ugu%20raadini%20lahaay%20halkaan." target="_blank" rel="noopener"><i class="bi bi-whatsapp me-2"></i><span id="contactWhatsAppText">WhatsApp</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div id="trackResult" class="tracking-result p-4 p-lg-5 d-flex align-items-center justify-content-center text-center fade-in-up">
+                <div>
+                  <div class="icon-chip mx-auto mb-3"><i class="bi bi-search"></i></div>
+                  <h3 class="h4 fw-bold" data-i18n="tracking.emptyTitle">No result yet</h3>
+                  <p class="text-muted mb-0" data-i18n="tracking.emptyText">Enter a repair ID to see the full repair record.</p>
+                </div>
+              </div>
+              <div class="rating-card mt-4 p-4 d-none" id="ratingCard">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+                  <div>
+                    <div class="fw-bold fs-5" data-i18n="rating.title">Visitor rating</div>
+                    <div class="text-muted" data-i18n="rating.subtitle">Rate this service and leave a short note.</div>
+                  </div>
+                  <span class="mini-badge" id="ratingSummary">0/5</span>
+                </div>
+                <form id="ratingForm" class="row g-3">
+                  <div class="col-12">
+                    <div class="d-flex gap-2 flex-wrap" id="ratingStars" aria-label="Rating stars"></div>
+                  </div>
+                  <div class="col-12">
+                    <input class="form-control" id="ratingComment" type="text" placeholder="Add a short comment" data-i18n-placeholder="placeholders.comment" />
+                  </div>
+                  <div class="col-12 d-flex gap-2 flex-wrap align-items-center">
+                    <button class="btn btn-primary fw-bold d-inline-flex align-items-center gap-2" type="submit" id="ratingSubmitBtn"><i class="bi bi-send"></i><span data-i18n="rating.submit">Send rating</span></button>
+                    <div class="text-muted small" id="ratingHelper" data-i18n="rating.helper">Your rating will be saved for this repair record.</div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-section pb-5">
+    <div class="container">
+      <div class="footer-card p-4 p-lg-5">
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-5">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="brand-box"><i class="bi bi-shop"></i></span>
+              <div>
+                <div class="fw-bold fs-5">Waasuge Electronics & Mobile Repairing</div>
+                <div class="text-muted small">Professional service for customers.</div>
+              </div>
+            </div>
+            <p class="text-muted mb-3" data-i18n="footer.text">Contact us for repairs, device tracking, accessories, and fast support.</p>
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-outline-primary rounded-pill" href="tel:0617125558"><i class="bi bi-telephone me-2"></i><span id="footerCallText">0617125558</span></a>
+              <a class="btn btn-outline-success rounded-pill" id="footerWhatsAppBtn" href="https://wa.me/252617125558?text=Asc%20fadlan%20iga%20caawi%20sida%20aan%20repair%20ID%20ugu%20raadini%20lahaay%20halkaan." target="_blank" rel="noopener"><i class="bi bi-whatsapp me-2"></i><span id="footerWhatsAppText">WhatsApp</span></a>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <h3 class="h6 fw-bold text-uppercase text-muted mb-3" data-i18n="footer.linksTitle">Quick Links</h3>
+            <div class="d-grid gap-2">
+              <a class="footer-link" href="#home" data-i18n="nav.home">Home</a>
+              <a class="footer-link" href="#about" data-i18n="nav.about">About Us</a>
+              <a class="footer-link" href="#services" data-i18n="nav.services">Services</a>
+              <a class="footer-link" href="#tracking" data-i18n="nav.tracking">Tracking</a>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <h3 class="h6 fw-bold text-uppercase text-muted mb-3" data-i18n="footer.supportTitle">Support</h3>
+            <div class="text-muted" data-i18n="footer.supportText">Visit our shop, call us, or send a WhatsApp message for quick help.</div>
+            <div class="mt-3 small text-muted">© <span id="yearNow"></span> <span data-i18n="brand.main">Waasuge Electronics</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <a class="floating-call pulse-soft" id="floatingCallBtn" href="tel:0617125558" aria-label="Call 0617125558"><i class="bi bi-telephone-fill fs-4"></i></a>
+  <a class="floating-whatsapp pulse-soft" id="floatingWhatsAppBtn" href="https://wa.me/252617125558?text=Asc%20fadlan%20iga%20caawi%20sida%20aan%20repair%20ID%20ugu%20raadini%20lahaay%20halkaan." target="_blank" rel="noopener" aria-label="WhatsApp"><i class="bi bi-whatsapp fs-3"></i></a>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="./js/script.js"></script>
+<script type="module" src="./js/settings-config.js"></script>
+<script type="module">
+  import { getGeneralSettings } from "./js/settings-config.js";
+  function syncLandingContacts() {
+    const general = getGeneralSettings();
+    const phone = String(general.phone || "").trim();
+    const whatsapp = String(general.whatsapp || "").trim();
+    const shopName = String(general.shopName || "").trim();
+    const phoneDigits = phone.replace(/\D/g, "");
+    const whatsappDigits = whatsapp.replace(/\D/g, "");
+    const phoneHref = phoneDigits ? `tel:${phoneDigits}` : `tel:${phone.replace(/\s+/g, "")}`;
+    const waHref = `https://wa.me/${whatsappDigits || phoneDigits}?text=${encodeURIComponent("Asc fadlan iga caawi sida aan repair ID ugu raadini lahaa halkaan.")}`;
+    const set = (selector, value, attr = "textContent") => {
+      const el = document.querySelector(selector);
+      if (!el) return;
+      if (attr === "textContent") el.textContent = value;
+      else el.setAttribute(attr, value);
+    };
+    document.querySelectorAll('a[href^="tel:"]').forEach((a) => a.setAttribute("href", phoneHref));
+    document.querySelectorAll('a[href*="wa.me/"]').forEach((a) => a.setAttribute("href", waHref));
+    set("#contactPhoneText", phone || " ");
+    set("#contactCallText", phone || " ");
+    set("#footerCallText", phone || " ");
+    set("#contactWhatsAppText", whatsapp ? "WhatsApp" : "WhatsApp");
+    set("#footerWhatsAppText", whatsapp ? "WhatsApp" : "WhatsApp");
+    const title = document.querySelector('footer .fw-bold.fs-5[data-i18n="contact.title"]');
+    if (title && shopName) title.textContent = shopName;
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", syncLandingContacts, { once: true });
+  } else {
+    syncLandingContacts();
+  }
+  window.addEventListener("waasuge:branding-updated", syncLandingContacts);
+</script>
+</body>
+</html>

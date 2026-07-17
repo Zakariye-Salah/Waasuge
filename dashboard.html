@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>🏪 Dashboard | Electronic Shop</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Cdefs%3E%3ClinearGradient id=%22g%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%25%22 stop-color=%22%232563eb%22/%3E%3Cstop offset=%22100%25%22 stop-color=%22%237c3aed%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%2264%22 height=%2264%22 rx=%2216%22 fill=%22url(%23g)%22/%3E%3Cpath d=%22M14 26h36v24H14z%22 fill=%22%23fff%22 opacity=%22.96%22/%3E%3Cpath d=%22M18 22h28l4 4H14z%22 fill=%22%23fff%22 opacity=%22.92%22/%3E%3Cpath d=%22M22 31h8v10h-8zm12 0h10v10H34z%22 fill=%22%232563eb%22/%3E%3Cpath d=%22M27 13h10v11H27z%22 fill=%22%23fff%22 opacity=%22.95%22/%3E%3C/svg%3E"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+<style>
+    :root{
+      --bg: #f5f7fb;
+      
+      --card: rgba(255,255,255,0.985);
+      --text: #111827;
+      --muted: #6b7280;
+      --border: rgba(15, 23, 42, 0.08);
+      --shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+      --primary: #2563eb;
+      --success: #16a34a;
+      --warning: #f59e0b;
+      --danger: #dc2626;
+      --info: #0891b2;
+      --purple: #7c3aed;
+      --dark-bg: #0b1220;
+      --dark-card: rgba(17,24,39,0.98);
+      --dark-text: #e5e7eb;
+      --dark-muted: #94a3b8;
+      --dark-border: rgba(148, 163, 184, 0.16);
+    }
+
+    html, body {
+      min-height: 100%;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.10), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.08), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    body.dark-mode {
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--dark-bg);
+      color: var(--dark-text);
+    }
+
+    .app-header {
+      backdrop-filter: blur(14px);
+    }
+
+    .sidebar {
+      width: 260px;
+      z-index: 1020;
+    }
+
+    .sidebar .nav-link,
+    .mobile-nav .nav-link {
+      color: inherit;
+      border-radius: 14px;
+      padding: 0.9rem 1rem;
+      font-weight: 600;
+    }
+
+    .sidebar .nav-link.active,
+    .mobile-nav .nav-link.active {
+      background: linear-gradient(135deg, var(--primary), #1d4ed8);
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.18);
+    }
+
+    .page-wrap {
+      padding-top: 18px;
+      padding-bottom: 80px;
+    }
+
+    @media (min-width: 992px) {
+      .page-wrap {
+        margin-left: 260px;
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+    }
+
+    .page-title {
+      font-size: clamp(1.45rem, 2.5vw, 2.1rem);
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+    }
+
+    .page-subtitle {
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+
+    .card-shell {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.25s ease, border-color 0.25s ease;
+    }
+
+    body.dark-mode .card-shell {
+      background: var(--dark-card);
+      border-color: var(--dark-border);
+      color: var(--dark-text);
+    }
+
+    .card-shell:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 46px rgba(15, 23, 42, 0.12);
+    }
+
+    .summary-card {
+      padding: 18px;
+      height: 100%;
+    }
+
+    .summary-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #fff;
+      flex: 0 0 auto;
+      background: linear-gradient(135deg, rgba(37,99,235,0.22), rgba(124,58,237,0.18));
+      border: 1px solid rgba(255,255,255,0.28);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.10), inset 0 1px 0 rgba(255,255,255,0.36);
+      backdrop-filter: blur(10px);
+    }
+
+    .summary-icon.bg-soft-primary { background: linear-gradient(135deg, rgba(37,99,235,0.28), rgba(37,99,235,0.18)) !important; color: #1d4ed8; }
+    .summary-icon.bg-soft-success { background: linear-gradient(135deg, rgba(22,163,74,0.28), rgba(22,163,74,0.18)) !important; color: #15803d; }
+    .summary-icon.bg-soft-warning { background: linear-gradient(135deg, rgba(245,158,11,0.28), rgba(245,158,11,0.18)) !important; color: #b45309; }
+    .summary-icon.bg-soft-danger { background: linear-gradient(135deg, rgba(220,38,38,0.28), rgba(220,38,38,0.18)) !important; color: #b91c1c; }
+    .summary-icon.bg-soft-info { background: linear-gradient(135deg, rgba(8,145,178,0.28), rgba(8,145,178,0.18)) !important; color: #0e7490; }
+    .summary-icon.bg-soft-purple { background: linear-gradient(135deg, rgba(124,58,237,0.28), rgba(124,58,237,0.18)) !important; color: #6d28d9; }
+    body.dark-mode .summary-icon.bg-soft-primary { background: linear-gradient(135deg, rgba(96,165,250,0.26), rgba(37,99,235,0.18)) !important; color: #bfdbfe; }
+    body.dark-mode .summary-icon.bg-soft-success { background: linear-gradient(135deg, rgba(74,222,128,0.24), rgba(22,163,74,0.16)) !important; color: #bbf7d0; }
+    body.dark-mode .summary-icon.bg-soft-warning { background: linear-gradient(135deg, rgba(251,191,36,0.24), rgba(245,158,11,0.16)) !important; color: #fde68a; }
+    body.dark-mode .summary-icon.bg-soft-danger { background: linear-gradient(135deg, rgba(248,113,113,0.22), rgba(220,38,38,0.16)) !important; color: #fecaca; }
+    body.dark-mode .summary-icon.bg-soft-info { background: linear-gradient(135deg, rgba(34,211,238,0.22), rgba(8,145,178,0.16)) !important; color: #a5f3fc; }
+    body.dark-mode .summary-icon.bg-soft-purple { background: linear-gradient(135deg, rgba(167,139,250,0.24), rgba(124,58,237,0.16)) !important; color: #ddd6fe; }
+
+    .summary-label {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
+
+    body.dark-mode .summary-label,
+    body.dark-mode .text-muted,
+    body.dark-mode .page-subtitle {
+      color: var(--dark-muted) !important;
+    }
+
+    .summary-value {
+      font-size: 1.55rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 0.15rem;
+    }
+
+    .summary-trend {
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .section-header {
+      padding: 18px 18px 0 18px;
+    }
+
+    .section-body {
+      padding: 18px;
+    }
+
+    .mini-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bg-soft-primary { background: rgba(37, 99, 235, 0.18) !important; }
+    .bg-soft-success { background: rgba(22, 163, 74, 0.18) !important; }
+    .bg-soft-warning { background: rgba(245, 158, 11, 0.18) !important; }
+    .bg-soft-danger { background: rgba(220, 38, 38, 0.18) !important; }
+    .bg-soft-info { background: rgba(8, 145, 178, 0.18) !important; }
+    .bg-soft-purple { background: rgba(124, 58, 237, 0.18) !important; }
+body.dark-mode .bg-soft-primary { background: rgba(96,165,250,0.20) !important; }
+    body.dark-mode .bg-soft-success { background: rgba(74,222,128,0.18) !important; }
+    body.dark-mode .bg-soft-warning { background: rgba(251,191,36,0.20) !important; }
+    body.dark-mode .bg-soft-danger { background: rgba(248,113,113,0.18) !important; }
+    body.dark-mode .bg-soft-info { background: rgba(34,211,238,0.18) !important; }
+    body.dark-mode .bg-soft-purple { background: rgba(167,139,250,0.18) !important; }
+
+    .text-primary-soft { color: #2563eb; }
+    .text-success-soft { color: #16a34a; }
+    .text-warning-soft { color: #d97706; }
+    .text-danger-soft { color: #dc2626; }
+    .text-info-soft { color: #0891b2; }
+    .text-purple-soft { color: #7c3aed; }
+
+    .badge-pill {
+      border-radius: 999px;
+      padding: 0.48rem 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .table thead th {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .table td {
+      vertical-align: middle;
+    }
+
+    body.dark-mode .table {
+      color: var(--dark-text);
+    }
+
+    body.dark-mode .table > :not(caption) > * > * {
+      background-color: transparent;
+      border-color: var(--dark-border);
+    }
+
+    body.dark-mode .table thead th {
+      color: var(--dark-muted);
+    }
+
+    .chart-placeholder {
+      min-height: 320px;
+      border-radius: 18px;
+      border: 1px dashed rgba(148, 163, 184, 0.45);
+      background: linear-gradient(180deg, rgba(248,250,252,0.95), rgba(241,245,249,0.95));
+    }
+
+    body.dark-mode .chart-placeholder {
+      background: linear-gradient(180deg, rgba(17,24,39,0.95), rgba(15,23,42,0.95));
+      border-color: rgba(148, 163, 184, 0.24);
+    }
+
+    .quick-action {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0.9rem 1rem;
+      border-radius: 16px;
+      text-decoration: none;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: inherit;
+      box-shadow: var(--shadow);
+      transition: transform 0.18s ease, border-color 0.18s ease;
+    }
+
+    body.dark-mode .quick-action {
+      background: var(--dark-card);
+      border-color: var(--dark-border);
+    }
+
+    .quick-action:hover {
+      transform: translateY(-1px);
+      color: inherit;
+      border-color: rgba(37, 99, 235, 0.28);
+    }
+
+    .quick-action i {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(37, 99, 235, 0.12);
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .muted-box {
+      border: 1px dashed var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(255,255,255,0.35);
+    }
+
+    body.dark-mode .muted-box {
+      background: rgba(17, 24, 39, 0.4);
+      border-color: var(--dark-border);
+    }
+
+    .mobile-bottom-nav {
+      z-index: 1030;
+    }
+
+    .mobile-bottom-nav a {
+      color: inherit;
+      text-decoration: none;
+      font-size: 0.76rem;
+      font-weight: 700;
+      opacity: 0.82;
+    }
+
+    .mobile-bottom-nav a.active {
+      color: var(--primary);
+      opacity: 1;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 7px;
+    }
+
+    .top-search {
+      max-width: 380px;
+      width: 100%;
+    }
+
+    .top-search .form-control {
+      border-radius: 14px;
+      padding-left: 42px;
+      height: 46px;
+      border: 1px solid var(--border);
+      box-shadow: none !important;
+    }
+
+    body.dark-mode .top-search .form-control {
+      background: #0f172a;
+      color: var(--dark-text);
+      border-color: var(--dark-border);
+    }
+
+    .top-search .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 14px;
+      transform: translateY(-50%);
+      color: var(--muted);
+    }
+
+    .pill-stat {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.45);
+    }
+
+    body.dark-mode .pill-stat {
+      border-color: var(--dark-border);
+      background: rgba(17, 24, 39, 0.5);
+    }
+  
+
+    :root {
+      --sidebar-collapsed-width: 84px;
+    }
+
+    .sidebar {
+      width: 260px;
+      overflow: hidden;
+      transition: width 0.28s ease, padding 0.28s ease, background-color 0.28s ease, border-color 0.28s ease;
+    }
+
+    .sidebar .nav-link {
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .sidebar .nav-link i {
+      flex-shrink: 0;
+    }
+
+    .sidebar .nav-link .nav-label,
+    .sidebar .sidebar-brand-text,
+    .sidebar .sidebar-footer-text {
+      transition: opacity 0.2s ease, transform 0.2s ease, max-width 0.28s ease;
+    }
+
+    .sidebar .sidebar-toggle {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+    }
+
+    .sidebar .sidebar-logo {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+    }
+
+    body.sidebar-collapsed .sidebar {
+      width: var(--sidebar-collapsed-width) !important;
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+    }
+
+    body.sidebar-collapsed .sidebar .sidebar-brand-text,
+    body.sidebar-collapsed .sidebar .sidebar-footer-box,
+    body.sidebar-collapsed .sidebar .nav-label {
+      display: none !important;
+    }
+
+    body.sidebar-collapsed .sidebar .nav-link {
+      justify-content: center !important;
+      gap: 0 !important;
+      padding-left: 0.6rem !important;
+      padding-right: 0.6rem !important;
+    }
+
+    body.sidebar-collapsed .sidebar .nav-link i {
+      margin-right: 0 !important;
+    }
+
+    body.sidebar-collapsed .page-wrap {
+      margin-left: var(--sidebar-collapsed-width) !important;
+    }
+
+    body.sidebar-collapsed .sidebar .sidebar-toggle i {
+      transform: rotate(180deg);
+    }
+
+    @media (max-width: 991.98px) {
+      body.sidebar-collapsed .page-wrap {
+        margin-left: 0 !important;
+      }
+    }
+
+
+    .app-header {
+      transition: margin-left 0.28s ease, width 0.28s ease, left 0.28s ease, right 0.28s ease;
+      will-change: margin-left, width;
+    }
+
+    @media (min-width: 992px) {
+      .app-header {
+        margin-left: 260px;
+        width: calc(100% - 260px);
+      }
+      body.sidebar-collapsed .app-header {
+        margin-left: var(--sidebar-collapsed-width);
+        width: calc(100% - var(--sidebar-collapsed-width));
+      }
+    }
+
+    @media (max-width: 991.98px) {
+      .app-header {
+        margin-left: 0 !important;
+        width: 100% !important;
+      }
+      .header-sidebar-toggle {
+        display: inline-flex !important;
+      }
+    }
+
+    .header-sidebar-toggle {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-sidebar-toggle i {
+      font-size: 1.05rem;
+    }
+
+  </style>
+<link href="./css/style.css" rel="stylesheet"/>
+<link href="./css/dashboard.css" rel="stylesheet"/>
+</head>
+<body class="dark-mode" data-bs-theme="dark">
+<!-- Header -->
+<header class="app-header sticky-top bg-white border-bottom shadow-sm">
+<div class="container-fluid py-2 px-3 px-lg-4">
+<div class="d-flex align-items-center justify-content-between gap-3">
+
+<div class="d-flex align-items-center gap-2 d-lg-none"><div class="rounded-3 d-flex align-items-center justify-content-center bg-primary text-white flex-shrink-0" style="width:42px;height:42px;"><i class="bi bi-shop"></i></div><div class="lh-sm"><div class="fw-bold">Waasuge Electronics</div><small class="text-muted">Dashboard</small></div></div>
+<div class="d-none d-md-block top-search position-relative">
+<i class="bi bi-search search-icon"></i>
+<input aria-label="Search" class="form-control" placeholder="Search products, invoices, repairs..." type="search"/>
+</div>
+<div class="d-flex align-items-center gap-2 gap-md-3">
+<button aria-label="Toggle theme" class="btn btn-light border rounded-circle position-relative" id="themeToggle" type="button">
+<i class="bi bi-moon-stars" id="themeIcon"></i>
+</button>
+<div class="dropdown header-more-dropdown">
+<button class="btn btn-light border rounded-circle position-relative header-more-btn" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="More options" data-header-more-toggle="">
+<i class="bi bi-three-dots-vertical"></i>
+</button>
+<ul class="dropdown-menu dropdown-menu-end shadow border-0 header-more-menu">
+<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#headerProfileModal"><i class="bi bi-person-gear text-primary"></i><span>Edit Profile</span></button></li>
+<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#headerAboutModal"><i class="bi bi-info-circle text-info"></i><span>About Us</span></button></li>
+<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#headerDeveloperModal"><i class="bi bi-code-slash text-success"></i><span>Developer</span></button></li>
+
+<li>
+  <a href="settings.html" style="text-decoration: none;"><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#">
+    <i  class="bi bi-gear-fill text-primary"></i> <span>Settings</span></button></a>
+</li>
+<li><hr class="dropdown-divider"></li>
+<li><button class="dropdown-item text-danger" type="button" data-bs-toggle="modal" data-bs-target="#headerLogoutModal"><i class="bi bi-box-arrow-right"></i><span>Logout</span></button></li>
+</ul>
+</div>
+<div class="dropdown">
+<button aria-expanded="false" aria-label="Notifications" class="btn btn-light border rounded-circle position-relative" data-bs-toggle="dropdown" type="button">
+<i class="bi bi-bell"></i>
+<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+</button>
+<ul class="dropdown-menu dropdown-menu-end shadow border-0 p-2" style="min-width: 340px;">
+<li class="px-2 py-1 fw-bold">Notifications</li>
+<li><hr class="dropdown-divider"/></li>
+<li>
+<a class="dropdown-item rounded-3 py-2" href="#">
+<div class="d-flex gap-2">
+<i class="bi bi-exclamation-triangle-fill text-warning"></i>
+<div>
+<div class="fw-semibold">Low stock alert</div>
+<small class="text-muted">3 items need restocking.</small>
+</div>
+</div>
+</a>
+</li>
+<li>
+<a class="dropdown-item rounded-3 py-2" href="#">
+<div class="d-flex gap-2">
+<i class="bi bi-tools text-primary"></i>
+<div>
+<div class="fw-semibold">Repair update</div>
+<small class="text-muted">1 repair moved to processing.</small>
+</div>
+</div>
+</a>
+</li>
+<li>
+<a class="dropdown-item rounded-3 py-2" href="#">
+<div class="d-flex gap-2">
+<i class="bi bi-bag-check-fill text-success"></i>
+<div>
+<div class="fw-semibold">Invoice completed</div>
+<small class="text-muted">A sale was marked as paid.</small>
+</div>
+</div>
+</a>
+</li>
+</ul>
+</div>
+<button aria-label="Cart" class="btn btn-light border rounded-circle position-relative" type="button">
+<i class="bi bi-cart3"></i>
+<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">0</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Desktop Sidebar -->
+<aside class="sidebar d-none d-lg-flex flex-column bg-white border-end position-fixed top-0 start-0 vh-100 p-3">
+<div class="d-flex align-items-center justify-content-between gap-2 mb-4 mt-2 sidebar-brand-row"><div class="d-flex align-items-center gap-2 min-w-0 flex-grow-1"><div class="rounded-3 d-flex align-items-center justify-content-center bg-primary text-white sidebar-logo"><i class="bi bi-shop"></i></div><div class="sidebar-brand-text lh-sm min-w-0"><div class="fw-bold text-truncate">Waasuge Electronics</div><small class="text-muted text-truncate d-block">Shop management tools</small></div></div><button aria-label="Collapse sidebar" class="btn btn-light border rounded-circle sidebar-toggle" data-sidebar-toggle="" title="Collapse sidebar" type="button"><i class="bi bi-list"></i></button></div>
+<ul class="nav nav-pills flex-column gap-2">
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2 active" href="dashboard.html"><i class="bi bi-grid-1x2-fill"></i> <span class="nav-label">Dashboard</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="invoice.html"><i class="bi bi-receipt-cutoff"></i> <span class="nav-label">Invoice</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="product.html"><i class="bi bi-box-seam"></i> <span class="nav-label">Products</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="repairing.html"><i class="bi bi-tools"></i> <span class="nav-label">Repairing</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="customers.html"><i class="bi bi-people-fill"></i> <span class="nav-label">Customers</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="report.html"><i class="bi bi-bar-chart-line"></i> <span class="nav-label">Reports</span></a>
+</li>
+</ul>
+<div class="mt-auto pt-4">
+<div class="muted-box sidebar-footer-box"><div class="sidebar-footer-kicker d-inline-flex align-items-center gap-2 px-2 py-1 rounded-pill mb-2" style="background: rgba(37,99,235,.10); color:#2563eb; font-size:.78rem; font-weight:700;"><i class="bi bi-stars"></i> System status</div>
+<div class="fw-bold mb-1">System status</div>
+<small class="text-muted d-block sidebar-footer-text">Firebase ready, notifications enabled, and quick actions available.</small>
+</div>
+</div>
+</aside>
+<!-- Mobile Offcanvas -->
+<div aria-labelledby="mobileNavLabel" class="offcanvas offcanvas-start d-lg-none mobile-nav" id="mobileNav" tabindex="-1">
+<div class="offcanvas-header border-bottom">
+<h5 class="offcanvas-title fw-bold" id="mobileNavLabel">Menu</h5>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
+</div>
+<div class="offcanvas-body p-3">
+<ul class="nav nav-pills flex-column gap-2">
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2 active" href="dashboard.html">
+<i class="bi bi-grid-1x2-fill"></i> Dashboard
+          </a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="invoice.html">
+<i class="bi bi-receipt-cutoff"></i> Invoice
+          </a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="product.html">
+<i class="bi bi-box-seam"></i> Products
+          </a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="repairing.html">
+<i class="bi bi-tools"></i> Repairing
+          </a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="customers.html">
+<i class="bi bi-people-fill"></i> Customers
+          </a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="report.html">
+<i class="bi bi-bar-chart-line"></i> Reports
+          </a>
+</li>
+</ul>
+</div>
+</div>
+<!-- Main -->
+<main class="page-wrap">
+<div class="container-fluid px-3 px-lg-4">
+<!-- Title + quick actions -->
+<div class="row align-items-end g-3 mb-4">
+<div class="col-12 col-xl-7">
+<h1 class="page-title">Dashboard</h1>
+<p class="page-subtitle">Overview of products, invoices, repairs, reports, alerts, and performance.</p>
+</div>
+<div class="col-12 col-xl-5">
+<div class="d-flex flex-wrap justify-content-xl-end gap-2">
+<a class="btn btn-primary rounded-4 px-3" href="product.html">
+<i class="bi bi-plus-lg me-1"></i> Add Product
+        </a>
+<a class="btn btn-outline-primary rounded-4 px-3" href="invoice.html">
+<i class="bi bi-receipt me-1"></i> New Invoice
+        </a>
+<a class="btn btn-outline-success rounded-4 px-3" href="repairing.html">
+<i class="bi bi-tools me-1"></i> New Repair
+        </a>
+</div>
+</div>
+</div>
+<!-- Small status row -->
+<div class="row g-3 mb-4">
+<div class="col-12 col-md-4">
+<div class="card-shell p-3 d-flex align-items-center justify-content-between">
+<div>
+<div class="summary-label">Today</div>
+<div class="fw-bold fs-5" id="dashboardTodayLabel">Loading..</div>
+</div>
+<div class="pill-stat" id="dashboardOnlineBadge">
+<span class="status-dot bg-success" id="dashboardOnlineDot"></span> <span id="dashboardOnlineText">Online</span>
+</div>
+</div>
+</div>
+<div class="col-12 col-md-4">
+<div class="card-shell p-3 d-flex align-items-center justify-content-between">
+<div>
+<div class="summary-label">Firebase user</div>
+<div class="fw-bold text-truncate" id="dashboardFirebaseUser" style="max-width: 190px;">rnsXGCm2Sgg2INrWOINBtDpzqWe2</div>
+</div>
+<div class="pill-stat">
+<i class="bi bi-shield-lock"></i> Auth
+        </div>
+</div>
+</div>
+<div class="col-12 col-md-4">
+<div class="card-shell p-3 d-flex align-items-center justify-content-between">
+<div>
+<div class="summary-label">Mode</div>
+<div class="fw-bold fs-5">Premium Admin Panel</div>
+</div>
+<div class="pill-stat">
+<i class="bi bi-stars"></i> Ready
+        </div>
+</div>
+</div>
+</div>
+<!-- Summary cards -->
+<div class="row g-3 g-xl-4 mb-4">
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Total Products</p>
+<div class="summary-value" id="totalProducts">0</div>
+<div class="summary-trend text-primary-soft"><i class="bi bi-box-seam me-1"></i> Inventory items</div>
+</div>
+<div class="summary-icon bg-soft-primary"><i class="bi bi-box-seam"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Total Customers</p>
+<div class="summary-value" id="totalCustomers">0</div>
+<div class="summary-trend text-info-soft"><i class="bi bi-people-fill me-1"></i> Active customers</div>
+</div>
+<div class="summary-icon bg-soft-info"><i class="bi bi-people-fill"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Total Revenue</p>
+<div class="summary-value" id="totalRevenue">0</div>
+<div class="summary-trend text-success-soft"><i class="bi bi-cash-coin me-1"></i> Sales income</div>
+</div>
+<div class="summary-icon bg-soft-success"><i class="bi bi-cash-coin"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Total Profit</p>
+<div class="summary-value" id="totalProfit">0</div>
+<div class="summary-trend text-purple-soft"><i class="bi bi-graph-up-arrow me-1"></i> Net earning</div>
+</div>
+<div class="summary-icon bg-soft-purple"><i class="bi bi-graph-up-arrow"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Total Quantity</p>
+<div class="summary-value" id="totalQuantity">0</div>
+<div class="summary-trend text-info-soft"><i class="bi bi-stack me-1"></i> Units in stock</div>
+</div>
+<div class="summary-icon bg-soft-info"><i class="bi bi-stack"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Important Products</p>
+<div class="summary-value" id="importantProducts">0</div>
+<div class="summary-trend text-warning-soft"><i class="bi bi-star-fill me-1"></i> Priority items</div>
+</div>
+<div class="summary-icon bg-soft-warning"><i class="bi bi-star-fill"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Low Stock Products</p>
+<div class="summary-value" id="lowStockProducts">0</div>
+<div class="summary-trend text-danger-soft"><i class="bi bi-exclamation-triangle-fill me-1"></i> Needs restock</div>
+</div>
+<div class="summary-icon bg-soft-danger"><i class="bi bi-exclamation-triangle-fill"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Total Invoices</p>
+<div class="summary-value" id="totalInvoices">0</div>
+<div class="summary-trend text-primary-soft"><i class="bi bi-receipt me-1"></i> Billing records</div>
+</div>
+<div class="summary-icon bg-soft-primary"><i class="bi bi-receipt"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Total Repairs</p>
+<div class="summary-value" id="totalRepairs">0</div>
+<div class="summary-trend text-success-soft"><i class="bi bi-tools me-1"></i> Repair jobs</div>
+</div>
+<div class="summary-icon bg-soft-success"><i class="bi bi-tools"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Device Received Repairs</p>
+<div class="summary-value" id="pendingRepairs">0</div>
+<div class="summary-trend text-warning-soft"><i class="bi bi-hourglass-split me-1"></i> Waiting to start</div>
+</div>
+<div class="summary-icon bg-soft-warning"><i class="bi bi-hourglass-split"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Processing Repairs</p>
+<div class="summary-value" id="processingRepairs">0</div>
+<div class="summary-trend text-info-soft"><i class="bi bi-arrow-repeat me-1"></i> In progress</div>
+</div>
+<div class="summary-icon bg-soft-info"><i class="bi bi-arrow-repeat"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Completed Repairs</p>
+<div class="summary-value" id="completedRepairs">0</div>
+<div class="summary-trend text-success-soft"><i class="bi bi-check-circle-fill me-1"></i> Ready to deliver</div>
+</div>
+<div class="summary-icon bg-soft-success"><i class="bi bi-check-circle-fill"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Delivered Repairs</p>
+<div class="summary-value" id="deliveredRepairs">0</div>
+<div class="summary-trend text-primary-soft"><i class="bi bi-truck me-1"></i> Handed to customer</div>
+</div>
+<div class="summary-icon bg-soft-primary"><i class="bi bi-truck"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Total Remaining</p>
+<div class="summary-value" id="totalRemainingMoney">0</div>
+<div class="summary-trend text-warning-soft"><i class="bi bi-wallet2 me-1"></i> Unpaid balance</div>
+</div>
+<div class="summary-icon bg-soft-warning"><i class="bi bi-wallet2"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Total Paid Repairing</p>
+<div class="summary-value" id="repairPaidTotal">0</div>
+<div class="summary-trend text-success-soft"><i class="bi bi-cash-coin me-1"></i> Money received</div>
+</div>
+<div class="summary-icon bg-soft-success"><i class="bi bi-cash-coin"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Total Unpaid Repairing</p>
+<div class="summary-value" id="repairUnpaidTotal">0</div>
+<div class="summary-trend text-danger-soft"><i class="bi bi-exclamation-circle me-1"></i> Device Received balance</div>
+</div>
+<div class="summary-icon bg-soft-danger"><i class="bi bi-exclamation-circle"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Total Expenses</p>
+<div class="summary-value" id="totalExpense">0</div>
+<div class="summary-trend text-danger-soft"><i class="bi bi-receipt me-1"></i> Business expense</div>
+</div>
+<div class="summary-icon bg-soft-danger"><i class="bi bi-receipt"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Net Profit</p>
+<div class="summary-value" id="netProfit">0</div>
+<div class="summary-trend text-purple-soft"><i class="bi bi-graph-up-arrow me-1"></i> Revenue - expense</div>
+</div>
+<div class="summary-icon bg-soft-purple"><i class="bi bi-graph-up-arrow"></i></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Charts + statistics -->
+<div class="row g-4 mb-4">
+<div class="col-12 col-xl-8">
+<div class="card-shell h-100">
+<div class="section-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+<div>
+<h5 class="fw-bold mb-1">Revenue &amp; Profit</h5>
+<p class="text-muted mb-0">Performance trend for the shop.</p>
+</div>
+<div class="d-flex flex-wrap gap-2">
+<span class="mini-pill bg-soft-primary text-primary-soft"><i class="bi bi-calendar-week"></i> Weekly</span>
+<span class="mini-pill bg-soft-success text-success-soft"><i class="bi bi-calendar3"></i> Monthly</span>
+</div>
+</div>
+<div class="section-body">
+<div style="min-height: 320px;">
+<canvas height="320" id="revenueProfitChart"></canvas>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12 col-xl-4">
+<div class="card-shell h-100">
+<div class="section-header">
+<h5 class="fw-bold mb-1">Repair Status</h5>
+<p class="text-muted mb-0">Live work progress summary.</p>
+</div>
+<div class="section-body">
+<div style="min-height: 320px;">
+<canvas height="320" id="repairStatusChart"></canvas>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12 col-lg-6">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center">
+<div>
+<h5 class="fw-bold mb-1">Stock Movement</h5>
+<p class="text-muted mb-0">Incoming and outgoing inventory.</p>
+</div>
+<span class="mini-pill bg-soft-warning text-warning-soft">All time</span>
+</div>
+<div class="section-body">
+<div style="min-height: 280px;">
+<canvas height="280" id="stockHealthChart"></canvas>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12 col-lg-6">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center">
+<div>
+<h5 class="fw-bold mb-1">Top Product Performance</h5>
+<p class="text-muted mb-0">Best selling and most useful items.</p>
+</div>
+<span class="mini-pill bg-soft-info text-info-soft">Products</span>
+</div>
+<div class="section-body">
+<div style="min-height: 280px;">
+<canvas height="280" id="topProductsChart"></canvas>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Tables -->
+<div class="row g-4 mb-4">
+<div class="col-12 col-xl-6">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center">
+<div>
+<h5 class="fw-bold mb-1">Recent Invoices</h5>
+<p class="text-muted mb-0">Latest billing activity.</p>
+</div>
+<a class="btn btn-sm btn-outline-primary rounded-3" href="invoice.html">View All</a>
+</div>
+<div class="section-body">
+<div class="table-responsive">
+<table class="table align-middle mb-0">
+<thead>
+<tr>
+<th>Customer</th>
+<th>Amount</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody id="recentInvoicesTbody">
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12 col-xl-6">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center">
+<div>
+<h5 class="fw-bold mb-1">Recent Repairs</h5>
+<p class="text-muted mb-0">Latest repair orders.</p>
+</div>
+<a class="btn btn-sm btn-outline-success rounded-3" href="repairing.html">View All</a>
+</div>
+<div class="section-body">
+<div class="table-responsive">
+<table class="table align-middle mb-0">
+<thead>
+<tr>
+<th>Customer</th>
+<th>Device</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody id="recentRepairsTbody">
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12">
+<div class="card-shell">
+<div class="section-header d-flex justify-content-between align-items-center">
+<div>
+<h5 class="fw-bold mb-1">Low Stock Alerts</h5>
+<p class="text-muted mb-0">Products that need restocking soon.</p>
+</div>
+<a class="btn btn-sm btn-outline-danger rounded-3" href="product.html">Go to Products</a>
+</div>
+<div class="section-body">
+<div class="table-responsive">
+<table class="table align-middle mb-0">
+<thead>
+<tr>
+<th>Product</th>
+<th>Category</th>
+<th>Stock</th>
+<th>Alert</th>
+</tr>
+</thead>
+<tbody id="lowStockTbody">
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick actions + notifications -->
+<div class="row g-4 mb-4">
+<div class="col-12 col-lg-8">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center">
+<div>
+<h5 class="fw-bold mb-1">Quick Actions</h5>
+<p class="text-muted mb-0">Fast links for common tasks.</p>
+</div>
+</div>
+<div class="section-body">
+<div class="row g-3">
+<div class="col-12 col-md-6 col-xl-4">
+<a class="quick-action" href="product.html">
+<i class="bi bi-plus-circle"></i>
+<div>
+<div>Add Product</div>
+<small class="text-muted fw-semibold">Create new stock item</small>
+</div>
+</a>
+</div>
+<div class="col-12 col-md-6 col-xl-4">
+<a class="quick-action" href="invoice.html">
+<i class="bi bi-receipt-cutoff"></i>
+<div>
+<div>Create Invoice</div>
+<small class="text-muted fw-semibold">Sell products fast</small>
+</div>
+</a>
+</div>
+<div class="col-12 col-md-6 col-xl-4">
+<a class="quick-action" href="repairing.html">
+<i class="bi bi-tools"></i>
+<div>
+<div>New Repair</div>
+<small class="text-muted fw-semibold">Register device repair</small>
+</div>
+</a>
+</div>
+<div class="col-12 col-md-6 col-xl-4">
+<a class="quick-action" href="report.html">
+<i class="bi bi-bar-chart-line"></i>
+<div>
+<div>Open Reports</div>
+<small class="text-muted fw-semibold">View profit and loss</small>
+</div>
+</a>
+</div>
+<div class="col-12 col-md-6 col-xl-4">
+<a class="quick-action" href="#">
+<i class="bi bi-bell"></i>
+<div>
+<div>View Alerts</div>
+<small class="text-muted fw-semibold">Low stock and updates</small>
+</div>
+</a>
+</div>
+<div class="col-12 col-md-6 col-xl-4">
+<a class="quick-action" href="#">
+<i class="bi bi-trash3"></i>
+<div>
+<div>Recycle Bin</div>
+<small class="text-muted fw-semibold">Restore deleted items</small>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12 col-lg-4">
+<div class="card-shell h-100">
+<div class="section-header">
+<h5 class="fw-bold mb-1">Notification Center</h5>
+<p class="text-muted mb-0">Important system updates.</p>
+</div>
+<div class="section-body">
+<div class="d-grid gap-3">
+<div class="p-3 rounded-4 border">
+<div class="d-flex gap-2">
+<i class="bi bi-exclamation-triangle-fill text-warning fs-5"></i>
+<div>
+<div class="fw-bold">Low stock alert</div>
+<small class="text-muted">Type-C Charger and USB Cable are low.</small>
+</div>
+</div>
+</div>
+<div class="p-3 rounded-4 border">
+<div class="d-flex gap-2">
+<i class="bi bi-tools text-info fs-5"></i>
+<div>
+<div class="fw-bold">Repair update</div>
+<small class="text-muted">One repair was moved to processing.</small>
+</div>
+</div>
+</div>
+<div class="p-3 rounded-4 border">
+<div class="d-flex gap-2">
+<i class="bi bi-bag-check-fill text-success fs-5"></i>
+<div>
+<div class="fw-bold">Invoice paid</div>
+<small class="text-muted">A customer invoice was marked as paid.</small>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Finishing layout -->
+<div class="row g-4">
+<div class="col-12">
+<div class="card-shell">
+<div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+<div>
+<h5 class="fw-bold mb-1">Finishing Area</h5>
+<p class="text-muted mb-0">This dashboard now reads live Firebase totals, recent records, and chart summaries.</p>
+</div>
+<div class="d-flex flex-wrap gap-2">
+<span class="mini-pill bg-soft-primary text-primary-soft">Dashboard Ready</span>
+<span class="mini-pill bg-soft-success text-success-soft">Responsive</span>
+<span class="mini-pill bg-soft-warning text-warning-soft">Premium UI</span>
+</div>
+</div>
+<div class="section-body">
+<div class="alert alert-light border rounded-4 mb-0">
+            The dashboard now connects to live module data. Next phase can polish search, charts, and analytics details.
+          </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile bottom navigation -->
+<nav class="mobile-bottom-nav d-lg-none position-fixed bottom-0 start-0 w-100 bg-white border-top shadow-sm">
+<div class="d-flex justify-content-around py-2">
+<a class="text-center active" href="dashboard.html">
+<div><i class="bi bi-grid-1x2-fill"></i></div>
+<small>Dashboard</small>
+</a>
+<a class="text-center" href="invoice.html">
+<div><i class="bi bi-receipt-cutoff"></i></div>
+<small>Invoice</small>
+</a>
+<a class="text-center" href="product.html">
+<div><i class="bi bi-box-seam"></i></div>
+<small>Products</small>
+</a>
+<a class="text-center" href="repairing.html">
+<div><i class="bi bi-tools"></i></div>
+<small>Repairing</small>
+</a>
+<a class="text-center" href="customers.html">
+<div><i class="bi bi-people-fill"></i></div>
+<small>Customers</small>
+</a>
+<a class="text-center" href="report.html">
+<div><i class="bi bi-bar-chart-line"></i></div>
+<small>Reports</small>
+</a>
+</div>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="./js/dashboard.js" type="module"></script>
+<script>
+    const THEME_KEY = 'electronicShopTheme';
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function applyTheme(theme) {
+      const nextTheme = theme === 'light' ? 'light' : 'dark';
+      const isDark = nextTheme === 'dark';
+      document.body.classList.toggle('dark-mode', isDark);
+      document.body.dataset.theme = nextTheme;
+      document.body.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
+      document.documentElement.dataset.theme = nextTheme;
+      document.documentElement.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
+      if (themeIcon) themeIcon.className = isDark ? 'bi bi-sun' : 'bi bi-moon-stars';
+      localStorage.setItem(THEME_KEY, nextTheme);
+    }
+
+    applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+
+    themeToggle?.addEventListener('click', () => {
+      applyTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+    });
+  </script>
+<script type="module">
+  import { requireAuth } from "./js/auth.js";
+  requireAuth({ redirectUrl: "login.html" });
+</script>
+<script src="./js/navbar.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="./js/settings-config.js"></script>
+</body>
+</html>

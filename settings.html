@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>🏪 Settings | Electronic Shop</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Cdefs%3E%3ClinearGradient id=%22g%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%25%22 stop-color=%22%232563eb%22/%3E%3Cstop offset=%22100%25%22 stop-color=%22%237c3aed%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%2264%22 height=%2264%22 rx=%2216%22 fill=%22url(%23g)%22/%3E%3Cpath d=%22M14 26h36v24H14z%22 fill=%22%23fff%22 opacity=%22.96%22/%3E%3Cpath d=%22M18 22h28l4 4H14z%22 fill=%22%23fff%22 opacity=%22.92%22/%3E%3Cpath d=%22M22 31h8v10h-8zm12 0h10v10H34z%22 fill=%22%232563eb%22/%3E%3Cpath d=%22M27 13h10v11H27z%22 fill=%22%23fff%22 opacity=%22.95%22/%3E%3C/svg%3E"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+<style>
+    :root{
+      --bg: #f5f7fb;
+      --card: rgba(255,255,255,0.95);
+      --text: #111827;
+      --muted: #6b7280;
+      --border: rgba(15, 23, 42, 0.08);
+      --shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+      --primary: #2563eb;
+      --success: #16a34a;
+      --warning: #f59e0b;
+      --danger: #dc2626;
+      --info: #0891b2;
+      --purple: #7c3aed;
+      --dark-bg: #0b1220;
+      --dark-card: #111827;
+      --dark-text: #e5e7eb;
+      --dark-muted: #94a3b8;
+      --dark-border: rgba(148, 163, 184, 0.16);
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.10), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.08), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    body.dark-mode {
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--dark-bg);
+      color: var(--dark-text);
+    }
+
+    .app-header {
+      backdrop-filter: blur(14px);
+    }
+
+    .sidebar {
+      width: 260px;
+      z-index: 1020;
+    }
+
+    .sidebar .nav-link,
+    .mobile-nav .nav-link {
+      color: inherit;
+      border-radius: 14px;
+      padding: 0.9rem 1rem;
+      font-weight: 600;
+    }
+
+    .sidebar .nav-link.active,
+    .mobile-nav .nav-link.active {
+      background: linear-gradient(135deg, var(--primary), #1d4ed8);
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.18);
+    }
+
+    .page-wrap {
+      padding-top: 18px;
+      padding-bottom: 90px;
+    }
+
+    @media (min-width: 992px) {
+      .page-wrap {
+        margin-left: 260px;
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+    }
+
+    .page-title {
+      font-size: clamp(1.45rem, 2.5vw, 2.1rem);
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+    }
+
+    .page-subtitle {
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+
+    .card-shell {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.25s ease, border-color 0.25s ease;
+    }
+
+    body.dark-mode .card-shell {
+      background: var(--dark-card);
+      border-color: var(--dark-border);
+      color: var(--dark-text);
+    }
+
+    .card-shell:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 46px rgba(15, 23, 42, 0.12);
+    }
+
+    .section-header {
+      padding: 18px 18px 0 18px;
+    }
+
+    .section-body {
+      padding: 18px;
+    }
+
+    .mini-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bg-soft-primary { background: rgba(37, 99, 235, 0.12); }
+    .bg-soft-success { background: rgba(22, 163, 74, 0.12); }
+    .bg-soft-warning { background: rgba(245, 158, 11, 0.12); }
+    .bg-soft-danger { background: rgba(220, 38, 38, 0.12); }
+    .bg-soft-info { background: rgba(8, 145, 178, 0.12); }
+    .bg-soft-purple { background: rgba(124, 58, 237, 0.12); }
+
+    .text-primary-soft { color: #2563eb; }
+    .text-success-soft { color: #16a34a; }
+    .text-warning-soft { color: #d97706; }
+    .text-danger-soft { color: #dc2626; }
+    .text-info-soft { color: #0891b2; }
+    .text-purple-soft { color: #7c3aed; }
+
+    body.dark-mode .text-muted,
+    body.dark-mode .page-subtitle,
+    body.dark-mode .summary-label,
+    body.dark-mode .small-muted {
+      color: var(--dark-muted) !important;
+    }
+
+    .summary-card {
+      padding: 18px;
+      height: 100%;
+    }
+
+    .summary-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #fff;
+      flex: 0 0 auto;
+    }
+
+    .summary-label {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
+
+    .summary-value {
+      font-size: 1.45rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 0.15rem;
+    }
+
+    .summary-trend {
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .search-input {
+      border-radius: 14px;
+      height: 48px;
+      border: 1px solid var(--border);
+      box-shadow: none !important;
+      padding-left: 42px;
+    }
+
+    body.dark-mode .search-input,
+    body.dark-mode .form-control,
+    body.dark-mode .form-select,
+    body.dark-mode textarea.form-control {
+      background: #0f172a;
+      color: var(--dark-text);
+      border-color: var(--dark-border);
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-wrap .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 14px;
+      transform: translateY(-50%);
+      color: var(--muted);
+    }
+
+    .form-control,
+    .form-select {
+      border-radius: 14px;
+      height: 48px;
+      border: 1px solid var(--border);
+      box-shadow: none !important;
+    }
+
+    textarea.form-control {
+      height: auto;
+      min-height: 96px;
+    }
+
+    .filter-chip {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.58);
+      padding: 0.55rem 0.9rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    body.dark-mode .filter-chip {
+      background: rgba(17, 24, 39, 0.55);
+      border-color: var(--dark-border);
+      color: var(--dark-text);
+    }
+
+    .chart-placeholder {
+      min-height: 320px;
+      border-radius: 18px;
+      border: 1px dashed rgba(148, 163, 184, 0.45);
+      background: linear-gradient(180deg, rgba(248,250,252,0.95), rgba(241,245,249,0.95));
+    }
+
+    body.dark-mode .chart-placeholder {
+      background: linear-gradient(180deg, rgba(17,24,39,0.95), rgba(15,23,42,0.95));
+      border-color: rgba(148, 163, 184, 0.24);
+    }
+
+    .report-badge {
+      border-radius: 999px;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .table thead th {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .table td {
+      vertical-align: middle;
+    }
+
+    body.dark-mode .table {
+      color: var(--dark-text);
+    }
+
+    body.dark-mode .table > :not(caption) > * > * {
+      background-color: transparent;
+      border-color: var(--dark-border);
+    }
+
+    body.dark-mode .table thead th {
+      color: var(--dark-muted);
+    }
+
+    .mobile-bottom-nav {
+      z-index: 1030;
+    }
+
+    .mobile-bottom-nav a {
+      color: inherit;
+      text-decoration: none;
+      font-size: 0.76rem;
+      font-weight: 700;
+      opacity: 0.82;
+    }
+
+    .mobile-bottom-nav a.active {
+      color: var(--primary);
+      opacity: 1;
+    }
+
+    .quick-box {
+      border: 1px dashed var(--border);
+      background: rgba(255,255,255,0.5);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    body.dark-mode .quick-box {
+      background: rgba(17,24,39,0.42);
+      border-color: var(--dark-border);
+    }
+
+    .tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.55);
+    }
+
+    body.dark-mode .tag-pill {
+      background: rgba(17,24,39,0.55);
+      border-color: var(--dark-border);
+    }
+
+    .action-btn {
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
+    .progress-soft {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.18);
+      overflow: hidden;
+    }
+
+    .progress-soft .progress-bar {
+      border-radius: 999px;
+    }
+
+    .note-box {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(255,255,255,0.55);
+    }
+
+    body.dark-mode .note-box {
+      background: rgba(17,24,39,0.55);
+      border-color: var(--dark-border);
+    }
+  
+
+    :root {
+      --sidebar-collapsed-width: 84px;
+    }
+
+    .sidebar {
+      width: 260px;
+      overflow: hidden;
+      transition: width 0.28s ease, padding 0.28s ease, background-color 0.28s ease, border-color 0.28s ease;
+    }
+
+    .sidebar .nav-link {
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .sidebar .nav-link i {
+      flex-shrink: 0;
+    }
+
+    .sidebar .nav-link .nav-label,
+    .sidebar .sidebar-brand-text,
+    .sidebar .sidebar-footer-text {
+      transition: opacity 0.2s ease, transform 0.2s ease, max-width 0.28s ease;
+    }
+
+    .sidebar .sidebar-toggle {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+    }
+
+    .sidebar .sidebar-logo {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+    }
+
+    body.sidebar-collapsed .sidebar {
+      width: var(--sidebar-collapsed-width) !important;
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+    }
+
+    body.sidebar-collapsed .sidebar .sidebar-brand-text,
+    body.sidebar-collapsed .sidebar .sidebar-footer-box,
+    body.sidebar-collapsed .sidebar .nav-label {
+      display: none !important;
+    }
+
+    body.sidebar-collapsed .sidebar .nav-link {
+      justify-content: center !important;
+      gap: 0 !important;
+      padding-left: 0.6rem !important;
+      padding-right: 0.6rem !important;
+    }
+
+    body.sidebar-collapsed .sidebar .nav-link i {
+      margin-right: 0 !important;
+    }
+
+    body.sidebar-collapsed .page-wrap {
+      margin-left: var(--sidebar-collapsed-width) !important;
+    }
+
+    body.sidebar-collapsed .sidebar .sidebar-toggle i {
+      transform: rotate(180deg);
+    }
+
+    @media (max-width: 991.98px) {
+      body.sidebar-collapsed .page-wrap {
+        margin-left: 0 !important;
+      }
+    }
+
+
+    .app-header {
+      transition: margin-left 0.28s ease, width 0.28s ease, left 0.28s ease, right 0.28s ease;
+      will-change: margin-left, width;
+    }
+
+    @media (min-width: 992px) {
+      .app-header {
+        margin-left: 260px;
+        width: calc(100% - 260px);
+      }
+      body.sidebar-collapsed .app-header {
+        margin-left: var(--sidebar-collapsed-width);
+        width: calc(100% - var(--sidebar-collapsed-width));
+      }
+    }
+
+    @media (max-width: 991.98px) {
+      .app-header {
+        margin-left: 0 !important;
+        width: 100% !important;
+      }
+      .header-sidebar-toggle {
+        display: inline-flex !important;
+      }
+    }
+
+    .header-sidebar-toggle {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-sidebar-toggle i {
+      font-size: 1.05rem;
+    }
+
+  </style>
+<link href="./css/style.css" rel="stylesheet"/>
+</head>
+<body class="dark-mode" data-bs-theme="dark">
+<!-- Header -->
+<header class="app-header sticky-top bg-white border-bottom shadow-sm">
+<div class="container-fluid py-2 px-3 px-lg-4">
+<div class="d-flex align-items-center justify-content-between gap-3">
+
+<div class="d-flex align-items-center gap-2 d-lg-none"><div class="rounded-3 d-flex align-items-center justify-content-center bg-primary text-white flex-shrink-0" style="width:42px;height:42px;"><i class="bi bi-shop"></i></div><div class="lh-sm"><div class="fw-bold">Waasuge Electronics</div><small class="text-muted">Settings</small></div></div>
+<div class="d-none d-md-block search-wrap position-relative" style="max-width: 390px; width:100%;">
+<i class="bi bi-search search-icon"></i>
+<input aria-label="Search reports" class="form-control search-input" id="reportSearch" placeholder="Search reports, summaries, or stock..." type="search"/>
+</div>
+<div class="d-flex align-items-center gap-2 gap-md-3">
+<button aria-label="Toggle theme" class="btn btn-light border rounded-circle position-relative" id="themeToggle" type="button">
+<i class="bi bi-moon-stars" id="themeIcon"></i>
+</button>
+<div class="dropdown header-more-dropdown">
+<button class="btn btn-light border rounded-circle position-relative header-more-btn" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="More options" data-header-more-toggle="">
+<i class="bi bi-three-dots-vertical"></i>
+</button>
+<ul class="dropdown-menu dropdown-menu-end shadow border-0 header-more-menu">
+<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#headerProfileModal"><i class="bi bi-person-gear text-primary"></i><span>Edit Profile</span></button></li>
+<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#headerAboutModal"><i class="bi bi-info-circle text-info"></i><span>About Us</span></button></li>
+<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#headerDeveloperModal"><i class="bi bi-code-slash text-success"></i><span>Developer</span></button></li>
+<li>
+  <a href="settings.html" style="text-decoration: none;"><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#">
+    <i  class="bi bi-gear-fill text-primary"></i> <span>Settings</span></button></a>
+</li>
+<li><hr class="dropdown-divider"></li>
+<li><button class="dropdown-item text-danger" type="button" data-bs-toggle="modal" data-bs-target="#headerLogoutModal"><i class="bi bi-box-arrow-right"></i><span>Logout</span></button></li>
+</ul>
+</div>
+<div class="dropdown">
+<button aria-expanded="false" aria-label="Notifications" class="btn btn-light border rounded-circle position-relative" data-bs-toggle="dropdown" type="button">
+<i class="bi bi-bell"></i>
+<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+</button>
+<ul class="dropdown-menu dropdown-menu-end shadow border-0 p-2" style="min-width: 340px;">
+<li class="px-2 py-2 text-muted small">Loading notifications...</li>
+</ul>
+</div>
+<button aria-label="Cart" class="btn btn-light border rounded-circle position-relative" type="button">
+<i class="bi bi-cart3"></i>
+<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">2</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Desktop Sidebar -->
+<aside class="sidebar d-none d-lg-flex flex-column bg-white border-end position-fixed top-0 start-0 vh-100 p-3">
+<div class="d-flex align-items-center justify-content-between gap-2 mb-4 mt-2 sidebar-brand-row"><div class="d-flex align-items-center gap-2 min-w-0 flex-grow-1"><div class="rounded-3 d-flex align-items-center justify-content-center bg-primary text-white sidebar-logo"><i class="bi bi-shop"></i></div><div class="sidebar-brand-text lh-sm min-w-0"><div class="fw-bold text-truncate">Waasuge Electronics</div><small class="text-muted text-truncate d-block">Shop management tools</small></div></div><button aria-label="Collapse sidebar" class="btn btn-light border rounded-circle sidebar-toggle" data-sidebar-toggle="" title="Collapse sidebar" type="button"><i class="bi bi-list"></i></button></div>
+<ul class="nav nav-pills flex-column gap-2">
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="dashboard.html"><i class="bi bi-grid-1x2-fill"></i> <span class="nav-label">Dashboard</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="invoice.html"><i class="bi bi-receipt-cutoff"></i> <span class="nav-label">Invoice</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="product.html"><i class="bi bi-box-seam"></i> <span class="nav-label">Products</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="repairing.html"><i class="bi bi-tools"></i> <span class="nav-label">Repairing</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="customers.html"><i class="bi bi-people-fill"></i> <span class="nav-label">Customers</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2 " href="report.html"><i class="bi bi-bar-chart-line"></i> <span class="nav-label">Reports</span></a>
+</li>
+
+
+</ul>
+<div class="mt-auto pt-4">
+<div class="quick-box sidebar-footer-box"><div class="sidebar-footer-kicker d-inline-flex align-items-center gap-2 px-2 py-1 rounded-pill mb-2" style="background: rgba(37,99,235,.10); color:#2563eb; font-size:.78rem; font-weight:700;"><i class="bi bi-bar-chart-line"></i> Report flow</div>
+<div class="fw-bold mb-1">Report flow</div>
+<small class="text-muted d-block sidebar-footer-text">Today, weekly, monthly, yearly, and all-time analytics with clean summaries.</small>
+</div>
+</div>
+</aside>
+<!-- Mobile Nav -->
+<div aria-labelledby="mobileNavLabel" class="offcanvas offcanvas-start d-lg-none mobile-nav" id="mobileNav" tabindex="-1">
+<div class="offcanvas-header border-bottom">
+<h5 class="offcanvas-title fw-bold" id="mobileNavLabel">Menu</h5>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
+</div>
+<div class="offcanvas-body p-3">
+<ul class="nav nav-pills flex-column gap-2">
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="dashboard.html"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a></li>
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="invoice.html"><i class="bi bi-receipt-cutoff"></i> Invoice</a></li>
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="product.html"><i class="bi bi-box-seam"></i> Products</a></li>
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="repairing.html"><i class="bi bi-tools"></i> Repairing</a></li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="customers.html">
+<i class="bi bi-people-fill"></i> Customers
+          </a>
+</li>
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2 " href="report.html"><i class="bi bi-bar-chart-line"></i> Reports</a></li>
+
+</ul>
+</div>
+</div>
+<!-- Main -->
+
+<main class="page-wrap">
+  <div class="container-fluid px-3 px-lg-4">
+    <div class="row align-items-end g-3 mb-4">
+      <div class="col-12 col-lg-7">
+        <h1 class="page-title">Settings</h1>
+        <p class="page-subtitle">Central control for branding, sales, printing, repairs, stock, permissions, and message templates.</p>
+      </div>
+      <div class="col-12 col-lg-5">
+        <div class="d-flex flex-wrap justify-content-lg-end gap-2">
+          <div class="input-group search-wrap" style="max-width: 320px;">
+            <span class="search-icon"><i class="bi bi-search"></i></span>
+            <input id="settingsSearch" class="form-control search-input" type="search" placeholder="Search settings">
+          </div>
+          <button id="resetSettingsBtn" class="btn btn-outline-secondary rounded-4 px-3" type="button">
+            <i class="bi bi-arrow-counterclockwise me-1"></i> Reset Defaults
+          </button>
+          <button id="saveSettingsBtn" class="btn btn-primary rounded-4 px-3" type="button">
+            <i class="bi bi-save2 me-1"></i> Save Settings
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-12 col-md-4">
+        <div class="card-shell summary-card d-flex align-items-center gap-3">
+          <div class="summary-icon bg-soft-primary text-primary-soft"><i class="bi bi-gear-fill"></i></div>
+          <div>
+            <div class="summary-label">Centralized config</div>
+            <div class="summary-value">1 file</div>
+            <div class="summary-trend text-muted">Update once, reflect everywhere</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="card-shell summary-card d-flex align-items-center gap-3">
+          <div class="summary-icon bg-soft-success text-success-soft"><i class="bi bi-cloud-check"></i></div>
+          <div>
+            <div class="summary-label">Firebase usage</div>
+            <div class="summary-value">Minimal</div>
+            <div class="summary-trend text-muted">Save only when needed</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="card-shell summary-card d-flex align-items-center gap-3">
+          <div class="summary-icon bg-soft-warning text-warning-soft"><i class="bi bi-phone"></i></div>
+          <div>
+            <div class="summary-label">Responsive</div>
+            <div class="summary-value">Desktop + mobile</div>
+            <div class="summary-trend text-muted">Same sidebar and bottom nav</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion d-grid gap-3" id="settingsAccordion">
+      <div class="card-shell overflow-hidden" data-settings-section>
+        <h2 class="mb-0">
+          <button class="btn w-100 text-start px-4 py-3 d-flex align-items-center gap-2 fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#generalSettingsCollapse" aria-expanded="false" aria-controls="generalSettingsCollapse" data-settings-collapse>
+            <i class="bi bi-sliders2"></i>
+            <span>General Settings</span>
+            <i class="bi bi-chevron-down settings-chevron ms-auto"></i>
+          </button>
+        </h2>
+        <div id="generalSettingsCollapse" class="collapse" data-bs-parent="#settingsAccordion">
+          <div class="section-body pt-0">
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <label class="form-label fw-semibold" for="shopName">Shop Name</label>
+                <input id="shopName" class="form-control" type="text" placeholder="Waasuge Electronics & Mobile Repairing">
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label fw-semibold" for="shopPhone">Phone Number</label>
+                <input id="shopPhone" class="form-control" type="text" placeholder="0617125558">
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label fw-semibold" for="shopWhatsapp">WhatsApp Number</label>
+                <input id="shopWhatsapp" class="form-control" type="text" placeholder="252617125558">
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label fw-semibold" for="currency">Currency</label>
+                <select id="currency" class="form-select">
+                  <option value="USD">USD</option>
+                  <option value="SOS">SOS</option>
+                  <option value="KES">KES</option>
+                  <option value="ETB">ETB</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-semibold" for="shopAddress">Shop Address</label>
+                <input id="shopAddress" class="form-control" type="text" placeholder="Waasuge Electronic, Mogadishu, Somalia">
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-semibold" for="receiptFooterText">Receipt Footer Text</label>
+                <input id="receiptFooterText" class="form-control" type="text" placeholder="Thank you for your purchase.">
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label fw-semibold" for="language">Language</label>
+                <select id="language" class="form-select">
+                  <option value="en">English</option>
+                  <option value="so">Somali</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-8">
+                <label class="form-label fw-semibold" for="timezone">Time Zone</label>
+                <select id="timezone" class="form-select">
+                  <option value="Africa/Mogadishu">Africa/Mogadishu</option>
+                  <option value="UTC">UTC</option>
+                  <option value="Africa/Nairobi">Africa/Nairobi</option>
+                  <option value="Africa/Addis_Ababa">Africa/Addis_Ababa</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-shell overflow-hidden" data-settings-section>
+        <h2 class="mb-0">
+          <button class="btn w-100 text-start px-4 py-3 d-flex align-items-center gap-2 fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#salesSettingsCollapse" aria-expanded="false" aria-controls="salesSettingsCollapse" data-settings-collapse>
+            <i class="bi bi-cart-check"></i>
+            <span>Sales Settings</span>
+            <i class="bi bi-chevron-down settings-chevron ms-auto"></i>
+          </button>
+        </h2>
+        <div id="salesSettingsCollapse" class="collapse" data-bs-parent="#settingsAccordion">
+          <div class="section-body pt-0">
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <label class="form-label fw-semibold" for="defaultDiscountType">Default Discount Type</label>
+                <select id="defaultDiscountType" class="form-select">
+                  <option value="percentage">Percentage</option>
+                  <option value="fixed">Fixed Amount</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label fw-semibold" for="maxDiscount">Maximum Discount Allowed</label>
+                <input id="maxDiscount" class="form-control" type="number" min="0" step="0.01">
+              </div>
+              <div class="col-12 col-md-6 col-lg-3 form-check form-switch px-3">
+                <input id="allowItemDiscount" class="form-check-input" type="checkbox">
+                <label class="form-check-label fw-semibold" for="allowItemDiscount">Allow Item Discount</label>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3 form-check form-switch px-3">
+                <input id="allowInvoiceDiscount" class="form-check-input" type="checkbox">
+                <label class="form-check-label fw-semibold" for="allowInvoiceDiscount">Allow Invoice Discount</label>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3 form-check form-switch px-3">
+                <input id="allowPartialPayment" class="form-check-input" type="checkbox">
+                <label class="form-check-label fw-semibold" for="allowPartialPayment">Allow Partial Payment</label>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3 form-check form-switch px-3">
+                <input id="showRemainingBalance" class="form-check-input" type="checkbox">
+                <label class="form-check-label fw-semibold" for="showRemainingBalance">Show Remaining Balance</label>
+              </div>
+              <div class="col-12 col-md-6">
+                <label class="form-label fw-semibold" for="defaultPaymentStatus">Default Payment Status</label>
+                <select id="defaultPaymentStatus" class="form-select">
+                  <option value="paid">Paid</option>
+                  <option value="partial">Partial</option>
+                  <option value="unpaid">Unpaid</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-shell overflow-hidden" data-settings-section>
+        <h2 class="mb-0">
+          <button class="btn w-100 text-start px-4 py-3 d-flex align-items-center gap-2 fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#printingSettingsCollapse" aria-expanded="false" aria-controls="printingSettingsCollapse" data-settings-collapse>
+            <i class="bi bi-printer"></i>
+            <span>Printing Settings</span>
+            <i class="bi bi-chevron-down settings-chevron ms-auto"></i>
+          </button>
+        </h2>
+        <div id="printingSettingsCollapse" class="collapse" data-bs-parent="#settingsAccordion">
+          <div class="section-body pt-0">
+            <div class="row g-3">
+              <div class="col-12 col-md-4">
+                <label class="form-label fw-semibold" for="receiptSize">Receipt Size</label>
+                <select id="receiptSize" class="form-select">
+                  <option value="58mm">58mm</option>
+                  <option value="80mm">80mm</option>
+                  <option value="A4">A4</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label fw-semibold" for="fontSize">Font Size</label>
+                <select id="fontSize" class="form-select">
+                  <option value="small">Small</option>
+                  <option value="medium">Medium</option>
+                  <option value="large">Large</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label fw-semibold" for="showLogo">Options</label>
+                <div class="d-flex flex-wrap gap-3 pt-1">
+                  <div class="form-check form-switch">
+                    <input id="showLogo" class="form-check-input" type="checkbox">
+                    <label class="form-check-label" for="showLogo">Show Shop Logo</label>
+                  </div>
+                  <div class="form-check form-switch">
+                    <input id="showQrCode" class="form-check-input" type="checkbox">
+                    <label class="form-check-label" for="showQrCode">Show QR Code</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3 form-check form-switch px-3">
+                <input id="showPhoneNumber" class="form-check-input" type="checkbox">
+                <label class="form-check-label fw-semibold" for="showPhoneNumber">Show Phone Number</label>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3 form-check form-switch px-3">
+                <input id="showWhatsappNumber" class="form-check-input" type="checkbox">
+                <label class="form-check-label fw-semibold" for="showWhatsappNumber">Show WhatsApp Number</label>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3 form-check form-switch px-3">
+                <input id="showAddress" class="form-check-input" type="checkbox">
+                <label class="form-check-label fw-semibold" for="showAddress">Show Shop Address</label>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3 form-check form-switch px-3">
+                <input id="printCustomerCopy" class="form-check-input" type="checkbox">
+                <label class="form-check-label fw-semibold" for="printCustomerCopy">Print Customer Copy</label>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3 form-check form-switch px-3">
+                <input id="printShopCopy" class="form-check-input" type="checkbox">
+                <label class="form-check-label fw-semibold" for="printShopCopy">Print Shop Copy</label>
+              </div>
+              <div class="col-12">
+                <div class="row g-3">
+                  <div class="col-6 col-md-3">
+                    <label class="form-label fw-semibold" for="marginTop">Top Margin</label>
+                    <input id="marginTop" class="form-control" type="number" min="0" step="1">
+                  </div>
+                  <div class="col-6 col-md-3">
+                    <label class="form-label fw-semibold" for="marginBottom">Bottom Margin</label>
+                    <input id="marginBottom" class="form-control" type="number" min="0" step="1">
+                  </div>
+                  <div class="col-6 col-md-3">
+                    <label class="form-label fw-semibold" for="marginLeft">Left Margin</label>
+                    <input id="marginLeft" class="form-control" type="number" min="0" step="1">
+                  </div>
+                  <div class="col-6 col-md-3">
+                    <label class="form-label fw-semibold" for="marginRight">Right Margin</label>
+                    <input id="marginRight" class="form-control" type="number" min="0" step="1">
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label class="form-label fw-semibold" for="marginPadding">Padding</label>
+                    <input id="marginPadding" class="form-control" type="number" min="0" step="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-shell overflow-hidden" data-settings-section>
+        <h2 class="mb-0">
+          <button class="btn w-100 text-start px-4 py-3 d-flex align-items-center gap-2 fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#repairSettingsCollapse" aria-expanded="false" aria-controls="repairSettingsCollapse" data-settings-collapse>
+            <i class="bi bi-tools"></i>
+            <span>Repair Settings</span>
+            <i class="bi bi-chevron-down settings-chevron ms-auto"></i>
+          </button>
+        </h2>
+        <div id="repairSettingsCollapse" class="collapse" data-bs-parent="#settingsAccordion">
+          <div class="section-body pt-0">
+            <div class="row g-3">
+              <div class="col-12 col-lg-7">
+                <label class="form-label fw-semibold" for="repairStatuses">Repair Status List</label>
+                <textarea id="repairStatuses" class="form-control" rows="8" placeholder="Received&#10;Checking&#10;Waiting for Parts&#10;Repairing&#10;Ready&#10;Delivered&#10;Cancelled"></textarea>
+                <div class="form-text">Use one status per line. These values drive the repair board and status dropdowns.</div>
+              </div>
+              <div class="col-12 col-lg-5">
+                <label class="form-label fw-semibold" for="defaultRepairStatus">Default Status</label>
+                <select id="defaultRepairStatus" class="form-select mb-3"></select>
+
+                <div class="card-shell p-3">
+                  <div class="fw-semibold mb-2">Auto Notify Customer</div>
+                  <div class="form-check form-switch mb-2">
+                    <input id="repairNotifyWhatsapp" class="form-check-input" type="checkbox">
+                    <label class="form-check-label" for="repairNotifyWhatsapp">Send WhatsApp on status change</label>
+                  </div>
+                  <div class="form-check form-switch">
+                    <input id="repairNotifySms" class="form-check-input" type="checkbox">
+                    <label class="form-check-label" for="repairNotifySms">Send SMS on status change</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-shell overflow-hidden" data-settings-section>
+        <h2 class="mb-0">
+          <button class="btn w-100 text-start px-4 py-3 d-flex align-items-center gap-2 fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#stockSettingsCollapse" aria-expanded="false" aria-controls="stockSettingsCollapse" data-settings-collapse>
+            <i class="bi bi-box-seam"></i>
+            <span>Stock Settings</span>
+            <i class="bi bi-chevron-down settings-chevron ms-auto"></i>
+          </button>
+        </h2>
+        <div id="stockSettingsCollapse" class="collapse" data-bs-parent="#settingsAccordion">
+          <div class="section-body pt-0">
+            <div class="row g-3">
+              <div class="col-12 col-md-6 col-lg-3">
+                <label class="form-label fw-semibold" for="lowStockLevel">Low Stock Alert Level</label>
+                <input id="lowStockLevel" class="form-control" type="number" min="0" step="1">
+              </div>
+              <div class="col-12 col-md-6 col-lg-3 form-check form-switch px-3">
+                <input id="autoDeductStockAfterSale" class="form-check-input" type="checkbox">
+                <label class="form-check-label fw-semibold" for="autoDeductStockAfterSale">Auto Deduct Stock After Sale</label>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3 form-check form-switch px-3">
+                <input id="showOutOfStockProducts" class="form-check-input" type="checkbox">
+                <label class="form-check-label fw-semibold" for="showOutOfStockProducts">Show Out of Stock Products</label>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3 form-check form-switch px-3">
+                <input id="allowNegativeStock" class="form-check-input" type="checkbox">
+                <label class="form-check-label fw-semibold" for="allowNegativeStock">Allow Negative Stock</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-shell overflow-hidden" data-settings-section>
+        <h2 class="mb-0">
+          <button class="btn w-100 text-start px-4 py-3 d-flex align-items-center gap-2 fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#permissionsSettingsCollapse" aria-expanded="false" aria-controls="permissionsSettingsCollapse" data-settings-collapse>
+            <i class="bi bi-shield-lock"></i>
+            <span>User Permissions</span>
+            <i class="bi bi-chevron-down settings-chevron ms-auto"></i>
+          </button>
+        </h2>
+        <div id="permissionsSettingsCollapse" class="collapse" data-bs-parent="#settingsAccordion">
+          <div class="section-body pt-0">
+            <p class="small-muted mb-3">Assign access for Administrator, Cashier, and Technician roles. Every page should respect these permissions.</p>
+            <div id="permissionsMatrix"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-shell overflow-hidden" data-settings-section>
+        <h2 class="mb-0">
+          <button class="btn w-100 text-start px-4 py-3 d-flex align-items-center gap-2 fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#messagesSettingsCollapse" aria-expanded="false" aria-controls="messagesSettingsCollapse" data-settings-collapse>
+            <i class="bi bi-chat-left-text"></i>
+            <span>Customer Message Settings</span>
+            <i class="bi bi-chevron-down settings-chevron ms-auto"></i>
+          </button>
+        </h2>
+        <div id="messagesSettingsCollapse" class="collapse" data-bs-parent="#settingsAccordion">
+          <div class="section-body pt-0">
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <label class="form-label fw-semibold" for="messageTemplateSelect">Template</label>
+                <select id="messageTemplateSelect" class="form-select"></select>
+              </div>
+              <div class="col-12 col-md-6 d-flex align-items-end">
+                <div class="d-flex flex-wrap gap-3">
+                  <div class="form-check form-switch">
+                    <input id="messageEnabled" class="form-check-input" type="checkbox">
+                    <label class="form-check-label" for="messageEnabled">Enable Template</label>
+                  </div>
+                  <div class="form-check form-switch">
+                    <input id="messageWhatsApp" class="form-check-input" type="checkbox">
+                    <label class="form-check-label" for="messageWhatsApp">WhatsApp Enabled</label>
+                  </div>
+                  <div class="form-check form-switch">
+                    <input id="messageSms" class="form-check-input" type="checkbox">
+                    <label class="form-check-label" for="messageSms">SMS Enabled</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-semibold" for="messageTitle">Title</label>
+                <input id="messageTitle" class="form-control" type="text" placeholder="Message title">
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-semibold" for="messageBody">Message Body</label>
+                <textarea id="messageBody" class="form-control" rows="5" placeholder="Message body with placeholders"></textarea>
+                <div class="form-text">Available placeholders: {{customerName}}, {{invoiceNumber}}, {{deviceName}}, {{repairStatus}}, {{amount}}, {{remaining}}, {{shopName}}, {{shopPhone}}, {{shopWhatsapp}}, {{shopAddress}}, {{date}}</div>
+              </div>
+              <div class="col-12">
+                <div class="note-box">
+                  <div class="fw-semibold mb-2"><i class="bi bi-eye me-1"></i> Live preview</div>
+                  <div id="messagePreview" class="small"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-end gap-2 mt-4">
+      <button id="resetSettingsBtn" class="btn btn-outline-secondary rounded-4 px-3" type="button">
+        <i class="bi bi-arrow-counterclockwise me-1"></i> Reset Defaults
+      </button>
+      <button id="saveSettingsBtn" class="btn btn-primary rounded-4 px-3" type="button">
+        <i class="bi bi-save2 me-1"></i> Save Settings
+      </button>
+    </div>
+  </div>
+</main>
+
+<!-- Mobile bottom navigation -->
+<nav class="mobile-bottom-nav d-lg-none position-fixed bottom-0 start-0 w-100 bg-white border-top shadow-sm">
+<div class="d-flex justify-content-around py-2">
+<a class="text-center" href="dashboard.html">
+<div><i class="bi bi-grid-1x2-fill"></i></div>
+<small>Dashboard</small>
+</a>
+<a class="text-center" href="invoice.html">
+<div><i class="bi bi-receipt-cutoff"></i></div>
+<small>Invoice</small>
+</a>
+<a class="text-center" href="product.html">
+<div><i class="bi bi-box-seam"></i></div>
+<small>Products</small>
+</a>
+<a class="text-center" href="repairing.html">
+<div><i class="bi bi-tools"></i></div>
+<small>Repairing</small>
+</a>
+<a class="text-center " href="report.html">
+<div><i class="bi bi-bar-chart-line"></i></div>
+<small>Reports</small>
+</a>
+</div>
+</nav>
+<script>
+    const THEME_KEY = 'electronicShopTheme';
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function applyTheme(theme) {
+      const nextTheme = theme === 'light' ? 'light' : 'dark';
+      const isDark = nextTheme === 'dark';
+      document.body.classList.toggle('dark-mode', isDark);
+      document.body.dataset.theme = nextTheme;
+      document.body.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
+      document.documentElement.dataset.theme = nextTheme;
+      document.documentElement.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
+      if (themeIcon) themeIcon.className = isDark ? 'bi bi-sun' : 'bi bi-moon-stars';
+      localStorage.setItem(THEME_KEY, nextTheme);
+    }
+
+    applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+
+    themeToggle?.addEventListener('click', () => {
+      applyTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+    });
+  </script>
+<script type="module">
+  import { requireAuth } from "./js/auth.js";
+  requireAuth({ redirectUrl: "login.html" });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script type="module" src="./js/settings-config.js"></script>
+<script type="module" src="./js/settings.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="./js/navbar.js" type="module"></script>
+</body>
+</html>

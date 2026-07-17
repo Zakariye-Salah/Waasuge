@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>🏪 Electronic Shop | Products</title>
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Cdefs%3E%3ClinearGradient id=%22g%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%25%22 stop-color=%22%232563eb%22/%3E%3Cstop offset=%22100%25%22 stop-color=%22%237c3aed%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%2264%22 height=%2264%22 rx=%2216%22 fill=%22url(%23g)%22/%3E%3Cpath d=%22M14 26h36v24H14z%22 fill=%22%23fff%22 opacity=%22.96%22/%3E%3Cpath d=%22M18 22h28l4 4H14z%22 fill=%22%23fff%22 opacity=%22.92%22/%3E%3Cpath d=%22M22 31h8v10h-8zm12 0h10v10H34z%22 fill=%22%232563eb%22/%3E%3Cpath d=%22M27 13h10v11H27z%22 fill=%22%23fff%22 opacity=%22.95%22/%3E%3C/svg%3E"/>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+<style>
+    :root{
+      --bg: #f5f7fb;
+      --card: rgba(255,255,255,0.95);
+      --text: #111827;
+      --muted: #6b7280;
+      --border: rgba(15, 23, 42, 0.08);
+      --shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+      --primary: #2563eb;
+      --success: #16a34a;
+      --warning: #f59e0b;
+      --danger: #dc2626;
+      --info: #0891b2;
+      --purple: #7c3aed;
+      --dark-bg: #0b1220;
+      --dark-card: #111827;
+      --dark-text: #e5e7eb;
+      --dark-muted: #94a3b8;
+      --dark-border: rgba(148, 163, 184, 0.16);
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.10), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.08), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    body.dark-mode {
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--dark-bg);
+      color: var(--dark-text);
+    }
+
+    .app-header {
+      backdrop-filter: blur(14px);
+    }
+
+    .sidebar {
+      width: 260px;
+      z-index: 1020;
+    }
+
+    .sidebar .nav-link,
+    .mobile-nav .nav-link {
+      color: inherit;
+      border-radius: 14px;
+      padding: 0.9rem 1rem;
+      font-weight: 600;
+    }
+
+    .sidebar .nav-link.active,
+    .mobile-nav .nav-link.active {
+      background: linear-gradient(135deg, var(--primary), #1d4ed8);
+      color: #fff;
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.18);
+    }
+
+    .page-wrap {
+      padding-top: 18px;
+      padding-bottom: 90px;
+    }
+
+    @media (min-width: 992px) {
+      .page-wrap {
+        margin-left: 260px;
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+    }
+
+    .page-title {
+      font-size: clamp(1.45rem, 2.5vw, 2.1rem);
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+    }
+
+    .page-subtitle {
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+
+    .card-shell {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.25s ease, border-color 0.25s ease;
+    }
+
+    body.dark-mode .card-shell {
+      background: var(--dark-card);
+      border-color: var(--dark-border);
+      color: var(--dark-text);
+    }
+
+    .card-shell:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 46px rgba(15, 23, 42, 0.12);
+    }
+
+    .section-header {
+      padding: 18px 18px 0 18px;
+    }
+
+    .section-body {
+      padding: 18px;
+    }
+
+    .mini-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bg-soft-primary { background: rgba(37, 99, 235, 0.12); }
+    .bg-soft-success { background: rgba(22, 163, 74, 0.12); }
+    .bg-soft-warning { background: rgba(245, 158, 11, 0.12); }
+    .bg-soft-danger { background: rgba(220, 38, 38, 0.12); }
+    .bg-soft-info { background: rgba(8, 145, 178, 0.12); }
+    .bg-soft-purple { background: rgba(124, 58, 237, 0.12); }
+
+    .text-primary-soft { color: #2563eb; }
+    .text-success-soft { color: #16a34a; }
+    .text-warning-soft { color: #d97706; }
+    .text-danger-soft { color: #dc2626; }
+    .text-info-soft { color: #0891b2; }
+    .text-purple-soft { color: #7c3aed; }
+
+    body.dark-mode .text-muted,
+    body.dark-mode .page-subtitle,
+    body.dark-mode .summary-label,
+    body.dark-mode .small-muted {
+      color: var(--dark-muted) !important;
+    }
+
+    .summary-card {
+      padding: 18px;
+      height: 100%;
+    }
+
+    .summary-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #fff;
+      flex: 0 0 auto;
+    }
+
+    .summary-label {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
+
+    .summary-value {
+      font-size: 1.45rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 0.15rem;
+    }
+
+    .summary-trend {
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .filter-chip {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.58);
+      padding: 0.55rem 0.9rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    body.dark-mode .filter-chip {
+      background: rgba(17, 24, 39, 0.55);
+      border-color: var(--dark-border);
+      color: var(--dark-text);
+    }
+
+    .search-input {
+      border-radius: 14px;
+      height: 48px;
+      border: 1px solid var(--border);
+      box-shadow: none !important;
+      padding-left: 42px;
+    }
+
+    body.dark-mode .search-input {
+      background: #0f172a;
+      color: var(--dark-text);
+      border-color: var(--dark-border);
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-wrap .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 14px;
+      transform: translateY(-50%);
+      color: var(--muted);
+    }
+
+    .product-card {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.9);
+      box-shadow: var(--shadow);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    body.dark-mode .product-card {
+      background: #111827;
+      border-color: var(--dark-border);
+    }
+
+    .product-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 46px rgba(15, 23, 42, 0.12);
+    }
+
+    .product-image {
+      height: 160px;
+      background: linear-gradient(135deg, rgba(37,99,235,0.18), rgba(124,58,237,0.10));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .product-image i {
+      font-size: 3rem;
+      color: var(--primary);
+    }
+
+    .stock-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 0.38rem 0.7rem;
+    }
+
+    .product-body {
+      padding: 16px;
+    }
+
+    .product-title {
+      font-weight: 800;
+      font-size: 1.02rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .product-meta {
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    .product-price {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--success);
+    }
+
+    .product-footer {
+      padding: 0 16px 16px 16px;
+    }
+
+    .action-btn {
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
+    .status-pill {
+      border-radius: 999px;
+      padding: 0.44rem 0.75rem;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .table thead th {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .table td {
+      vertical-align: middle;
+    }
+
+    body.dark-mode .table {
+      color: var(--dark-text);
+    }
+
+    body.dark-mode .table > :not(caption) > * > * {
+      background-color: transparent;
+      border-color: var(--dark-border);
+    }
+
+    body.dark-mode .table thead th {
+      color: var(--dark-muted);
+    }
+
+    .mobile-bottom-nav {
+      z-index: 1030;
+    }
+
+    .mobile-bottom-nav a {
+      color: inherit;
+      text-decoration: none;
+      font-size: 0.76rem;
+      font-weight: 700;
+      opacity: 0.82;
+    }
+
+    .mobile-bottom-nav a.active {
+      color: var(--primary);
+      opacity: 1;
+    }
+
+    .quick-box {
+      border: 1px dashed var(--border);
+      background: rgba(255,255,255,0.5);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    body.dark-mode .quick-box {
+      background: rgba(17,24,39,0.42);
+      border-color: var(--dark-border);
+    }
+
+    .modal-table-scroll {
+      max-height: min(58vh, 540px);
+      overflow: auto;
+    }
+
+    .modal-content {
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      background: var(--card);
+      color: var(--text);
+    }
+
+    body.dark-mode .modal-content {
+      background: var(--dark-card);
+      color: var(--dark-text);
+      border-color: var(--dark-border);
+    }
+
+    body.dark-mode .form-control,
+    body.dark-mode .form-select {
+      background: #0f172a;
+      color: var(--dark-text);
+      border-color: var(--dark-border);
+    }
+
+    .form-control,
+    .form-select {
+      border-radius: 14px;
+      height: 48px;
+      border: 1px solid var(--border);
+      box-shadow: none !important;
+    }
+
+    textarea.form-control {
+      height: auto;
+      min-height: 100px;
+    }
+
+    .tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.55);
+    }
+
+    body.dark-mode .tag-pill {
+      background: rgba(17,24,39,0.55);
+      border-color: var(--dark-border);
+    }
+  
+.category-selector {
+  position: relative;
+}
+
+.category-selector .category-trigger {
+  cursor: pointer;
+  padding-right: 42px;
+  background: rgba(255,255,255,0.92);
+}
+
+.category-selector .category-trigger[readonly] {
+  background-color: rgba(255,255,255,0.92);
+}
+
+body.dark-mode .category-selector .category-trigger,
+body.dark-mode .category-selector .category-trigger[readonly] {
+  background: #0f172a;
+  color: var(--dark-text);
+}
+
+.category-selector .category-caret {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.category-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 1040;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+body.dark-mode .category-panel {
+  background: var(--dark-card);
+  border-color: var(--dark-border);
+}
+
+.category-search-wrap {
+  padding: 12px;
+  background: inherit;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+body.dark-mode .category-search-wrap {
+  border-color: var(--dark-border);
+}
+
+.category-list {
+  max-height: 350px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 116, 139, 0.55) transparent;
+}
+
+.category-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.category-list::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.45);
+  border-radius: 999px;
+}
+
+.category-option {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-align: left;
+  color: inherit;
+  transition: background 0.16s ease, color 0.16s ease;
+}
+
+.category-option:hover,
+.category-option.active {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+body.dark-mode .category-option:hover,
+body.dark-mode .category-option.active {
+  background: rgba(37, 99, 235, 0.16);
+}
+
+.category-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(37, 99, 235, 0.10);
+  color: var(--primary);
+  flex: 0 0 auto;
+}
+
+.category-option-title {
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.category-highlight {
+  color: var(--primary);
+  font-weight: 800;
+  background: transparent;
+  padding: 0;
+}
+
+.category-empty {
+  padding: 1.35rem 1rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.category-empty i {
+  display: block;
+  font-size: 1.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.category-selector-filter .category-trigger {
+  min-width: 100%;
+}
+
+.category-selector-filter .category-panel {
+  min-width: 100%;
+}
+
+.category-selector-filter .category-list {
+  max-height: 350px;
+}
+
+.category-selector-filter .category-search-wrap .form-control,
+.category-selector .category-search-wrap .form-control {
+  border-radius: 12px;
+}
+
+.category-selector .form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.10) !important;
+}
+
+.rows-filter-label {
+  white-space: nowrap;
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+  
+
+
+    .filter-shell {
+      position: relative;
+      z-index: 40;
+      overflow: visible;
+      isolation: isolate;
+    }
+
+    .filter-shell .category-panel {
+      z-index: 1040;
+    }
+
+    .restock-shell {
+      position: relative;
+      z-index: 35;
+    }
+
+    .restock-shell .section-header {
+      align-items: flex-start;
+    }
+
+    .restock-shell #restockQueueCount {
+      background: rgba(37, 99, 235, 0.12);
+      color: var(--primary);
+    }
+
+    .restock-shell h5 {
+      color: var(--primary);
+    }
+
+    .restock-shell.is-collapsed .section-body {
+      display: none;
+    }
+
+    .restock-queue-list {
+      display: grid;
+      gap: 0.75rem;
+      max-height: 200px;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding-right: 2px;
+      scrollbar-width: thin;
+    }
+
+    .restock-queue-list::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .restock-queue-list::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.45);
+      border-radius: 999px;
+    }
+
+    .restock-empty {
+      border: 1px dashed var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+      text-align: center;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    body.dark-mode .restock-empty {
+      border-color: var(--dark-border);
+      background: rgba(17, 24, 39, 0.35);
+    }
+
+    .restock-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.72);
+      padding: 0.9rem 1rem;
+    }
+
+    body.dark-mode .restock-item {
+      background: rgba(17,24,39,0.72);
+      border-color: var(--dark-border);
+    }
+
+    .restock-item-main {
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+
+    .restock-item-title {
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 0.2rem;
+    }
+
+    .restock-item-meta {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.25;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .restock-item-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .restock-item-side {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex: 0 0 auto;
+    }
+
+    .restock-qty-pill {
+      padding: 0.4rem 0.65rem;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+
+    .restock-eye-btn {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .detail-grid {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: flex-start;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.85rem 1rem;
+      background: rgba(255,255,255,0.55);
+    }
+
+    body.dark-mode .detail-row {
+      background: rgba(17,24,39,0.55);
+      border-color: var(--dark-border);
+    }
+
+    .detail-label {
+      color: var(--muted);
+      font-weight: 700;
+      flex: 0 0 auto;
+    }
+
+    .detail-value {
+      font-weight: 800;
+      text-align: right;
+      min-width: 0;
+      word-break: break-word;
+    }
+
+    :root {
+      --sidebar-collapsed-width: 84px;
+    }
+
+    .sidebar {
+      width: 260px;
+      overflow: hidden;
+      transition: width 0.28s ease, padding 0.28s ease, background-color 0.28s ease, border-color 0.28s ease;
+    }
+
+    .sidebar .nav-link {
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .sidebar .nav-link i {
+      flex-shrink: 0;
+    }
+
+    .sidebar .nav-link .nav-label,
+    .sidebar .sidebar-brand-text,
+    .sidebar .sidebar-footer-text {
+      transition: opacity 0.2s ease, transform 0.2s ease, max-width 0.28s ease;
+    }
+
+    .sidebar .sidebar-toggle {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+    }
+
+    .sidebar .sidebar-logo {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+    }
+
+    body.sidebar-collapsed .sidebar {
+      width: var(--sidebar-collapsed-width) !important;
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+    }
+
+    body.sidebar-collapsed .sidebar .sidebar-brand-text,
+    body.sidebar-collapsed .sidebar .sidebar-footer-box,
+    body.sidebar-collapsed .sidebar .nav-label {
+      display: none !important;
+    }
+
+    body.sidebar-collapsed .sidebar .nav-link {
+      justify-content: center !important;
+      gap: 0 !important;
+      padding-left: 0.6rem !important;
+      padding-right: 0.6rem !important;
+    }
+
+    body.sidebar-collapsed .sidebar .nav-link i {
+      margin-right: 0 !important;
+    }
+
+    body.sidebar-collapsed .page-wrap {
+      margin-left: var(--sidebar-collapsed-width) !important;
+    }
+
+    body.sidebar-collapsed .sidebar .sidebar-toggle i {
+      transform: rotate(180deg);
+    }
+
+    @media (max-width: 991.98px) {
+      body.sidebar-collapsed .page-wrap {
+        margin-left: 0 !important;
+      }
+    }
+
+
+    .app-header {
+      transition: margin-left 0.28s ease, width 0.28s ease, left 0.28s ease, right 0.28s ease;
+      will-change: margin-left, width;
+    }
+
+    @media (min-width: 992px) {
+      .app-header {
+        margin-left: 260px;
+        width: calc(100% - 260px);
+      }
+      body.sidebar-collapsed .app-header {
+        margin-left: var(--sidebar-collapsed-width);
+        width: calc(100% - var(--sidebar-collapsed-width));
+      }
+    }
+
+    @media (max-width: 991.98px) {
+      .app-header {
+        margin-left: 0 !important;
+        width: 100% !important;
+      }
+      .header-sidebar-toggle {
+        display: inline-flex !important;
+      }
+    }
+
+    .header-sidebar-toggle {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-sidebar-toggle i {
+      font-size: 1.05rem;
+    }
+
+  
+    .sales-summary-grid .summary-value {
+      font-size: 1.35rem;
+    }
+
+    .sales-summary-grid .summary-trend {
+      opacity: 0.92;
+    }
+
+    .restock-item-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem 0.65rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .restock-category-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 700;
+    }
+
+    .restock-item-price,
+    .restock-item-date {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .restock-item-subline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 0.8rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.3;
+    }
+
+    .filter-shell {
+      z-index: 20;
+      position: relative;
+    }
+
+    .filter-shell .category-panel {
+      z-index: 1040;
+    }
+
+    .modal-content {
+      max-height: calc(100vh - 1.5rem);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-body {
+      overflow: auto;
+    }
+
+    .modal-footer {
+      position: sticky;
+      bottom: 0;
+      z-index: 2;
+      background: inherit;
+    }
+
+  </style>
+<link href="./css/style.css" rel="stylesheet"/>
+<link href="./css/product.css" rel="stylesheet"/>
+</head>
+<body class="dark-mode" data-bs-theme="dark">
+<!-- Header -->
+<header class="app-header sticky-top bg-white border-bottom shadow-sm">
+<div class="container-fluid py-2 px-3 px-lg-4">
+<div class="d-flex align-items-center justify-content-between gap-3">
+
+<div class="d-flex align-items-center gap-2 d-lg-none"><div class="rounded-3 d-flex align-items-center justify-content-center bg-primary text-white flex-shrink-0" style="width:42px;height:42px;"><i class="bi bi-shop"></i></div><div class="lh-sm"><div class="fw-bold">Waasuge Electronics</div><small class="text-muted">Products</small></div></div>
+<div class="d-none d-md-block search-wrap top-search position-relative" style="max-width: 390px; width:100%;">
+<i class="bi bi-search search-icon"></i>
+<input aria-label="Search products" class="form-control search-input" placeholder="Search by product name or ID..." type="search"/>
+</div>
+<div class="d-flex align-items-center gap-2 gap-md-3">
+<button aria-label="Toggle theme" class="btn btn-light border rounded-circle position-relative" id="themeToggle" type="button">
+<i class="bi bi-moon-stars" id="themeIcon"></i>
+</button>
+<div class="dropdown header-more-dropdown">
+<button class="btn btn-light border rounded-circle position-relative header-more-btn" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="More options" data-header-more-toggle="">
+<i class="bi bi-three-dots-vertical"></i>
+</button>
+<ul class="dropdown-menu dropdown-menu-end shadow border-0 header-more-menu">
+<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#headerProfileModal"><i class="bi bi-person-gear text-primary"></i><span>Edit Profile</span></button></li>
+<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#headerAboutModal"><i class="bi bi-info-circle text-info"></i><span>About Us</span></button></li>
+<li><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#headerDeveloperModal"><i class="bi bi-code-slash text-success"></i><span>Developer</span></button></li>
+<li>
+  <a href="settings.html" style="text-decoration: none;"><button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#">
+    <i  class="bi bi-gear-fill text-primary"></i> <span>Settings</span></button></a>
+</li>
+<li><hr class="dropdown-divider"></li>
+<li><button class="dropdown-item text-danger" type="button" data-bs-toggle="modal" data-bs-target="#headerLogoutModal"><i class="bi bi-box-arrow-right"></i><span>Logout</span></button></li>
+</ul>
+</div>
+<div class="dropdown">
+<button aria-expanded="false" aria-label="Notifications" class="btn btn-light border rounded-circle position-relative" data-bs-toggle="dropdown" type="button">
+<i class="bi bi-bell"></i>
+<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">5</span>
+</button>
+<ul class="dropdown-menu dropdown-menu-end shadow border-0 p-2" style="min-width: 340px;">
+<li class="px-2 py-1 fw-bold">Notifications</li>
+<li><hr class="dropdown-divider"/></li>
+<li>
+<a class="dropdown-item rounded-3 py-2" href="#">
+<div class="d-flex gap-2">
+<i class="bi bi-exclamation-triangle-fill text-warning"></i>
+<div>
+<div class="fw-semibold">Low stock alert</div>
+<small class="text-muted">Type-C Chargers are below threshold.</small>
+</div>
+</div>
+</a>
+</li>
+<li>
+<a class="dropdown-item rounded-3 py-2" href="#">
+<div class="d-flex gap-2">
+<i class="bi bi-star-fill text-primary"></i>
+<div>
+<div class="fw-semibold">Important product alert</div>
+<small class="text-muted">Solar power banks reached minimum stock.</small>
+</div>
+</div>
+</a>
+</li>
+<li>
+<a class="dropdown-item rounded-3 py-2" href="#">
+<div class="d-flex gap-2">
+<i class="bi bi-trash3-fill text-danger"></i>
+<div>
+<div class="fw-semibold">Recycle bin update</div>
+<small class="text-muted">Deleted products available to restore.</small>
+</div>
+</div>
+</a>
+</li>
+</ul>
+</div>
+<button aria-label="Cart" class="btn btn-light border rounded-circle position-relative" type="button">
+<i class="bi bi-cart3"></i>
+<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">4</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Desktop Sidebar -->
+<aside class="sidebar d-none d-lg-flex flex-column bg-white border-end position-fixed top-0 start-0 vh-100 p-3">
+<div class="d-flex align-items-center justify-content-between gap-2 mb-4 mt-2 sidebar-brand-row"><div class="d-flex align-items-center gap-2 min-w-0 flex-grow-1"><div class="rounded-3 d-flex align-items-center justify-content-center bg-primary text-white sidebar-logo"><i class="bi bi-shop"></i></div><div class="sidebar-brand-text lh-sm min-w-0"><div class="fw-bold text-truncate">Waasuge Electronics</div><small class="text-muted text-truncate d-block">Shop management tools</small></div></div><button aria-label="Collapse sidebar" class="btn btn-light border rounded-circle sidebar-toggle" data-sidebar-toggle="" title="Collapse sidebar" type="button"><i class="bi bi-list"></i></button></div>
+<ul class="nav nav-pills flex-column gap-2">
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="dashboard.html"><i class="bi bi-grid-1x2-fill"></i> <span class="nav-label">Dashboard</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="invoice.html"><i class="bi bi-receipt-cutoff"></i> <span class="nav-label">Invoice</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2 active" href="product.html"><i class="bi bi-box-seam"></i> <span class="nav-label">Products</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="repairing.html"><i class="bi bi-tools"></i> <span class="nav-label">Repairing</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="customers.html"><i class="bi bi-people-fill"></i> <span class="nav-label">Customers</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-2" href="report.html"><i class="bi bi-bar-chart-line"></i> <span class="nav-label">Reports</span></a>
+</li>
+</ul>
+<div class="mt-auto pt-4">
+<div class="quick-box sidebar-footer-box"><div class="sidebar-footer-kicker d-inline-flex align-items-center gap-2 px-2 py-1 rounded-pill mb-2" style="background: rgba(37,99,235,.10); color:#2563eb; font-size:.78rem; font-weight:700;"><i class="bi bi-box-seam"></i> Product area</div>
+<div class="fw-bold mb-1">Product area</div>
+<small class="text-muted d-block sidebar-footer-text">Manage products, cart actions, low stock, and recycle bin.</small>
+</div>
+</div>
+</aside>
+<!-- Mobile Nav -->
+<div aria-labelledby="mobileNavLabel" class="offcanvas offcanvas-start d-lg-none mobile-nav" id="mobileNav" tabindex="-1">
+<div class="offcanvas-header border-bottom">
+<h5 class="offcanvas-title fw-bold" id="mobileNavLabel">Menu</h5>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
+</div>
+<div class="offcanvas-body p-3">
+<ul class="nav nav-pills flex-column gap-2">
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="dashboard.html"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a></li>
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="invoice.html"><i class="bi bi-receipt-cutoff"></i> Invoice</a></li>
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2 active" href="product.html"><i class="bi bi-box-seam"></i> Products</a></li>
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="repairing.html"><i class="bi bi-tools"></i> Repairing</a></li>
+<li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="report.html"><i class="bi bi-bar-chart-line"></i> Reports</a></li>
+</ul>
+</div>
+</div>
+<!-- Main -->
+<main class="page-wrap is-loading">
+<div class="container-fluid px-3 px-lg-4">
+<!-- Title -->
+<div class="row align-items-end g-3 mb-4">
+<div class="col-12 col-xl-7">
+<h1 class="page-title">Products</h1>
+<p class="page-subtitle">Search, manage, add to cart, edit, delete, restore, and track stock alerts.</p>
+</div>
+<div class="col-12 col-xl-5">
+<div class="d-flex flex-wrap justify-content-xl-end gap-2">
+<button class="btn btn-primary rounded-4 px-3" data-bs-target="#addProductModal" data-bs-toggle="modal">
+<i class="bi bi-plus-lg me-1"></i> Add Product
+        </button>
+<button class="btn btn-outline-primary rounded-4 px-3" id="openCategoryManagerBtn" type="button">
+<i class="bi bi-tags me-1"></i> Add Category
+        </button>
+<button class="btn btn-outline-danger rounded-4 px-3" data-bs-target="#trashModal" data-bs-toggle="modal">
+<i class="bi bi-trash3 me-1"></i> Recycle Bin
+        </button>
+<button class="btn btn-outline-success rounded-4 px-3" data-open-cart="" id="cartSummaryBtn" type="button">
+<i class="bi bi-cart3 me-1"></i> Cart <span class="badge bg-success ms-1" id="cartBadge" style="display:none;">0</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Summary cards -->
+<div class="row g-3 g-xl-4 mb-4" id="productCardGrid">
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Total Products</p>
+<div class="summary-value" id="summaryTotalProducts">0</div>
+<div class="summary-trend text-primary-soft"><i class="bi bi-box-seam me-1"></i> All stock items</div>
+</div>
+<div class="summary-icon bg-soft-primary"><i class="bi bi-box-seam"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Low Stock</p>
+<div class="summary-value" id="summaryLowStockProducts">0</div>
+<div class="summary-trend text-danger-soft"><i class="bi bi-exclamation-triangle-fill me-1"></i> Needs restock</div>
+</div>
+<div class="summary-icon bg-soft-danger"><i class="bi bi-exclamation-triangle-fill"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Important Products</p>
+<div class="summary-value" id="summaryImportantProducts">0</div>
+<div class="summary-trend text-warning-soft"><i class="bi bi-star-fill me-1"></i> Priority items</div>
+</div>
+<div class="summary-icon bg-soft-warning"><i class="bi bi-star-fill"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-sm-6 col-xl-3">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Recycle Bin</p>
+<div class="summary-value" id="summaryRecycleBinCount">0</div>
+<div class="summary-trend text-purple-soft"><i class="bi bi-trash3 me-1"></i> Deleted items</div>
+</div>
+<div class="summary-icon bg-soft-purple"><i class="bi bi-trash3"></i></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Sales summary cards -->
+<div class="row g-3 g-xl-4 mb-4 sales-summary-grid">
+<div class="col-12 col-md-4">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Sold Today</p>
+<div class="summary-value" id="summarySoldTodayProducts">0</div>
+<div class="summary-trend text-primary-soft"><i class="bi bi-bag-check me-1"></i> Product qty sold</div>
+</div>
+<div class="summary-icon bg-soft-primary"><i class="bi bi-bag-check"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-md-4">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Paid Today</p>
+<div class="summary-value" id="summaryPaidTodayAmount">$0.00</div>
+<div class="summary-trend text-success-soft"><i class="bi bi-cash-coin me-1"></i> Cash collected</div>
+</div>
+<div class="summary-icon bg-soft-success"><i class="bi bi-cash-coin"></i></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-md-4">
+<div class="card-shell summary-card">
+<div class="d-flex align-items-center justify-content-between gap-3">
+<div>
+<p class="summary-label">Remaining Today</p>
+<div class="summary-value" id="summaryRemainingTodayAmount">$0.00</div>
+<div class="summary-trend text-warning-soft"><i class="bi bi-hourglass-split me-1"></i> Still pending</div>
+</div>
+<div class="summary-icon bg-soft-warning"><i class="bi bi-hourglass-split"></i></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Low stock restock queue -->
+<div class="card-shell mb-4 restock-shell" id="restockQueueShell">
+<div class="section-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+<div>
+<h5 class="fw-bold mb-1">Need to restock</h5>
+<p class="text-muted mb-0">The first low-stock and near-low products appear here. The list scrolls when more items are waiting.</p>
+</div>
+<div class="d-flex align-items-center gap-2">
+<span class="mini-pill bg-soft-danger text-danger-soft" id="restockQueueCount">0 items</span>
+<button class="btn btn-outline-secondary rounded-4" id="toggleRestockQueueBtn" type="button" aria-expanded="true" title="Hide restock list">
+<i class="bi bi-chevron-up"></i>
+</button>
+</div>
+</div>
+<div class="section-body pt-0">
+<div class="restock-queue-list" id="restockQueueBody"></div>
+</div>
+</div>
+
+<!-- Search / filters -->
+<div class="card-shell mb-4 filter-shell">
+<div class="section-body">
+<div class="row g-3 align-items-center">
+<div class="col-12 col-lg-5">
+<div class="search-wrap">
+<i class="bi bi-search search-icon"></i>
+<input class="form-control search-input" placeholder="Search by product name or product ID..." type="search"/>
+</div>
+</div>
+<div class="col-12 col-md-4 col-lg-2">
+<div class="category-selector category-selector-filter" data-category-selector="filter">
+<input aria-expanded="false" aria-haspopup="listbox" autocomplete="off" class="form-control category-trigger" id="productCategoryFilter" readonly="" type="text" value="All Categories"/>
+<i class="bi bi-chevron-down category-caret"></i>
+<div class="category-panel d-none" data-category-panel="">
+<div class="category-search-wrap">
+<input autocomplete="off" class="form-control form-control-sm" data-category-search="" placeholder="Search categories..." type="search"/>
+</div>
+<div aria-label="Category filter" class="category-list" data-category-list="" role="listbox"></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-md-4 col-lg-2">
+<select class="form-select" id="productStockFilter">
+<option selected="">All Stock</option>
+<option>In Stock</option>
+<option>Low Stock</option>
+<option>Out of Stock</option>
+</select>
+</div>
+<div class="col-12 col-md-4 col-lg-2">
+<select class="form-select" id="productSortFilter">
+<option selected="">Sort By</option>
+<option>Name</option>
+<option>Price</option>
+<option>Quantity</option>
+<option>Recent</option>
+</select>
+</div>
+<div class="col-12 col-lg-1 d-grid">
+<button class="btn btn-outline-primary rounded-4">
+<i class="bi bi-funnel"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Category tags -->
+<div class="card-shell mb-4">
+<div class="section-body">
+<div class="d-flex flex-wrap gap-2">
+<span class="tag-pill"><i class="bi bi-phone"></i> Teleefannada yaryar</span>
+<span class="tag-pill"><i class="bi bi-plug-fill"></i> Chargerska mobilada</span>
+<span class="tag-pill"><i class="bi bi-usb-plug"></i> Fiilooyinka iyo cables</span>
+<span class="tag-pill"><i class="bi bi-soundwave"></i> Dhagaha iyo sameecadaha</span>
+<span class="tag-pill"><i class="bi bi-battery-charging"></i> Power banks</span>
+<span class="tag-pill"><i class="bi bi-lightbulb-fill"></i> Nalalka</span>
+<span class="tag-pill"><i class="bi bi-tools"></i> Repair tools</span>
+</div>
+</div>
+</div>
+<!-- Product cards -->
+<div class="row g-3 g-xl-4 mb-4 product-cards-grid" id="productCardsGrid"></div>
+<!-- Table view -->
+<div class="card-shell mb-4 product-table-shell">
+<div class="section-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+<div>
+<h5 class="fw-bold mb-1">Product Table</h5>
+<p class="text-muted mb-0">A clean table for admin management.</p>
+</div>
+<div class="d-flex flex-wrap align-items-center gap-2">
+<span class="rows-filter-label">Show Rows</span>
+<select class="form-select form-select-sm rounded-4" id="productRowsFilter" style="min-width:120px;">
+<option selected="" value="5">5 rows</option>
+<option value="20">20 rows</option>
+<option value="50">50 rows</option>
+<option value="100">100 rows</option>
+<option value="all">All rows</option>
+</select>
+<span class="mini-pill bg-soft-primary text-primary-soft">Searchable</span>
+<span class="mini-pill bg-soft-success text-success-soft">Editable</span>
+<span class="mini-pill bg-soft-danger text-danger-soft">Restorable</span>
+</div>
+</div>
+<div class="section-body">
+<div class="table-responsive">
+<table class="table align-middle">
+<thead>
+<tr>
+<th>Product</th>
+<th>Category</th>
+<th>Product ID</th>
+<th>Price</th>
+<th>Stock</th>
+<th>Status</th>
+<th class="text-end">Actions</th>
+</tr>
+</thead>
+<tbody id="productTableBody">
+<tr class="product-skeleton-row">
+  <td colspan="7"><div class="skeleton-line" style="width: 88%;"></div></td>
+</tr>
+<tr class="product-skeleton-row">
+  <td colspan="7"><div class="skeleton-line" style="width: 82%;"></div></td>
+</tr>
+<tr class="product-skeleton-row">
+  <td colspan="7"><div class="skeleton-line" style="width: 90%;"></div></td>
+</tr>
+<tr class="product-skeleton-row">
+  <td colspan="7"><div class="skeleton-line" style="width: 78%;"></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Product sale history -->
+<div class="card-shell mb-4 product-history-shell">
+<div class="section-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+<div>
+<h5 class="fw-bold mb-1">Product Sell History</h5>
+<p class="text-muted mb-0">Every cart sale appears here with date, qty, discount, and total.</p>
+</div>
+<div class="d-flex flex-wrap align-items-center gap-2">
+<select class="form-select form-select-sm rounded-4" id="saleHistoryDateFilter" style="min-width:140px;">
+<option selected="" value="today">Today</option>
+<option value="week">This Week</option>
+<option value="month">This Month</option>
+<option value="year">This Year</option>
+<option value="all">All</option>
+</select>
+<select class="form-select form-select-sm rounded-4" id="saleHistoryRowsFilter" style="min-width:120px;">
+<option selected="" value="5">Last 5 rows</option>
+<option value="10">Last 10 rows</option>
+<option value="50">Last 50 rows</option>
+<option value="all">All rows</option>
+</select>
+<span class="mini-pill bg-soft-success text-success-soft">Total money</span>
+<span class="invoice-number bg-soft-primary text-primary-soft" id="saleHistoryTotalAmount">$0</span>
+</div>
+</div>
+<div class="section-body">
+<div class="table-responsive">
+<table class="table align-middle">
+<thead>
+<tr>
+<th>Sale ID</th>
+<th>Products</th>
+<th>Qty</th>
+<th>Discount</th>
+<th>Total</th>
+<th>Date</th>
+<th class="text-end">Actions</th>
+</tr>
+</thead>
+<tbody id="saleHistoryBody">
+<tr class="sale-history-skeleton-row">
+  <td colspan="7"><div class="skeleton-line" style="width: 85%;"></div></td>
+</tr>
+<tr class="sale-history-skeleton-row">
+  <td colspan="7"><div class="skeleton-line" style="width: 78%;"></div></td>
+</tr>
+<tr class="sale-history-skeleton-row">
+  <td colspan="7"><div class="skeleton-line" style="width: 88%;"></div></td>
+</tr>
+<tr class="sale-history-skeleton-row">
+  <td colspan="7"><div class="skeleton-line" style="width: 80%;"></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Cart / Recycle bin / Notes -->
+<!-- Central modals are used instead of a bottom preview area -->
+<!-- Category Manager Modal -->
+<div aria-hidden="true" class="modal fade" id="categoryManagerModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down modal-dialog-scrollable">
+<div class="modal-content">
+<div class="modal-header border-bottom">
+<div>
+<h5 class="modal-title fw-bold mb-0">Manage Categories</h5>
+<small class="text-muted">Add, edit, or delete categories for products.</small>
+</div>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body p-4">
+<div class="row g-2 mb-3">
+<div class="col-12 col-md-8">
+<input class="form-control" id="categoryManagerInput" placeholder="New category name" type="text"/>
+</div>
+<div class="col-12 col-md-4 d-grid">
+<button class="btn btn-primary" id="categoryManagerAddBtn" type="button" data-default-submit="true"><i class="bi bi-plus-lg me-1"></i>Add Category</button>
+</div>
+</div>
+<div id="categoryManagerBody"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Cart Modal -->
+<div aria-hidden="true" class="modal fade" id="cartModal" tabindex="-1">
+<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
+<div class="modal-content">
+<div class="modal-header border-bottom">
+<div>
+<h5 class="modal-title fw-bold" id="cartModalTitle">Cart Preview</h5>
+<small class="text-muted">Selected products appear here before invoice or sale.</small>
+</div>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body p-4">
+<div class="table-responsive modal-table-scroll">
+<table class="table align-middle mb-0">
+<thead>
+<tr>
+<th>Product</th>
+<th>Qty</th>
+<th>Price</th>
+<th>Total</th>
+<th class="text-end">Action</th>
+</tr>
+</thead>
+<tbody id="cartTableBody"></tbody>
+</table>
+</div>
+<div class="row g-3 mt-3">
+<div class="col-12 col-md-4">
+<div class="quick-box">
+<div class="summary-label">Subtotal</div>
+<div class="fw-bold fs-5" id="cartSubtotal">$0</div>
+</div>
+</div>
+<div class="col-12 col-md-4">
+<div class="quick-box">
+<div class="summary-label mb-2">Discount</div>
+<input class="form-control" id="cartDiscountInput" min="0" placeholder="0" step="0.01" type="number" value="0"/>
+<small class="text-muted d-block mt-1">Enter a discount amount.</small>
+</div>
+</div>
+<div class="col-12 col-md-4">
+<div class="quick-box">
+<div class="summary-label">Final Total</div>
+<div class="fw-bold fs-5 text-success" id="cartFinalTotal">$0</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-footer border-top d-flex flex-wrap justify-content-between gap-2">
+<button class="btn btn-outline-danger rounded-4" id="cartClearBtn" type="button"><i class="bi bi-trash3 me-1"></i> Clear Cart</button>
+<button class="btn btn-outline-secondary rounded-4" id="cartSaveBtn" type="button"><i class="bi bi-cloud-arrow-down me-1"></i> Save Cart</button>
+<div class="d-flex flex-wrap gap-2">
+<button class="btn btn-outline-primary rounded-4" id="cartInvoiceBtn" type="button"><i class="bi bi-receipt me-1"></i> Invoice</button>
+<button class="btn btn-primary rounded-4" id="cartSellBtn" type="button"><i class="bi bi-cash-coin me-1"></i> Sell</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recycle Bin Modal -->
+<div aria-hidden="true" class="modal fade" id="trashModal" tabindex="-1">
+<div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
+<div class="modal-content">
+<div class="modal-header border-bottom">
+<div>
+<h5 class="modal-title fw-bold">Recycle Bin</h5>
+<small class="text-muted">Restore deleted products, filter by category, or delete forever.</small>
+</div>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body p-4">
+<div class="row g-2 mb-3">
+<div class="col-12 col-md-4">
+<label class="form-label fw-semibold">Category filter</label>
+<select class="form-select" id="trashFilterCategory">
+<option selected="">All Categories</option>
+<option>Chargerska mobilada</option>
+<option>Fiilooyinka iyo cables</option>
+<option>Power banks</option>
+<option>Nalalka iyo laambadaha</option>
+<option>Mobile repairing tools</option>
+</select>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label fw-semibold">Date filter</label>
+<select class="form-select" id="trashDateFilter">
+<option value="today">Today</option>
+<option selected="" value="week">This Week (Sat-Fri)</option>
+<option value="month">This Month</option>
+<option value="year">This Year</option>
+<option value="all">All</option>
+</select>
+</div>
+<div class="col-12 col-md-4">
+<label class="form-label fw-semibold">Rows filter</label>
+<select class="form-select" id="trashFilterRows">
+<option selected="" value="5">Last 5 rows</option>
+<option value="10">Last 10 rows</option>
+<option value="all">All rows</option>
+</select>
+</div>
+</div>
+<div class="table-responsive modal-table-scroll">
+<table class="table align-middle mb-0">
+<thead>
+<tr>
+<th>Deleted Product</th>
+<th>Category</th>
+<th>Qty</th>
+<th>Deleted At</th>
+<th class="text-end">Actions</th>
+</tr>
+</thead>
+<tbody id="trashTableBody"></tbody>
+</table>
+</div>
+</div>
+<div class="modal-footer border-top">
+<button class="btn btn-light border rounded-4" data-bs-dismiss="modal" type="button">Close</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Delete Confirm Modal -->
+<div aria-hidden="true" class="modal fade" id="deleteConfirmModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+<div class="modal-content">
+<div class="modal-header border-bottom">
+<h5 class="modal-title fw-bold" id="deleteConfirmTitle">Delete Product</h5>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body p-4" id="deleteConfirmBody"></div>
+<div class="modal-footer border-top d-flex justify-content-between gap-2">
+<button class="btn btn-light border rounded-4" data-bs-dismiss="modal" type="button">Cancel</button>
+<div class="d-flex gap-2">
+<button class="btn btn-outline-danger rounded-4" id="deleteForeverBtn" type="button"><i class="bi bi-trash3-fill me-1"></i> Delete Forever</button>
+<button class="btn btn-danger rounded-4" id="deleteConfirmBtn" type="button"><i class="bi bi-trash3 me-1"></i> Move to Recycle Bin</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Restock product details modal -->
+<div aria-hidden="true" class="modal fade" id="restockDetailModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down">
+<div class="modal-content">
+<div class="modal-header border-bottom">
+<div>
+<h5 class="modal-title fw-bold mb-0" id="restockDetailTitle">Product details</h5>
+<small class="text-muted">Full information for the selected low-stock item.</small>
+</div>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body p-4" id="restockDetailBody"></div>
+</div>
+</div>
+</div>
+
+<!-- Mobile bottom navigation -->
+<nav class="mobile-bottom-nav d-lg-none position-fixed bottom-0 start-0 w-100 bg-white border-top shadow-sm">
+<div class="d-flex justify-content-around py-2">
+<a class="text-center" href="dashboard.html">
+<div><i class="bi bi-grid-1x2-fill"></i></div>
+<small>Dashboard</small>
+</a>
+<a class="text-center" href="invoice.html">
+<div><i class="bi bi-receipt-cutoff"></i></div>
+<small>Invoice</small>
+</a>
+<a class="text-center active" href="product.html">
+<div><i class="bi bi-box-seam"></i></div>
+<small>Products</small>
+</a>
+<a class="text-center" href="repairing.html">
+<div><i class="bi bi-tools"></i></div>
+<small>Repairing</small>
+</a>
+<a class="text-center" href="customers.html">
+<div><i class="bi bi-people-fill"></i></div>
+<small>Customers</small>
+</a>
+<a class="text-center" href="report.html">
+<div><i class="bi bi-bar-chart-line"></i></div>
+<small>Reports</small>
+</a>
+</div>
+</nav>
+<!-- Add Product Modal -->
+<div aria-hidden="true" class="modal fade" id="addProductModal" tabindex="-1">
+<div class="modal-dialog modal-lg modal-dialog-centered">
+<div class="modal-content">
+<div class="modal-header border-bottom">
+<h5 class="modal-title fw-bold" id="productModalTitle">Add Product</h5>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body p-4">
+<div class="row g-3">
+<div class="col-12 col-md-6">
+<label class="form-label fw-semibold" for="productName">Product Name</label>
+<input class="form-control" id="productName" placeholder="Enter product name" type="text"/>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label fw-semibold" for="productId">Product ID</label>
+<input class="form-control" id="productId" placeholder="Auto or manual ID" type="text"/>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label fw-semibold" for="productCategory">Category</label>
+<div class="category-selector" data-category-selector="product">
+<input aria-expanded="false" aria-haspopup="listbox" autocomplete="off" class="form-control category-trigger" id="productCategory" placeholder="Choose category" readonly="" type="text"/>
+<i class="bi bi-chevron-down category-caret"></i>
+<div class="category-panel d-none" data-category-panel="">
+<div class="category-search-wrap">
+<input autocomplete="off" class="form-control form-control-sm" data-category-search="" placeholder="Search categories..." type="search"/>
+</div>
+<div aria-label="Product categories" class="category-list" data-category-list="" role="listbox"></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label fw-semibold" for="productPrice">Price</label>
+<input class="form-control" id="productPrice" placeholder="0" type="number"/>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label fw-semibold" for="productOriginalPrice">Original Price</label>
+<input class="form-control" id="productOriginalPrice" placeholder="0" type="number"/>
+<small class="text-muted d-block mt-1">Used for profit and dashboard calculations.</small>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label fw-semibold" for="productQuantity">Quantity</label>
+<input class="form-control" id="productQuantity" placeholder="0" type="number"/>
+</div>
+<div class="col-12 col-md-6">
+<label class="form-label fw-semibold" for="productThreshold">Low Stock Threshold</label>
+<input class="form-control" id="productThreshold" placeholder="10" type="number"/>
+</div>
+<div class="col-12 col-md-6 d-flex align-items-end">
+<div class="form-check mt-3">
+<input class="form-check-input" id="productImportant" type="checkbox" value=""/>
+<label class="form-check-label fw-semibold" for="productImportant">
+                  Mark as important product
+                </label>
+</div>
+</div>
+<div class="col-12">
+<label class="form-label fw-semibold" for="productNotes">Notes</label>
+<textarea class="form-control" id="productNotes" placeholder="Optional notes"></textarea>
+</div>
+</div>
+</div>
+<div class="modal-footer border-top">
+<button class="btn btn-light border rounded-4" data-bs-dismiss="modal" type="button">Cancel</button>
+<button class="btn btn-primary rounded-4" id="saveProductBtn" type="button" data-default-submit="true"><i class="bi bi-save me-1"></i> Save Product</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+    const THEME_KEY = 'electronicShopTheme';
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function applyTheme(theme) {
+      const nextTheme = theme === 'light' ? 'light' : 'dark';
+      const isDark = nextTheme === 'dark';
+      document.body.classList.toggle('dark-mode', isDark);
+      document.body.dataset.theme = nextTheme;
+      document.body.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
+      document.documentElement.dataset.theme = nextTheme;
+      document.documentElement.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
+      if (themeIcon) themeIcon.className = isDark ? 'bi bi-sun' : 'bi bi-moon-stars';
+      localStorage.setItem(THEME_KEY, nextTheme);
+    }
+
+    applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+
+    themeToggle?.addEventListener('click', () => {
+      applyTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+    });
+  </script>
+<script type="module">
+  import { requireAuth } from "./js/auth.js";
+  requireAuth({ redirectUrl: "login.html" });
+</script>
+<script src="./js/product.js" type="module"></script>
+<script src="./js/navbar.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</div></main><script type="module" src="./js/settings-config.js"></script>
+</body>
+</html>
