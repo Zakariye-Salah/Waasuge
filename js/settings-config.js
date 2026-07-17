@@ -4,7 +4,7 @@ const SETTINGS_EVENT = "waasuge:settings-updated";
 
 export const DEFAULT_SETTINGS = Object.freeze({
   general: {
-    shopName: "Waasuge Electronics & Mobile Repairing",
+    shopName: "Waasuge Electronics",
     phone: "0617125558",
     whatsapp: "252617125558",
     address: "Waasuge Electronic, Mogadishu, Somalia",
@@ -311,14 +311,14 @@ export function applyAppSettingsToDocument(settings = loadAppSettings()) {
     const suffix = parts.slice(1).join(" | ");
     document.title = suffix ? `${shopName} | ${suffix}` : shopName;
   } else if (title) {
-    document.title = title.replace(/Waasuge Electronics & Mobile Repairing|Waasuge Electronics|Electronic Shop/gi, shopName);
+    document.title = title.replace(/Waasuge Electronics|Waasuge Electronics|Electronic Shop/gi, shopName);
   } else {
     document.title = shopName;
   }
 
   replaceAllText(document.body || document.documentElement, [
     [DEFAULT_SETTINGS.general.shopName, shopName],
-    ["Waasuge Electronics & Mobile Repairing", shopName],
+    ["Waasuge Electronics ", shopName],
     ["Waasuge Electronics", shopName],
     ["Electronic Shop", shopName],
     [DEFAULT_SETTINGS.general.phone, phone],
