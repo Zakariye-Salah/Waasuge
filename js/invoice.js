@@ -1849,6 +1849,7 @@ function printInvoice(invoice) {
   const payCode = escapeHtml(getPaymentShortcodeForBalance(balanceAmount));
   const payQr = getDialerQrUrl(payCode);
   const websiteQr = getReceiptQrUrl(websiteUrl);
+  const showPaymentHelp = balanceAmount > 0 && printing?.showQrCode !== false;
   const notes = escapeHtml(invoice.notes || "");
   const footerText = escapeHtml(getGeneralSettings().footerText || DEFAULT_SETTINGS.general.footerText || "Thank you for choosing Waasuge Electronics.");
   const servedBy = escapeHtml(localStorage.getItem("electronicShopAdminName") || localStorage.getItem("electronicShopAdminEmail") || "Current user");
@@ -1876,7 +1877,6 @@ function printInvoice(invoice) {
         <div class="receipt-meta">
           <div class="receipt-meta-label">Invoice</div>
           <strong>${receiptNo}</strong>
-          <div class="receipt-meta-date">${receiptDate}</div>
         </div>
       </header>
       <div class="receipt-contact">
@@ -1888,7 +1888,7 @@ function printInvoice(invoice) {
       <div class="receipt-card">
         <div class="row-line"><span>Customer</span><strong>${customerName}</strong></div>
         <div class="row-line"><span>Phone</span><strong>${customerPhone}</strong></div>
-        <div class="row-line"><span>Status</span><strong>${status}</strong></div>
+        <div class="row-line"><span>Status</span><strong class="payment-status payment-status--${normalizePaymentStatus(invoice.paymentStatus)}">${status}</strong></div>
       </div>
       <div class="receipt-table-wrap">
         <table class="receipt-table">
@@ -1902,12 +1902,12 @@ function printInvoice(invoice) {
         <div class="row-line"><span>Paid</span><strong>${paidAmount}</strong></div>
         <div class="row-line total"><span>Remaining Balance</span><strong>${balance}</strong></div>
       </div>
+      ${showPaymentHelp ? `
       <div class="receipt-paybox">
         <div class="pay-title">Habkaan Ubixi Lacagta</div>
         <div class="pay-code">${payCode}</div>
         <div class="pay-sub">Use your phone dialer or Ussd payment code with the remaining balance.</div>
       </div>
-      ${printing?.showQrCode !== false ? `
       <div class="receipt-qr-grid">
         <div class="qr-card"><img alt="Payment QR" src="${payQr}"><div>Scan to pay</div></div>
         <div class="qr-card"><img alt="Website QR" src="${websiteQr}"><div>Open website</div></div>
@@ -1953,12 +1953,16 @@ function printInvoice(invoice) {
           .shop-subtitle { font-size: .84em; color: #64748b; margin-top: 2px; }
           .receipt-meta { text-align: right; font-size: .88em; color: #334155; display: grid; gap: 2px; }
           .receipt-meta-label { text-transform: uppercase; letter-spacing: .08em; font-size: .78em; color: #64748b; font-weight: 800; }
-          .receipt-meta-date { font-size: .78em; color: #64748b; }
           .receipt-contact { display: grid; gap: 4px; font-size: .84em; color: #334155; margin-bottom: 10px; }
           .receipt-card { border: 1px solid #e2e8f0; border-radius: 14px; padding: 10px; margin-bottom: 10px; background: #fff; }
+          .receipt-card.totals { background: linear-gradient(180deg, #f8fbff, #ffffff); }
           .row-line { display: flex; justify-content: space-between; gap: 8px; align-items: flex-start; margin: 4px 0; }
           .row-line span { color: #64748b; }
           .row-line strong { text-align: right; word-break: break-word; }
+          .payment-status { display: inline-flex; align-items: center; justify-content: center; padding: 2px 10px; border-radius: 999px; font-weight: 800; letter-spacing: .02em; }
+          .payment-status--paid { color: #166534; background: #dcfce7; }
+          .payment-status--partial { color: #92400e; background: #fef3c7; }
+          .payment-status--unpaid { color: #991b1b; background: #fee2e2; }
           .receipt-table-wrap { margin: 10px 0; }
           .receipt-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
           .receipt-table th, .receipt-table td { border-bottom: 1px dashed #cbd5e1; padding: 5px 0; text-align: left; vertical-align: top; word-wrap: break-word; }
@@ -1966,8 +1970,8 @@ function printInvoice(invoice) {
           .receipt-table td:nth-child(2), .receipt-table td:nth-child(3), .receipt-table td:nth-child(4), .receipt-table th:nth-child(2), .receipt-table th:nth-child(3), .receipt-table th:nth-child(4) { text-align: right; }
           .totals .total { font-size: 1.05em; font-weight: 800; }
           .receipt-paybox { border: 1.5px dashed #2563eb; border-radius: 14px; padding: 10px; margin-bottom: 10px; background: linear-gradient(180deg, rgba(37,99,235,.06), rgba(37,99,235,.02)); text-align: center; }
-          .pay-title { font-size: .82em; text-transform: uppercase; letter-spacing: .08em; color: #1d4ed8; font-weight: 800; }
-          .pay-code { font-size: 1.08em; font-weight: 900; margin-top: 4px; word-break: break-all; }
+          .pay-title { font-size: .82em; text-transform: uppercase; letter-spacing: .08em; color: #1d4ed8; font-weight: 900; }
+          .pay-code { font-size: 1.08em; font-weight: 900; margin-top: 4px; word-break: break-all; color: #0f172a; }
           .pay-sub { font-size: .8em; color: #64748b; margin-top: 4px; }
           .receipt-qr-grid { display: grid; grid-template-columns: ${isA4 ? "1fr 1fr" : "1fr"}; gap: 8px; margin-bottom: 10px; }
           .qr-card { border: 1px solid #e2e8f0; border-radius: 14px; padding: 8px; text-align: center; background: #fff; }
