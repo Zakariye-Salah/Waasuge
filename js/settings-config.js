@@ -5,7 +5,7 @@ const SETTINGS_EVENT = "waasuge:settings-updated";
 export const DEFAULT_SETTINGS = Object.freeze({
   general: {
     shopName: "Waasuge Electronics",
-    phone: "0617125558",
+    phone: "617125558",
     whatsapp: "252617125558",
     address: "Waasuge Electronic, Mogadishu, Somalia",
     footerText: "Thank you for your purchase.",
