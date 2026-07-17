@@ -1348,11 +1348,35 @@ function normalizeRepairPhone(phone) {
   return String(phone ?? "").replace(/[^\d+]/g, "");
 }
 
+function getRepairPaymentStatus(repair) {
+  const finalTotal = Math.max(0, safeNumber(repair?.finalTotal ?? repair?.price ?? 0));
+  const paid = Math.max(0, safeNumber(repair?.paidAmount ?? 0));
+  if (paid <= 0) return { label: "Unpaid", key: "unpaid", className: "payment-status--unpaid" };
+  if (paid >= finalTotal && finalTotal > 0) return { label: "Paid", key: "paid", className: "payment-status--paid" };
+  if (paid > 0) return { label: "Partial", key: "partial", className: "payment-status--partial" };
+  return { label: "Unpaid", key: "unpaid", className: "payment-status--unpaid" };
+}
+
 function digitsOnly(value) {
   return String(value ?? "").replace(/\D/g, "");
 }
 window.digitsOnly = digitsOnly;
 globalThis.digitsOnly = digitsOnly;
+
+function openShareLink(repair, channel = "whatsapp") {
+  const message = buildRepairShareMessage(repair);
+  const targetPhone = repair?.customerWhatsapp || repair?.customerPhone || repair?.phone || "";
+  const phoneDigits = digitsOnly(targetPhone);
+  if (!phoneDigits) {
+    showToast("Customer phone number is missing", "warning", "Repair");
+    return;
+  }
+  const encoded = encodeURIComponent(message);
+  const url = channel === "sms"
+    ? `sms:${phoneDigits}?body=${encoded}`
+    : `https://wa.me/${phoneDigits}?text=${encoded}`;
+  window.open(url, "_blank", "noopener,noreferrer");
+}
 
 function buildRepairShareMessage(repair) {
   const name = repair?.customerName || "Saaxiib";
@@ -1451,6 +1475,9 @@ function renderTrackingModal(repair) {
   const paidValue = formatCurrency(repair.paidAmount ?? 0);
   const balanceValue = formatCurrency(repairBalance(repair));
   const currentStatus = displayStatusLabel(repair.status);
+  const paymentStatus = getRepairPaymentStatus(repair);
+  const priceValue = formatCurrency(repair.price ?? 0);
+  const discountValue = formatCurrency(repair.discount ?? 0);
   const statusName = normalizeRepairStatus(repair.status);
   const warrantyStatus = String(repair?.warrantyStatus || "No warranty").trim();
   const warrantyExpiry = repair?.warrantyExpiry ? formatDateTime(repair.warrantyExpiry) : "";
@@ -1510,9 +1537,9 @@ function renderTrackingModal(repair) {
             </div>
           </div>
           <div class="tracking-total-box">
-            <div class="small text-muted">Total</div>
+            <div class="small text-muted">Final Total</div>
             <div class="display-6 fw-bold">${totalValue}</div>
-            <div class="small text-muted">${formatDayName(dateValue)} • ${formatDateTime(dateValue) || "Today"}</div>
+            <div class="small text-muted">${paymentStatus.label}</div>
           </div>
         </div>
 
@@ -1536,6 +1563,9 @@ function renderTrackingModal(repair) {
               <div class="tracking-detail-item tracking-detail-item--wide"><span>Problem:</span> <strong>${getRepairProblemValue(repair) || "Not set"}</strong></div>
               <div class="tracking-detail-item tracking-detail-item--wide"><span>Parts / Service:</span> <strong>${getRepairPartsValue(repair) || "Not set"}</strong></div>
               <div class="tracking-detail-item"><span>Status:</span><strong>${currentStatus}</strong></div>
+              <div class="tracking-detail-item"><span>Price:</span><strong>${priceValue}</strong></div>
+              <div class="tracking-detail-item"><span>Discount:</span><strong class="text-warning">${discountValue}</strong></div>
+              <div class="tracking-detail-item"><span>Final Total:</span><strong class="text-primary">${totalValue}</strong></div>
               ${warrantyInfo}
               <div class="tracking-detail-item"><span>Paid:</span><strong class="text-success">${paidValue}</strong></div>
               <div class="tracking-detail-item"><span>Balance:</span><strong class="${repairBalance(repair) > 0 ? "text-danger" : "text-success"}">${balanceValue}</strong></div>
@@ -2841,15 +2871,21 @@ function printRepair(repair) {
   const repairNo = escapeHtml(makeRepairNumber(repair));
   const receiptDate = escapeHtml(formatDateTime(repair?.createdAt || repair?.date || repair?.repairDate || nowValue()));
   const parts = escapeHtml(getFormattedParts(repair));
-  const totalNum = Math.max(0, safeNumber(repair?.finalTotal ?? repair?.price ?? 0));
+  const priceValue = Math.max(0, safeNumber(repair?.price ?? 0));
+  const discountValueNum = Math.max(0, safeNumber(repair?.discount ?? 0));
+  const finalTotalNum = Math.max(0, safeNumber(repair?.finalTotal ?? priceValue - discountValueNum));
+  const total = escapeHtml(formatCurrency(priceValue));
+  const discount = escapeHtml(formatCurrency(discountValueNum));
+  const finalTotal = escapeHtml(formatCurrency(finalTotalNum));
   const paidNum = Math.max(0, safeNumber(repair?.paidAmount ?? 0));
-  const balanceNum = Math.max(0, totalNum - paidNum);
-  const total = escapeHtml(formatCurrency(totalNum));
   const paid = escapeHtml(formatCurrency(paidNum));
+  const balanceNum = Math.max(0, finalTotalNum - paidNum);
   const balance = escapeHtml(formatCurrency(balanceNum));
   const payCode = escapeHtml(getPaymentShortcodeForBalance(balanceNum));
   const payQr = getDialerQrUrl(payCode);
   const websiteQr = getReceiptQrUrl(websiteUrl);
+  const showPaymentHelp = balanceNum > 0 && printing?.showQrCode !== false;
+  const paymentStatus = getRepairPaymentStatus(repair);
   const receivedDate = escapeHtml(formatDateTime(repair?.createdAt || repair?.date || repair?.repairDate || nowValue()));
   const printedDate = escapeHtml(formatDateTime(printedAt));
   const footerText = escapeHtml(getGeneralSettings().footerText || DEFAULT_SETTINGS.general.footerText || "Thank you for choosing Waasuge Electronics.");
@@ -2874,7 +2910,6 @@ function printRepair(repair) {
         <div class="receipt-meta">
           <div class="receipt-meta-label">Repair ID</div>
           <strong>${repairNo}</strong>
-          <div class="receipt-meta-date">${receiptDate}</div>
         </div>
       </header>
       <div class="receipt-contact">
@@ -2888,7 +2923,7 @@ function printRepair(repair) {
         <div class="row-line"><span>Customer</span><strong>${customer}</strong></div>
         <div class="row-line"><span>Phone</span><strong>${customerPhone}</strong></div>
         <div class="row-line"><span>Device</span><strong>${device}</strong></div>
-        <div class="row-line"><span>Status</span><strong>${escapeHtml(displayStatusLabel(repair?.status) || repair?.status || "Pending")}</strong></div>
+        <div class="row-line"><span>Status</span><strong class="payment-status ${paymentStatus.className}">${escapeHtml(displayStatusLabel(repair?.status) || repair?.status || "Pending")}</strong></div>
       </div>
       <div class="receipt-card">
         <div class="row-line"><span>Problem</span><strong>${escapeHtml(getRepairProblemValue(repair) || "—")}</strong></div>
@@ -2897,16 +2932,18 @@ function printRepair(repair) {
         <div class="row-line"><span>Printed</span><strong>${printedDate}</strong></div>
       </div>
       <div class="receipt-card totals">
-        <div class="row-line"><span>Total</span><strong>${total}</strong></div>
-        <div class="row-line"><span>Paid</span><strong>${paid}</strong></div>
+        <div class="row-line"><span>Total Price</span><strong>${total}</strong></div>
+        <div class="row-line"><span>Discount</span><strong>${discount}</strong></div>
+        <div class="row-line"><span>Final Total</span><strong>${finalTotal}</strong></div>
+        <div class="row-line"><span>Total Paid</span><strong>${paid}</strong></div>
         <div class="row-line total"><span>Remaining Balance</span><strong>${balance}</strong></div>
       </div>
+      ${showPaymentHelp ? `
       <div class="receipt-paybox">
         <div class="pay-title">Habkaan Ubixi Lacagta</div>
         <div class="pay-code">${payCode}</div>
         <div class="pay-sub">Use the dial/USSD code with the remaining balance only.</div>
       </div>
-      ${printing?.showQrCode !== false ? `
       <div class="receipt-qr-grid">
         <div class="qr-card"><img alt="Payment QR" src="${payQr}"><div>Scan to pay</div></div>
         <div class="qr-card"><img alt="Website QR" src="${websiteQr}"><div>Open website</div></div>
@@ -2949,16 +2986,19 @@ function printRepair(repair) {
           .shop-subtitle { font-size:.84em; color:#64748b; margin-top:2px; }
           .receipt-meta { text-align:right; font-size:.88em; color:#334155; display:grid; gap:2px; }
           .receipt-meta-label { text-transform:uppercase; letter-spacing:.08em; font-size:.78em; color:#64748b; font-weight:800; }
-          .receipt-meta-date { font-size:.78em; color:#64748b; }
           .receipt-contact { display:grid; gap:4px; font-size:.84em; color:#334155; margin-bottom:10px; }
           .receipt-card { border:1px solid #e2e8f0; border-radius:14px; padding:10px; margin-bottom:10px; background:#fff; }
           .row-line { display:flex; justify-content:space-between; gap:8px; align-items:flex-start; margin:4px 0; }
           .row-line span { color:#64748b; }
           .row-line strong { text-align:right; }
+          .payment-status { display:inline-flex; align-items:center; justify-content:center; padding:2px 10px; border-radius:999px; font-weight:800; letter-spacing:.02em; }
+          .payment-status--paid { color:#166534; background:#dcfce7; }
+          .payment-status--partial { color:#92400e; background:#fef3c7; }
+          .payment-status--unpaid { color:#991b1b; background:#fee2e2; }
           .totals .total { font-size:1.05em; font-weight:800; }
           .receipt-paybox { border:1.5px dashed #2563eb; border-radius:14px; padding:10px; margin-bottom:10px; background:linear-gradient(180deg, rgba(37,99,235,.06), rgba(37,99,235,.02)); text-align:center; }
-          .pay-title { font-size:.82em; text-transform:uppercase; letter-spacing:.08em; color:#1d4ed8; font-weight:800; }
-          .pay-code { font-size:1.1em; font-weight:900; margin-top:4px; word-break:break-all; }
+          .pay-title { font-size:.82em; text-transform:uppercase; letter-spacing:.08em; color:#1d4ed8; font-weight:900; }
+          .pay-code { font-size:1.1em; font-weight:900; margin-top:4px; word-break:break-all; color:#0f172a; }
           .pay-sub { font-size:.8em; color:#64748b; margin-top:4px; }
           .receipt-qr-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; }
           .qr-card { border:1px solid #e2e8f0; border-radius:14px; padding:8px; text-align:center; background:#fff; }
