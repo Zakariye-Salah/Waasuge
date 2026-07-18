@@ -440,6 +440,18 @@ function buildPerformanceProgress(value, total) {
   return Math.max(0, Math.min(100, Math.round((safeNumber(value) / total) * 100)));
 }
 
+
+function getPerformanceTone(percent) {
+  const value = Math.max(0, Math.min(100, Math.round(safeNumber(percent))));
+  if (value <= 10) return { fill: "progress-tone-red", text: "tone-red-text" };
+  if (value <= 25) return { fill: "progress-tone-orange", text: "tone-orange-text" };
+  if (value <= 40) return { fill: "progress-tone-amber", text: "tone-amber-text" };
+  if (value <= 60) return { fill: "progress-tone-blue", text: "tone-blue-text" };
+  if (value <= 80) return { fill: "progress-tone-purple", text: "tone-purple-text" };
+  if (value <= 99) return { fill: "progress-tone-lightgreen", text: "tone-lightgreen-text" };
+  return { fill: "progress-tone-green", text: "tone-green-text" };
+}
+
 function buildInvoicePerformanceRows(snapshot = getReportSnapshot()) {
   const summary = buildInvoiceStatusSummary(snapshot.invoices, snapshot.period);
   const totalCount = Object.values(summary).reduce((sum, row) => sum + safeNumber(row?.count), 0) || 1;
@@ -773,7 +785,7 @@ function renderInvoicePerformanceTable(invoices, period) {
     const amount = summary[row.key]?.amount || 0;
     const percent = Math.max(8, Math.min(100, Math.round((amount / maxAmount) * 100)));
     const share = Math.max(0, Math.min(100, Math.round((amount / totalAmount) * 100)));
-    const iconClass = row.key === "paid" ? "text-success-soft" : row.key === "partial" ? "text-warning-soft" : "text-danger-soft";
+    const tone = getPerformanceTone(percent);
     return `
       <tr>
         <td><span class="badge ${row.badge} report-badge">${row.label}</span></td>
@@ -781,11 +793,11 @@ function renderInvoicePerformanceTable(invoices, period) {
         <td class="fw-semibold">${formatCurrency(amount)}</td>
         <td>
           <div class="d-flex flex-column gap-1">
-            <span class="${iconClass} fw-semibold"><i class="bi bi-arrow-up-right"></i> ${row.trend}</span>
+            <span class="fw-semibold ${tone.text}"><i class="bi bi-arrow-up-right"></i> ${row.trend}</span>
             <div class="progress-soft">
-              <div class="progress-bar ${row.key === "paid" ? "bg-success" : row.key === "partial" ? "bg-warning" : "bg-danger"}" style="width: ${percent}%;"></div>
+              <div class="progress-bar ${tone.fill}" style="width: ${percent}%;"></div>
             </div>
-            <div class="small text-muted fw-semibold">${share}% of total</div>
+            <div class="small fw-semibold ${tone.text}">${share}% of total</div>
           </div>
         </td>
       </tr>
@@ -819,17 +831,7 @@ function renderRepairPerformanceTable(repairs, period) {
     const amount = summary[row.key]?.amount || 0;
     const width = Math.max(8, Math.round((count / totalCount) * 100));
     const share = Math.max(0, Math.min(100, Math.round((amount / totalAmount) * 100)));
-    const shade = row.key === "device received"
-      ? "bg-warning"
-      : row.key === "inspection started" || row.key === "diagnosis completed"
-        ? "bg-info"
-        : row.key === "waiting for approval" || row.key === "waiting for parts"
-          ? "bg-secondary"
-          : row.key === "repair in progress"
-            ? "bg-primary"
-            : row.key === "quality testing" || row.key === "ready for pickup"
-              ? "bg-success"
-              : "bg-danger";
+    const tone = getPerformanceTone(width);
     return `
       <tr>
         <td><span class="badge ${row.badge} report-badge">${row.label}</span></td>
@@ -838,9 +840,9 @@ function renderRepairPerformanceTable(repairs, period) {
         <td>
           <div class="d-flex flex-column gap-1">
             <div class="progress-soft">
-              <div class="progress-bar ${shade}" style="width: ${width}%;"></div>
+              <div class="progress-bar ${tone.fill}" style="width: ${width}%;"></div>
             </div>
-            <div class="small text-muted fw-semibold">Progress ${width}% • ${share}% of amount</div>
+            <div class="small fw-semibold ${tone.text}">Progress ${width}% • ${share}% of amount</div>
           </div>
         </td>
       </tr>
