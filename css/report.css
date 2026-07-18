@@ -18,3 +18,63 @@ body.dark-mode #reportPerformanceTableBody tr:nth-child(even) { background: rgba
   80%  { transform: translateX(3px) rotateY(180deg); }
   100% { transform: translateX(0) rotateY(360deg); }
 }
+
+
+/* Tone-driven progress bars for report performance tables */
+.progress-soft {
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-soft .progress-bar {
+  border-radius: inherit;
+  position: relative;
+  overflow: hidden;
+  transition: width 420ms ease;
+}
+.progress-soft .progress-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0));
+  pointer-events: none;
+}
+
+/* Matching text colors */
+.tone-red-text { color: #ef4444 !important; }
+.tone-orange-text { color: #f97316 !important; }
+.tone-amber-text { color: #f59e0b !important; }
+.tone-blue-text { color: #3b82f6 !important; }
+.tone-purple-text { color: #8b5cf6 !important; }
+.tone-lightgreen-text { color: #22c55e !important; }
+.tone-green-text { color: #16a34a !important; }
+
+/* Matching fill colors */
+.progress-tone-red {
+  background-color: #ef4444 !important;
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0));
+}
+.progress-tone-orange {
+  background-color: #f97316 !important;
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0));
+}
+.progress-tone-amber {
+  background-color: #f59e0b !important;
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0));
+}
+.progress-tone-blue {
+  background-color: #3b82f6 !important;
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0));
+}
+.progress-tone-purple {
+  background-color: #8b5cf6 !important;
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0));
+}
+.progress-tone-lightgreen {
+  background-color: #22c55e !important;
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0));
+}
+.progress-tone-green {
+  background-color: #16a34a !important;
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0));
+}
+
