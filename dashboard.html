@@ -1079,6 +1079,70 @@ body.dark-mode .bg-soft-primary { background: rgba(96,165,250,0.20) !important; 
 </div>
 </div>
 </div>
+
+<div class="col-12">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+<div>
+<h5 class="fw-bold mb-1">Recent Customer Activity</h5>
+<p class="text-muted mb-0">Latest customers added this week, with quick access to the full list.</p>
+</div>
+<a class="btn btn-sm btn-outline-primary rounded-3" href="customers.html">View All</a>
+</div>
+<div class="section-body">
+<div class="table-responsive">
+<table class="table align-middle mb-0">
+<thead>
+<tr>
+<th>Customer</th>
+<th>Phone</th>
+<th>Joined</th>
+<th class="text-end">Action</th>
+</tr>
+</thead>
+<tbody id="recentCustomersTbody">
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<div class="row g-4 mb-4">
+<div class="col-12 col-xl-6">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center">
+<div>
+<h5 class="fw-bold mb-1">Customer Payment Type</h5>
+<p class="text-muted mb-0">How customers usually pay across invoices and repairs.</p>
+</div>
+<span class="mini-pill bg-soft-primary text-primary-soft">All transactions</span>
+</div>
+<div class="section-body">
+<div class="chart-placeholder" style="min-height: 320px;">
+<canvas id="dashboardPaymentTypeChart" style="width:100%;height:320px;"></canvas>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12 col-xl-6">
+<div class="card-shell h-100">
+<div class="section-header d-flex justify-content-between align-items-center">
+<div>
+<h5 class="fw-bold mb-1">Customer Provider / Cash</h5>
+<p class="text-muted mb-0">Most-used mobile money provider and cash channel.</p>
+</div>
+<span class="mini-pill bg-soft-success text-success-soft">Provider mix</span>
+</div>
+<div class="section-body">
+<div class="chart-placeholder" style="min-height: 320px;">
+<canvas id="dashboardProviderChart" style="width:100%;height:320px;"></canvas>
+</div>
+</div>
+</div>
+</div>
+</div>
+
 <!-- Quick actions + notifications -->
 <div class="row g-4 mb-4">
 <div class="col-12 col-lg-8">
