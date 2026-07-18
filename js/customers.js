@@ -37,6 +37,18 @@ const state = {
   typeFilter: "all",
   sortFilter: "newest",
   selectedId: null,
+  profileCollapsed: {
+    transactions: false,
+    invoices: false,
+    repairs: false,
+    activity: true,
+  },
+  profileCustomerKey: "",
+  currentProfile: null,
+  profileCharts: {
+    paymentType: null,
+    provider: null,
+  },
 };
 
 function el(id) { return document.getElementById(id); }
@@ -67,6 +79,18 @@ function injectCustomerPageStyles() {
         grid-template-columns: 1fr;
         gap: 16px;
       }
+      #customerProfileBody .profile-info-grid {
+        grid-template-columns: 1fr !important;
+      }
+      #customerProfileBody .profile-toolbar > div {
+        width: 100%;
+      }
+      #customerProfileBody .profile-toolbar .btn {
+        width: 100%;
+      }
+      #customerProfileBody .profile-toolbar .d-flex {
+        width: 100%;
+      }
       #customerProfileBody .profile-section {
         width: 100%;
       }
@@ -92,6 +116,151 @@ function injectCustomerPageStyles() {
         scrollbar-width: thin;
       }
     }
+
+      #customerProfileBody {
+        --profile-surface: rgba(255,255,255,0.92);
+      }
+      body.dark-mode #customerProfileBody {
+        --profile-surface: rgba(15, 23, 42, 0.92);
+      }
+      #customerProfileBody .profile-toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        backdrop-filter: blur(16px);
+        background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.78));
+      }
+      body.dark-mode #customerProfileBody .profile-toolbar {
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.82));
+      }
+      #customerProfileBody .profile-stack {
+        display: grid;
+        gap: 16px;
+      }
+      #customerProfileBody .profile-section {
+        overflow: hidden;
+      }
+      #customerProfileBody .profile-section.is-collapsed .profile-section-body {
+        display: none !important;
+      }
+      #customerProfileBody .profile-section .section-header {
+        padding-bottom: 16px;
+      }
+      #customerProfileBody .profile-section .table-responsive {
+        border-radius: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.12);
+        background: var(--profile-surface);
+      }
+      #customerProfileBody .profile-section .table {
+        margin-bottom: 0;
+      }
+      #customerProfileBody .profile-section .table thead th {
+        white-space: nowrap;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+      }
+      #customerProfileBody .profile-stack-cell {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+      }
+      #customerProfileBody .profile-stack-cell .main-line {
+        font-weight: 700;
+        line-height: 1.2;
+      }
+      #customerProfileBody .profile-stack-cell .sub-line {
+        font-size: 0.78rem;
+        color: var(--muted);
+        line-height: 1.2;
+        word-break: break-word;
+      }
+      body.dark-mode #customerProfileBody .profile-stack-cell .sub-line {
+        color: var(--dark-muted);
+      }
+      #customerProfileBody .profile-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 999px;
+        padding: 7px 11px;
+        font-weight: 700;
+        font-size: 0.82rem;
+        border: 1px solid transparent;
+      }
+      #customerProfileBody .profile-chip.bg-soft-primary { color: #2563eb; border-color: rgba(37,99,235,.12); }
+      #customerProfileBody .profile-chip.bg-soft-success { color: #16a34a; border-color: rgba(22,163,74,.12); }
+      #customerProfileBody .profile-chip.bg-soft-warning { color: #b45309; border-color: rgba(245,158,11,.14); }
+      #customerProfileBody .profile-chip.bg-soft-danger { color: #dc2626; border-color: rgba(220,38,38,.12); }
+      #customerProfileBody .profile-chip.bg-soft-info { color: #0891b2; border-color: rgba(8,145,178,.12); }
+      #customerProfileBody .profile-chip.bg-soft-purple { color: #7c3aed; border-color: rgba(124,58,237,.12); }
+      body.dark-mode #customerProfileBody .profile-chip.bg-soft-primary { color: #bfdbfe; border-color: rgba(96,165,250,.18); }
+      body.dark-mode #customerProfileBody .profile-chip.bg-soft-success { color: #bbf7d0; border-color: rgba(74,222,128,.18); }
+      body.dark-mode #customerProfileBody .profile-chip.bg-soft-warning { color: #fde68a; border-color: rgba(251,191,36,.18); }
+      body.dark-mode #customerProfileBody .profile-chip.bg-soft-danger { color: #fecaca; border-color: rgba(248,113,113,.18); }
+      body.dark-mode #customerProfileBody .profile-chip.bg-soft-info { color: #a5f3fc; border-color: rgba(34,211,238,.18); }
+      body.dark-mode #customerProfileBody .profile-chip.bg-soft-purple { color: #ddd6fe; border-color: rgba(167,139,250,.18); }
+      #customerProfileBody .profile-info-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+      #customerProfileBody .profile-info-card {
+        border-radius: 18px;
+        padding: 14px;
+        border: 1px solid rgba(148, 163, 184, 0.12);
+        background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.96));
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+      }
+      body.dark-mode #customerProfileBody .profile-info-card {
+        background: linear-gradient(180deg, rgba(17,24,39,0.96), rgba(15,23,42,0.94));
+        border-color: rgba(148, 163, 184, 0.16);
+      }
+      #customerProfileBody .profile-info-card .label {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        font-weight: 800;
+        color: var(--muted);
+      }
+      body.dark-mode #customerProfileBody .profile-info-card .label {
+        color: var(--dark-muted);
+      }
+      #customerProfileBody .profile-info-card .value {
+        font-weight: 800;
+        word-break: break-word;
+      }
+      #customerProfileBody .profile-section-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+      #customerProfileBody .profile-section-actions .btn {
+        border-radius: 999px;
+      }
+      #customerProfileBody .profile-scroll-group {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 8px;
+        align-items: center;
+      }
+      #customerProfileBody .profile-section-actions {
+        justify-content: flex-end;
+      }
+      #customerProfileBody .profile-info-card.bg-soft-primary { background: linear-gradient(180deg, rgba(37,99,235,0.10), rgba(255,255,255,0.96)); }
+      #customerProfileBody .profile-info-card.bg-soft-success { background: linear-gradient(180deg, rgba(22,163,74,0.10), rgba(255,255,255,0.96)); }
+      #customerProfileBody .profile-info-card.bg-soft-info { background: linear-gradient(180deg, rgba(8,145,178,0.10), rgba(255,255,255,0.96)); }
+      #customerProfileBody .profile-info-card.bg-soft-warning { background: linear-gradient(180deg, rgba(245,158,11,0.12), rgba(255,255,255,0.96)); }
+      #customerProfileBody .profile-info-card.bg-soft-danger { background: linear-gradient(180deg, rgba(220,38,38,0.10), rgba(255,255,255,0.96)); }
+      #customerProfileBody .profile-info-card.bg-soft-purple { background: linear-gradient(180deg, rgba(124,58,237,0.10), rgba(255,255,255,0.96)); }
+      body.dark-mode #customerProfileBody .profile-info-card.bg-soft-primary { background: linear-gradient(180deg, rgba(37,99,235,0.18), rgba(17,24,39,0.96)); }
+      body.dark-mode #customerProfileBody .profile-info-card.bg-soft-success { background: linear-gradient(180deg, rgba(22,163,74,0.18), rgba(17,24,39,0.96)); }
+      body.dark-mode #customerProfileBody .profile-info-card.bg-soft-info { background: linear-gradient(180deg, rgba(8,145,178,0.18), rgba(17,24,39,0.96)); }
+      body.dark-mode #customerProfileBody .profile-info-card.bg-soft-warning { background: linear-gradient(180deg, rgba(245,158,11,0.18), rgba(17,24,39,0.96)); }
+      body.dark-mode #customerProfileBody .profile-info-card.bg-soft-danger { background: linear-gradient(180deg, rgba(220,38,38,0.18), rgba(17,24,39,0.96)); }
+      body.dark-mode #customerProfileBody .profile-info-card.bg-soft-purple { background: linear-gradient(180deg, rgba(124,58,237,0.18), rgba(17,24,39,0.96)); }
   `;
   document.head.appendChild(style);
 }
@@ -101,6 +270,104 @@ function money(value) {
 }
 function dateLabel(value) {
   return formatDateTime(value) || "";
+}
+
+function moneyCell(value) {
+  return value === null || value === undefined || value === "" ? "—" : money(value);
+}
+
+function normalizeProfileChannelLabel(value = "", fallback = "Other") {
+  const raw = String(value || "").trim();
+  const normalized = normalizeText(raw);
+  if (!normalized) return fallback;
+  if (normalized.includes("evc") || normalized.includes("hormuud")) return "Evc Plus (Hormuud)";
+  if (normalized.includes("edahab") || normalized.includes("somtel")) return "Edahab (Somtel)";
+  if (normalized.includes("jeeb") || normalized.includes("somnet")) return "Jeeb (Somnet)";
+  if (normalized.includes("cash")) return "Cash";
+  return raw;
+}
+
+function countByLabel(items = [], picker = (item) => "") {
+  const counts = new Map();
+  items.forEach((item) => {
+    const label = normalizeProfileChannelLabel(picker(item));
+    counts.set(label, (counts.get(label) || 0) + 1);
+  });
+  return counts;
+}
+
+function buildChartDataset(counts, preferredOrder = []) {
+  const seen = new Set();
+  const labels = [];
+  const values = [];
+  preferredOrder.forEach((label) => {
+    if (!counts.has(label)) return;
+    labels.push(label);
+    values.push(counts.get(label));
+    seen.add(label);
+  });
+  [...counts.keys()].sort((a, b) => a.localeCompare(b)).forEach((label) => {
+    if (seen.has(label)) return;
+    labels.push(label);
+    values.push(counts.get(label));
+  });
+  return { labels, values };
+}
+
+function destroyProfileCharts() {
+  if (window.CustomerProfileCharts) {
+    Object.values(window.CustomerProfileCharts).forEach((chart) => {
+      try { chart?.destroy?.(); } catch (_) {}
+    });
+  }
+  window.CustomerProfileCharts = {};
+  state.profileCharts.paymentType = null;
+  state.profileCharts.provider = null;
+}
+
+function renderProfileCharts(rows = []) {
+  if (!window.Chart) return;
+  const paymentCanvas = document.getElementById("profilePaymentTypeChart");
+  const providerCanvas = document.getElementById("profileProviderChart");
+  if (!paymentCanvas || !providerCanvas) return;
+
+  destroyProfileCharts();
+
+  const paymentCounts = countByLabel(rows, (row) => row.paymentType || row.type);
+  const providerCounts = countByLabel(rows, (row) => row.provider || row.paymentProvider || row.cashCurrency);
+
+  const paymentDataset = buildChartDataset(paymentCounts, ["Mobile Money", "Cash", "Bank Transfer", "Card"]);
+  const providerDataset = buildChartDataset(providerCounts, ["Evc Plus (Hormuud)", "Edahab (Somtel)", "Jeeb (Somnet)", "Cash"]);
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { position: "bottom" } },
+  };
+
+  if (paymentDataset.labels.length) {
+    window.CustomerProfileCharts.paymentType = new Chart(paymentCanvas, {
+      type: "doughnut",
+      data: {
+        labels: paymentDataset.labels,
+        datasets: [{ data: paymentDataset.values }],
+      },
+      options: chartOptions,
+    });
+    state.profileCharts.paymentType = window.CustomerProfileCharts.paymentType;
+  }
+
+  if (providerDataset.labels.length) {
+    window.CustomerProfileCharts.provider = new Chart(providerCanvas, {
+      type: "doughnut",
+      data: {
+        labels: providerDataset.labels,
+        datasets: [{ data: providerDataset.values }],
+      },
+      options: chartOptions,
+    });
+    state.profileCharts.provider = window.CustomerProfileCharts.provider;
+  }
 }
 
 function setCustomerSaveLoading(isSaving, editing = false) {
@@ -436,103 +703,236 @@ async function saveCustomerFromModal() {
 }
 
 
+
+function profileSafeId(value) {
+  return String(value || "").replace(/[^a-zA-Z0-9_-]/g, "-").slice(0, 60);
+}
+function profileCell(main, sub = "", tone = "") {
+  const toneClass = tone ? ` ${tone}` : "";
+  return `<div class="profile-stack-cell${toneClass}"><div class="main-line">${main || "—"}</div>${sub ? `<div class="sub-line">${sub}</div>` : ""}</div>`;
+}
+function profileCompactList(items = []) {
+  const filtered = items.filter(Boolean);
+  return filtered.length ? filtered.map((item) => `<div>${item}</div>`).join("") : "—";
+}
+function profileToggleIcon(collapsed) {
+  return collapsed ? '<i class="bi bi-chevron-down"></i>' : '<i class="bi bi-chevron-up"></i>';
+}
+function profileScrollButtons(sectionKey) {
+  return `
+    <div class="profile-section-actions">
+      <button class="btn btn-sm btn-outline-secondary" type="button" data-profile-action="scroll-left" data-section="${sectionKey}" aria-label="Scroll left"><i class="bi bi-chevron-left"></i></button>
+      <button class="btn btn-sm btn-outline-secondary" type="button" data-profile-action="scroll-right" data-section="${sectionKey}" aria-label="Scroll right"><i class="bi bi-chevron-right"></i></button>
+      <button class="btn btn-sm btn-outline-primary" type="button" data-profile-action="toggle-section" data-section="${sectionKey}" aria-label="Toggle section"><span class="me-1">${sectionKey === "activity" ? "Show/Hide" : "Show/Hide"}</span><i class="bi bi-chevron-up"></i></button>
+    </div>`;
+}
+
+
 function renderProfile(customer) {
   const body = el("customerProfileBody");
   const profileName = el("profileCustomerName");
   if (!body || !profileName) return;
 
-  const invoices = linkedInvoices(customer);
-  const repairs = linkedRepairs(customer);
-  const payments = linkedPayments(customer);
+  const key = customerKey(customer) || customer.id || customer.phoneNumber || customer.fullName || "customer";
+  const isSameCustomer = state.profileCustomerKey === key;
+  if (!isSameCustomer) {
+    state.profileCollapsed = {
+      transactions: false,
+      invoices: false,
+      repairs: false,
+      activity: true,
+    };
+    state.profileCustomerKey = key;
+  }
+
+  const invoices = linkedInvoices(customer).slice().sort((a, b) => safeNumber(b.createdAt) - safeNumber(a.createdAt));
+  const repairs = linkedRepairs(customer).slice().sort((a, b) => safeNumber(b.createdAt) - safeNumber(a.createdAt));
+  const payments = linkedPayments(customer).slice().sort((a, b) => safeNumber(b.createdAt) - safeNumber(a.createdAt));
   const stats = customerStats(customer);
 
   profileName.textContent = customer.fullName || "Customer";
 
+  const createdLabel = dateLabel(customer.createdAt || customer.joinedAt || customer.addedAt);
   const recentActivity = [
-    ...invoices.map((item) => ({ type: "Invoice", date: safeNumber(item.createdAt), title: item.invoiceNumber || item.id || "Invoice", amount: item.finalTotal ?? item.total ?? item.amount ?? 0, status: item.paymentStatus || "—" })),
-    ...repairs.map((item) => ({ type: "Repair", date: safeNumber(item.createdAt), title: item.repairNumber || item.id || "Repair", amount: item.finalTotal ?? item.price ?? item.cost ?? 0, status: item.status || "—" })),
-    ...payments.map((item) => ({ type: "Payment", date: safeNumber(item.createdAt), title: item.relatedNumber || item.id || "Payment", amount: item.paidNow ?? item.amount ?? item.paidAmount ?? 0, status: item.paymentType || item.paymentProvider || "—" })),
-  ].sort((a, b) => b.date - a.date).slice(0, 12);
-
-  const paymentRows = payments.map((pay) => ({
-    type: 'Payment', ref: pay.relatedNumber || pay.id || '—', date: dateLabel(pay.createdAt), phone: pay.customerPhone || customer.phoneNumber || '—', whatsapp: pay.customerWhatsapp || pay.customerPhone || customer.whatsapp || '—', sender: pay.senderNumber || pay.customerPhone || '—', paymentType: pay.paymentType || 'Mobile Money', provider: pay.paymentProvider || pay.cashCurrency || 'Evc Plus', paid: money(pay.paidNow ?? pay.amount ?? pay.paidAmount), total: money(pay.totalAmount ?? pay.totalPaid ?? pay.paidAmount), remaining: money(pay.totalRemaining ?? pay.remaining), status: pay.relatedType || 'Payment', notes: pay.notes || '—'
-  }));
+    ...invoices.map((item) => ({ type: "Invoice", ts: safeNumber(item.createdAt), title: item.invoiceNumber || item.id || "Invoice", amount: item.finalTotal ?? item.total ?? item.amount ?? 0, status: item.paymentStatus || "—" })),
+    ...repairs.map((item) => ({ type: "Repair", ts: safeNumber(item.createdAt), title: item.repairNumber || item.id || "Repair", amount: item.finalTotal ?? item.price ?? item.cost ?? 0, status: item.status || "—" })),
+    ...payments.map((item) => ({ type: "Payment", ts: safeNumber(item.createdAt), title: item.relatedNumber || item.id || "Payment", amount: item.paidNow ?? item.amount ?? item.paidAmount ?? 0, status: item.paymentType || item.paymentProvider || "—" })),
+  ].sort((a, b) => b.ts - a.ts).slice(0, 12);
 
   const transactionRows = [
     ...invoices.map((inv) => ({
-      type: 'Invoice', ref: inv.invoiceNumber || inv.id || '—', date: dateLabel(inv.createdAt), phone: inv.customerPhone || customer.phoneNumber || '—', whatsapp: inv.customerWhatsapp || inv.customerPhone || customer.whatsapp || '—', sender: inv.senderNumber || inv.customerPhone || '—', paymentType: inv.paymentType || 'Mobile Money', provider: inv.paymentProvider || inv.cashCurrency || 'Evc Plus', paid: money(inv.paidAmount), total: money(inv.finalTotal ?? inv.total ?? inv.amount), remaining: money(inv.balance), status: inv.paymentStatus || '—', notes: inv.notes || '—'
+      type: "Invoice",
+      ts: safeNumber(inv.createdAt),
+      ref: inv.invoiceNumber || inv.id || "—",
+      date: dateLabel(inv.createdAt),
+      phone: inv.customerPhone || customer.phoneNumber || "—",
+      whatsapp: inv.customerWhatsapp || inv.customerPhone || customer.whatsapp || "—",
+      sender: inv.senderNumber || inv.customerPhone || "—",
+      paymentType: inv.paymentType || "Mobile Money",
+      provider: inv.paymentProvider || inv.cashCurrency || "Evc Plus",
+      paid: money(inv.paidAmount),
+      total: money(inv.finalTotal ?? inv.total ?? inv.amount),
+      remaining: money(inv.balance),
+      status: inv.paymentStatus || "—",
+      notes: inv.notes || "—",
     })),
     ...repairs.map((rep) => ({
-      type: 'Repair', ref: rep.repairNumber || rep.id || '—', date: dateLabel(rep.createdAt), phone: rep.customerPhone || customer.phoneNumber || '—', whatsapp: rep.customerWhatsapp || rep.customerPhone || customer.whatsapp || '—', sender: rep.senderNumber || rep.customerPhone || '—', paymentType: rep.paymentType || 'Mobile Money', provider: rep.paymentProvider || rep.cashCurrency || 'Evc Plus', paid: money(rep.paidAmount), total: money(rep.finalTotal ?? rep.price ?? rep.cost), remaining: money(rep.balance), status: rep.status || '—', notes: rep.notes || '—'
+      type: "Repair",
+      ts: safeNumber(rep.createdAt),
+      ref: rep.repairNumber || rep.id || "—",
+      date: dateLabel(rep.createdAt),
+      phone: rep.customerPhone || customer.phoneNumber || "—",
+      whatsapp: rep.customerWhatsapp || rep.customerPhone || customer.whatsapp || "—",
+      sender: rep.senderNumber || rep.customerPhone || "—",
+      paymentType: rep.paymentType || "Mobile Money",
+      provider: rep.paymentProvider || rep.cashCurrency || "Evc Plus",
+      paid: money(rep.paidAmount),
+      total: money(rep.finalTotal ?? rep.price ?? rep.cost),
+      remaining: money(rep.balance),
+      status: rep.status || "—",
+      notes: rep.notes || "—",
     })),
-    ...paymentRows
-  ];
+    ...payments.map((pay) => ({
+      type: "Payment",
+      ts: safeNumber(pay.createdAt),
+      ref: pay.relatedNumber || pay.id || "—",
+      date: dateLabel(pay.createdAt),
+      phone: pay.customerPhone || customer.phoneNumber || "—",
+      whatsapp: pay.customerWhatsapp || pay.customerPhone || customer.whatsapp || "—",
+      sender: pay.senderNumber || pay.customerPhone || "—",
+      paymentType: pay.paymentType || "Mobile Money",
+      provider: pay.paymentProvider || pay.cashCurrency || "Evc Plus",
+      paid: pay.paidNow ?? pay.amount ?? pay.paidAmount ?? null,
+      total: pay.totalAmount ?? pay.totalPaid ?? pay.amount ?? pay.paidNow ?? pay.paidAmount ?? null,
+      remaining: pay.totalRemaining ?? pay.remaining ?? null,
+      status: pay.relatedType || "Payment",
+      notes: pay.notes || "—",
+    })),
+  ].sort((a, b) => b.ts - a.ts);
 
-  const customerInfoRows = [
-    ["Name", customer.fullName || "—"],
-    ["Phone", customer.phoneNumber || "—"],
-    ["Gender", customer.gender || "—"],
-    ["Address", customer.address || "—"],
-    ["Email", customer.email || "—"],
-    ["Notes", customer.notes || "—"],
-  ].map(([label, value]) => `
-    <div class="d-flex justify-content-between gap-3 py-2 border-bottom">
-      <div class="text-muted small fw-semibold">${label}</div>
-      <div class="fw-semibold text-end">${String(value || "—")}</div>
+  const customerInfoCards = [
+    ["Name", customer.fullName || "—", "bg-soft-primary"],
+    ["Phone", customer.phoneNumber || "—", "bg-soft-success"],
+    ["WhatsApp", customer.whatsapp || customer.whatsappNumber || customer.phoneNumber || "—", "bg-soft-info"],
+    ["Created", createdLabel || "—", "bg-soft-purple"],
+    ["Gender", customer.gender || "—", "bg-soft-warning"],
+    ["Address", customer.address || "—", "bg-soft-danger"],
+    ["Email", customer.email || "—", "bg-soft-primary"],
+    ["Notes", customer.notes || "—", "bg-soft-success"],
+  ].map(([label, value, tone]) => `
+    <div class="profile-info-card ${tone}">
+      <div class="label">${label}</div>
+      <div class="value mt-1">${String(value || "—")}</div>
     </div>
   `).join("");
 
   const invoiceRows = invoices.map((inv) => `
     <tr>
-      <td>${inv.invoiceNumber || inv.id || "—"}</td>
-      <td>${dateLabel(inv.createdAt)}</td>
-      <td>${inv.customerPhone || customer.phoneNumber || "—"}</td>
-      <td>${inv.customerWhatsapp || inv.customerPhone || customer.whatsapp || "—"}</td>
-      <td>${inv.senderNumber || inv.customerPhone || "—"}</td>
-      <td>${inv.paymentType || "Mobile Money"}</td>
-      <td>${inv.paymentProvider || inv.cashCurrency || "Evc Plus"}</td>
-      <td>${(inv.items || []).map((i) => i.name || i.productName || i).join(", ") || "—"}</td>
+      <td>${profileCell(`<span class="profile-chip bg-soft-primary">${inv.invoiceNumber || inv.id || "—"}</span>`, dateLabel(inv.createdAt))}</td>
+      <td>${profileCell(inv.customerPhone || customer.phoneNumber || "—", inv.customerWhatsapp || customer.whatsapp || "—")}</td>
+      <td>${profileCell(inv.senderNumber || inv.customerPhone || "—", inv.paymentType || "Mobile Money")}</td>
+      <td>${profileCell(inv.paymentProvider || inv.cashCurrency || "Evc Plus", (inv.items || []).map((i) => i.name || i.productName || i).join(", ") || "—")}</td>
       <td>${money(inv.finalTotal ?? inv.total ?? inv.amount)}</td>
       <td>${money(inv.paidAmount)}</td>
       <td>${money(inv.balance)}</td>
-      <td><span class="badge bg-${String(inv.paymentStatus || '').toLowerCase() === 'paid' ? 'success' : 'warning'}">${inv.paymentStatus || "—"}</span></td>
-      <td><button class="btn btn-sm btn-outline-primary" type="button" onclick="window.location.href='invoice.html'"><i class="bi bi-eye"></i></button></td>
+      <td><span class="profile-chip ${String(inv.paymentStatus || "").toLowerCase() === "paid" ? "bg-soft-success" : "bg-soft-warning"}">${inv.paymentStatus || "—"}</span></td>
+      <td><button class="btn btn-sm btn-outline-primary rounded-pill" type="button" onclick="window.location.href='invoice.html'"><i class="bi bi-eye"></i></button></td>
     </tr>
-  `).join("") || `<tr><td colspan="13" class="text-muted text-center py-4">No invoices yet</td></tr>`;
+  `).join("") || `<tr><td colspan="9" class="text-muted text-center py-4">No invoices yet</td></tr>`;
 
   const repairRows = repairs.map((rep) => `
     <tr>
-      <td>${rep.repairNumber || rep.id || "—"}</td>
-      <td>${rep.customerPhone || customer.phoneNumber || "—"}</td>
-      <td>${rep.customerWhatsapp || rep.customerPhone || customer.whatsapp || "—"}</td>
-      <td>${rep.senderNumber || rep.customerPhone || "—"}</td>
-      <td>${rep.paymentType || "Mobile Money"}</td>
-      <td>${rep.paymentProvider || rep.cashCurrency || "Evc Plus"}</td>
-      <td>${rep.deviceName || rep.device || "—"}</td>
-      <td>${rep.brand || "—"}</td>
-      <td>${rep.model || "—"}</td>
-      <td>${rep.imei || "—"}</td>
-      <td>${rep.problem || "—"}</td>
-      <td>${rep.technician || "—"}</td>
-      <td>${rep.status || "—"}</td>
-      <td>${money(rep.finalTotal ?? rep.price)}</td>
+      <td>${profileCell(`<span class="profile-chip bg-soft-purple">${rep.repairNumber || rep.id || "—"}</span>`, dateLabel(rep.createdAt))}</td>
+      <td>${profileCell(rep.customerPhone || customer.phoneNumber || "—", rep.customerWhatsapp || customer.whatsapp || "—")}</td>
+      <td>${profileCell(rep.senderNumber || rep.customerPhone || "—", rep.paymentType || "Mobile Money")}</td>
+      <td>${profileCell(rep.paymentProvider || rep.cashCurrency || "Evc Plus", rep.deviceName || rep.device || "—")}</td>
+      <td>${profileCell(rep.problem || "—", rep.technician || "—")}</td>
+      <td>${money(rep.finalTotal ?? rep.price ?? rep.cost)}</td>
       <td>${money(rep.paidAmount)}</td>
       <td>${money(rep.balance)}</td>
-      <td>${dateLabel(rep.createdAt)}</td>
+      <td><span class="profile-chip ${String(rep.status || "").toLowerCase().includes("done") || String(rep.status || "").toLowerCase().includes("completed") ? "bg-soft-success" : "bg-soft-info"}">${rep.status || "—"}</span></td>
+      <td class="text-muted">${dateLabel(rep.createdAt)}</td>
     </tr>
-  `).join("") || `<tr><td colspan="17" class="text-muted text-center py-4">No repairs yet</td></tr>`;
+  `).join("") || `<tr><td colspan="10" class="text-muted text-center py-4">No repairs yet</td></tr>`;
 
   const activityRows = recentActivity.map((item) => `
     <tr>
-      <td><span class="badge bg-soft-primary text-primary-soft">${item.type}</span></td>
+      <td><span class="profile-chip bg-soft-primary">${item.type}</span></td>
       <td>${item.title}</td>
-      <td>${dateLabel(item.date)}</td>
+      <td>${dateLabel(item.ts)}</td>
       <td>${money(item.amount)}</td>
-      <td>${item.status}</td>
+      <td><span class="profile-chip bg-soft-info">${item.status}</span></td>
     </tr>
   `).join("") || `<tr><td colspan="5" class="text-muted text-center py-4">No activity yet</td></tr>`;
 
+  const profileInsightsCard = `
+    <div class="card-shell profile-section">
+      <div class="section-header d-flex flex-wrap justify-content-between align-items-start gap-2">
+        <div>
+          <h6 class="fw-bold mb-1">Payment Insights</h6>
+          <p class="text-muted mb-0">How this customer usually pays and which providers are used most.</p>
+        </div>
+      </div>
+      <div class="section-body pt-3 profile-section-body">
+        <div class="row g-3">
+          <div class="col-12 col-lg-6">
+            <div class="card-shell p-3 h-100" style="min-height: 320px;">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                  <div class="fw-bold">Payment type</div>
+                  <small class="text-muted">Invoice, repair, and payment records</small>
+                </div>
+                <i class="bi bi-pie-chart text-primary fs-5"></i>
+              </div>
+              <div style="height: 240px;">
+                <canvas id="profilePaymentTypeChart"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="card-shell p-3 h-100" style="min-height: 320px;">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                  <div class="fw-bold">Provider / cash</div>
+                  <small class="text-muted">Evc Plus, Edahab, Jeeb, cash</small>
+                </div>
+                <i class="bi bi-graph-up-arrow text-success fs-5"></i>
+              </div>
+              <div style="height: 240px;">
+                <canvas id="profileProviderChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  state.currentProfile = {
+    customer,
+    invoices,
+    repairs,
+    payments,
+    recentActivity,
+    transactionRows,
+  };
+
+  const sectionClass = (section) => `card-shell profile-section ${state.profileCollapsed?.[section] ? "is-collapsed" : ""}`;
+  const sectionIcon = (section) => state.profileCollapsed?.[section] ? "bi-chevron-down" : "bi-chevron-up";
+
   body.innerHTML = `
+    <div class="profile-toolbar card-shell p-3 mb-3">
+      <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center">
+        <div class="d-flex flex-wrap gap-2">
+          <button class="btn btn-primary rounded-pill" type="button" data-profile-action="print-profile"><i class="bi bi-printer me-1"></i>Print</button>
+          <button class="btn btn-outline-primary rounded-pill" type="button" data-profile-action="export-profile-pdf"><i class="bi bi-file-earmark-pdf me-1"></i>Export PDF</button>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+          <button class="btn btn-outline-secondary rounded-pill" type="button" data-profile-action="scroll-left" data-section="transactions"><i class="bi bi-chevron-left me-1"></i>Left</button>
+          <button class="btn btn-outline-secondary rounded-pill" type="button" data-profile-action="scroll-right" data-section="transactions"><i class="bi bi-chevron-right me-1"></i>Right</button>
+        </div>
+      </div>
+    </div>
+
     <div class="row g-3 mb-4">
       <div class="col-12 col-md-6 col-xl-3"><div class="card-shell summary-card h-100"><div class="summary-label">Total Purchases</div><div class="summary-value">${money(stats.totalPurchases)}</div></div></div>
       <div class="col-12 col-md-6 col-xl-3"><div class="card-shell summary-card h-100"><div class="summary-label">Invoices</div><div class="summary-value">${stats.totalInvoices}</div></div></div>
@@ -542,41 +942,54 @@ function renderProfile(customer) {
 
     <div class="profile-stack">
       <div class="card-shell profile-section">
-        <div class="section-header">
-          <h6 class="fw-bold mb-1">Customer Information</h6>
-          <p class="text-muted mb-0">Profile details and contact information.</p>
+        <div class="section-header d-flex flex-wrap justify-content-between align-items-start gap-2">
+          <div>
+            <h6 class="fw-bold mb-1">Customer Information</h6>
+            <p class="text-muted mb-0">Profile details and contact information.</p>
+          </div>
         </div>
-        <div class="section-body pt-3">
-          <div class="card-shell p-3 p-md-4">
-            ${customerInfoRows}
+        <div class="section-body pt-3 profile-section-body">
+          <div class="profile-info-grid">
+            ${customerInfoCards}
           </div>
         </div>
       </div>
 
-      <div class="card-shell profile-section">
-        <div class="section-header">
-          <h6 class="fw-bold mb-1">Transactions</h6>
-          <p class="text-muted mb-0">All invoices and repairs linked to this customer.</p>
+      ${profileInsightsCard}
+
+      <div class="${sectionClass("transactions")}">
+        <div class="section-header d-flex flex-wrap justify-content-between align-items-start gap-2">
+          <div>
+            <h6 class="fw-bold mb-1">Transactions</h6>
+            <p class="text-muted mb-0">All invoices, repairs, and payments linked to this customer.</p>
+          </div>
+          <div class="profile-section-actions">
+            <div class="profile-scroll-group">
+              <button class="btn btn-sm btn-outline-secondary" type="button" data-profile-action="scroll-left" data-section="transactions"><i class="bi bi-chevron-left"></i></button>
+              <button class="btn btn-sm btn-outline-secondary" type="button" data-profile-action="scroll-right" data-section="transactions"><i class="bi bi-chevron-right"></i></button>
+            </div>
+            <button class="btn btn-sm btn-outline-primary" type="button" data-profile-action="toggle-section" data-section="transactions">${profileToggleIcon(state.profileCollapsed.transactions)}</button>
+          </div>
         </div>
-        <div class="section-body pt-2">
+        <div class="section-body pt-2 profile-section-body" data-profile-scroll-target="transactions">
           <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
-              <thead class="table-light"><tr><th>Type</th><th>Reference</th><th>Date</th><th>Phone</th><th>WhatsApp</th><th>Sender</th><th>Payment Type</th><th>Provider / Cash</th><th>Paid</th><th>Total</th><th>Remaining</th><th>Status</th><th>Notes</th></tr></thead>
+              <thead class="table-light">
+                <tr>
+                  <th>Type</th><th>Reference / Date</th><th>Contact</th><th>Payment Type / Provider</th><th>Paid</th><th>Total</th><th>Remaining</th><th>Status</th><th>Notes</th>
+                </tr>
+              </thead>
               <tbody>${transactionRows.map((item) => `
                 <tr>
-                  <td><span class="badge bg-soft-primary text-primary-soft">${item.type}</span></td>
-                  <td>${item.ref}</td>
-                  <td>${item.date}</td>
-                  <td>${item.phone}</td>
-                  <td>${item.whatsapp}</td>
-                  <td>${item.sender}</td>
-                  <td>${item.paymentType}</td>
-                  <td>${item.provider}</td>
-                  <td>${item.paid}</td>
-                  <td>${item.total}</td>
-                  <td>${item.remaining}</td>
-                  <td>${item.status}</td>
-                  <td>${item.notes}</td>
+                  <td><span class="profile-chip ${item.type === "Invoice" ? "bg-soft-primary" : item.type === "Repair" ? "bg-soft-purple" : "bg-soft-info"}">${item.type}</span></td>
+                  <td>${profileCell(item.ref, item.date)}</td>
+                  <td>${profileCell(item.phone, `${item.whatsapp} • ${item.sender}`)}</td>
+                  <td>${profileCell(item.paymentType, item.provider)}</td>
+                  <td>${moneyCell(item.paid)}</td>
+                  <td>${moneyCell(item.total)}</td>
+                  <td>${moneyCell(item.remaining)}</td>
+                  <td><span class="profile-chip ${String(item.status || "").toLowerCase() === "paid" ? "bg-soft-success" : "bg-soft-warning"}">${item.status}</span></td>
+                  <td class="text-muted">${item.notes}</td>
                 </tr>
               `).join("")}</tbody>
             </table>
@@ -584,42 +997,73 @@ function renderProfile(customer) {
         </div>
       </div>
 
-      <div class="card-shell profile-section">
-        <div class="section-header">
-          <h6 class="fw-bold mb-1">Invoices</h6>
-          <p class="text-muted mb-0">Customer purchase history.</p>
+      <div class="${sectionClass("invoices")}">
+        <div class="section-header d-flex flex-wrap justify-content-between align-items-start gap-2">
+          <div>
+            <h6 class="fw-bold mb-1">Invoices</h6>
+            <p class="text-muted mb-0">Customer purchase history.</p>
+          </div>
+          <div class="profile-section-actions">
+            <div class="profile-scroll-group">
+              <button class="btn btn-sm btn-outline-secondary" type="button" data-profile-action="scroll-left" data-section="invoices"><i class="bi bi-chevron-left"></i></button>
+              <button class="btn btn-sm btn-outline-secondary" type="button" data-profile-action="scroll-right" data-section="invoices"><i class="bi bi-chevron-right"></i></button>
+            </div>
+            <button class="btn btn-sm btn-outline-primary" type="button" data-profile-action="toggle-section" data-section="invoices">${profileToggleIcon(state.profileCollapsed.invoices)}</button>
+          </div>
         </div>
-        <div class="section-body pt-2">
+        <div class="section-body pt-2 profile-section-body" data-profile-scroll-target="invoices">
           <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
-              <thead class="table-light"><tr><th>Invoice #</th><th>Date</th><th>Phone</th><th>WhatsApp</th><th>Sender</th><th>Payment Type</th><th>Provider / Cash</th><th>Items</th><th>Total</th><th>Paid</th><th>Remaining</th><th>Status</th><th>Actions</th></tr></thead>
+              <thead class="table-light">
+                <tr><th>Invoice #</th><th>Phone / WhatsApp</th><th>Sender / Payment</th><th>Provider / Items</th><th>Total</th><th>Paid</th><th>Remaining</th><th>Status</th><th>Actions</th></tr>
+              </thead>
               <tbody>${invoiceRows}</tbody>
             </table>
           </div>
         </div>
       </div>
 
-      <div class="card-shell profile-section">
-        <div class="section-header">
-          <h6 class="fw-bold mb-1">Repairs</h6>
-          <p class="text-muted mb-0">Customer repair history.</p>
+      <div class="${sectionClass("repairs")}">
+        <div class="section-header d-flex flex-wrap justify-content-between align-items-start gap-2">
+          <div>
+            <h6 class="fw-bold mb-1">Repairs</h6>
+            <p class="text-muted mb-0">Customer repair history.</p>
+          </div>
+          <div class="profile-section-actions">
+            <div class="profile-scroll-group">
+              <button class="btn btn-sm btn-outline-secondary" type="button" data-profile-action="scroll-left" data-section="repairs"><i class="bi bi-chevron-left"></i></button>
+              <button class="btn btn-sm btn-outline-secondary" type="button" data-profile-action="scroll-right" data-section="repairs"><i class="bi bi-chevron-right"></i></button>
+            </div>
+            <button class="btn btn-sm btn-outline-primary" type="button" data-profile-action="toggle-section" data-section="repairs">${profileToggleIcon(state.profileCollapsed.repairs)}</button>
+          </div>
         </div>
-        <div class="section-body pt-2">
+        <div class="section-body pt-2 profile-section-body" data-profile-scroll-target="repairs">
           <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
-              <thead class="table-light"><tr><th>Repair #</th><th>Phone</th><th>WhatsApp</th><th>Sender</th><th>Payment Type</th><th>Provider / Cash</th><th>Device</th><th>Brand</th><th>Model</th><th>IMEI</th><th>Problem</th><th>Technician</th><th>Status</th><th>Cost</th><th>Paid</th><th>Remaining</th><th>Date</th></tr></thead>
+              <thead class="table-light">
+                <tr><th>Repair #</th><th>Phone / WhatsApp</th><th>Sender / Payment</th><th>Provider / Device</th><th>Problem / Tech</th><th>Cost</th><th>Paid</th><th>Remaining</th><th>Status</th><th>Date</th></tr>
+              </thead>
               <tbody>${repairRows}</tbody>
             </table>
           </div>
         </div>
       </div>
 
-      <div class="card-shell profile-section">
-        <div class="section-header">
-          <h6 class="fw-bold mb-1">Recent Activity</h6>
-          <p class="text-muted mb-0">Latest invoices and repairs.</p>
+      <div class="${sectionClass("activity")}">
+        <div class="section-header d-flex flex-wrap justify-content-between align-items-start gap-2">
+          <div>
+            <h6 class="fw-bold mb-1">Recent Activity</h6>
+            <p class="text-muted mb-0">Latest invoices and repairs.</p>
+          </div>
+          <div class="profile-section-actions">
+            <div class="profile-scroll-group">
+              <button class="btn btn-sm btn-outline-secondary" type="button" data-profile-action="scroll-left" data-section="activity"><i class="bi bi-chevron-left"></i></button>
+              <button class="btn btn-sm btn-outline-secondary" type="button" data-profile-action="scroll-right" data-section="activity"><i class="bi bi-chevron-right"></i></button>
+            </div>
+            <button class="btn btn-sm btn-outline-primary" type="button" data-profile-action="toggle-section" data-section="activity">${profileToggleIcon(state.profileCollapsed.activity)}</button>
+          </div>
         </div>
-        <div class="section-body pt-2">
+        <div class="section-body pt-2 profile-section-body" data-profile-scroll-target="activity">
           <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
               <thead class="table-light"><tr><th>Type</th><th>Reference</th><th>Date</th><th>Amount</th><th>Status</th></tr></thead>
@@ -631,9 +1075,192 @@ function renderProfile(customer) {
     </div>
   `;
 
+  renderProfileCharts(transactionRows);
   window.bootstrap?.Modal.getOrCreateInstance(el("customerProfileModal")).show();
 }
-async function deleteCustomerById(id) {
+function printCustomerProfile() {
+  const profile = state.currentProfile;
+  if (!profile) {
+    showToast("Open a customer profile first.", "warning", "Customers");
+    return;
+  }
+  const { customer, invoices, repairs, payments, recentActivity } = profile;
+  const win = window.open("", "_blank", "width=1200,height=900");
+  if (!win) {
+    showToast("Popup blocked. Please allow popups to print.", "warning", "Customers");
+    return;
+  }
+
+  const rows = [...invoices.map((row) => ({ ...row, kind: "Invoice" })), ...repairs.map((row) => ({ ...row, kind: "Repair" })), ...payments.map((row) => ({ ...row, kind: "Payment" }))].sort((a, b) => safeNumber(b.createdAt) - safeNumber(a.createdAt));
+  const customerLine = [
+    customer.fullName || "—",
+    customer.phoneNumber || "—",
+    customer.whatsapp || "—",
+    customer.address || "—",
+    customer.email || "—",
+  ].join(" | ");
+
+  win.document.write(`
+    <html>
+    <head>
+      <title>${(customer.fullName || "Customer").replace(/</g, "&lt;")}</title>
+      <meta charset="utf-8" />
+      <style>
+        body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:24px;color:#0f172a;background:#f8fafc}
+        .sheet{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:22px}
+        h1{margin:0 0 6px;font-size:22px}
+        .meta{color:#64748b;font-size:12px;margin-bottom:12px}
+        .pill{display:inline-block;border:1px solid #dbe3ee;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:700;margin:0 8px 8px 0}
+        table{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+        th,td{border-bottom:1px solid #e2e8f0;padding:8px 6px;text-align:left;vertical-align:top}
+        th{background:#eff6ff;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+        .sub{color:#64748b;font-size:11px;display:block;margin-top:2px}
+        @media print {.no-print{display:none} body{background:#fff;padding:0}.sheet{border:none;border-radius:0;padding:0}}
+      </style>
+    </head>
+    <body>
+      <div class="sheet">
+        <h1>${customer.fullName || "Customer Profile"}</h1>
+        <div class="meta">${customerLine}</div>
+        <div>
+          <span class="pill">Invoices: ${invoices.length}</span>
+          <span class="pill">Repairs: ${repairs.length}</span>
+          <span class="pill">Payments: ${payments.length}</span>
+          <span class="pill">Recent Activity: ${recentActivity.length}</span>
+        </div>
+        <table>
+          <thead>
+            <tr><th>Type</th><th>Reference</th><th>Date</th><th>Contact</th><th>Payment</th><th>Paid</th><th>Total</th><th>Remaining</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            ${rows.map((row) => `
+              <tr>
+                <td>${row.kind}</td>
+                <td>${row.invoiceNumber || row.repairNumber || row.relatedNumber || row.id || "—"}</td>
+                <td>${dateLabel(row.createdAt)}</td>
+                <td>${row.customerPhone || row.phoneNumber || customer.phoneNumber || "—"}<span class="sub">${row.customerWhatsapp || row.whatsapp || customer.whatsapp || "—"}${row.senderNumber ? ` • ${row.senderNumber}` : ""}</span></td>
+                <td>${row.paymentType || "Mobile Money"}<span class="sub">${row.paymentProvider || row.cashCurrency || "Evc Plus"}</span></td>
+                <td>${row.kind === "Payment" ? moneyCell(row.paidNow ?? row.amount ?? row.paidAmount) : moneyCell(row.paidAmount ?? row.paidNow)}</td>
+                <td>${row.kind === "Payment" ? moneyCell(row.totalAmount ?? row.totalPaid ?? row.amount ?? row.paidNow ?? row.paidAmount) : moneyCell(row.finalTotal ?? row.total ?? row.amount ?? row.price)}</td>
+                <td>${row.kind === "Payment" ? moneyCell(row.totalRemaining ?? row.remaining) : moneyCell(row.balance ?? row.remaining ?? 0)}</td>
+                <td>${row.paymentStatus || row.status || row.relatedType || "—"}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+      <script>window.onload=()=>{window.focus();window.print();window.onafterprint=()=>window.close();};</script>
+    </body>
+    </html>
+  `);
+  win.document.close();
+}
+
+async function exportCustomerProfilePdf() {
+  const profile = state.currentProfile;
+  if (!profile) {
+    showToast("Open a customer profile first.", "warning", "Customers");
+    return;
+  }
+  const jsPDF = window.jspdf?.jsPDF;
+  if (!jsPDF) {
+    showToast("PDF library not available.", "warning", "Customers");
+    return;
+  }
+
+  const { customer, invoices, repairs, payments } = profile;
+  const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
+  const pageWidth = doc.internal.pageSize.getWidth();
+
+  doc.setFillColor(37, 99, 235);
+  doc.rect(0, 0, pageWidth, 22, "F");
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(16);
+  doc.text("Customer Profile Report", 14, 13);
+  doc.setFontSize(9);
+  doc.text(customer.fullName || "Customer", 14, 18);
+  doc.setTextColor(17, 24, 39);
+
+  const summary = [
+    ["Phone", customer.phoneNumber || "—"],
+    ["WhatsApp", customer.whatsapp || "—"],
+    ["Created", dateLabel(customer.createdAt || customer.joinedAt || customer.addedAt) || "—"],
+    ["Invoices", String(invoices.length)],
+    ["Repairs", String(repairs.length)],
+    ["Payments", String(payments.length)],
+  ];
+  let y = 30;
+  summary.forEach(([label, value], index) => {
+    const x = 14 + (index % 3) * 90;
+    const rowY = y + Math.floor(index / 3) * 12;
+    doc.setFont(undefined, "bold");
+    doc.text(`${label}:`, x, rowY);
+    doc.setFont(undefined, "normal");
+    doc.text(String(value ?? "—"), x + 24, rowY);
+  });
+
+  const addSection = (title, rows, columns) => {
+    doc.setFont(undefined, "bold");
+    doc.text(title, 14, y + 28);
+    if (doc.autoTable) {
+      doc.autoTable({
+        startY: y + 32,
+        head: [columns],
+        body: rows,
+        styles: { fontSize: 8, cellPadding: 2, valign: "top" },
+        headStyles: { fillColor: [37, 99, 235] },
+        margin: { left: 14, right: 14 },
+      });
+      y = doc.lastAutoTable.finalY + 10;
+    } else {
+      y += 36;
+    }
+  };
+
+  const invoiceBody = invoices.map((inv) => [
+    inv.invoiceNumber || inv.id || "—",
+    dateLabel(inv.createdAt),
+    inv.customerPhone || customer.phoneNumber || "—",
+    inv.paymentType || "Mobile Money",
+    inv.paymentProvider || inv.cashCurrency || "Evc Plus",
+    money(inv.finalTotal ?? inv.total ?? inv.amount),
+    money(inv.paidAmount),
+    money(inv.balance),
+    inv.paymentStatus || "—",
+  ]);
+  const repairBody = repairs.map((rep) => [
+    rep.repairNumber || rep.id || "—",
+    dateLabel(rep.createdAt),
+    rep.customerPhone || customer.phoneNumber || "—",
+    rep.paymentType || "Mobile Money",
+    rep.paymentProvider || rep.cashCurrency || "Evc Plus",
+    rep.deviceName || rep.device || "—",
+    rep.problem || "—",
+    money(rep.finalTotal ?? rep.price ?? rep.cost),
+    money(rep.paidAmount),
+    money(rep.balance),
+    rep.status || "—",
+  ]);
+  const paymentBody = payments.map((pay) => [
+    pay.relatedNumber || pay.id || "—",
+    dateLabel(pay.createdAt),
+    pay.customerPhone || customer.phoneNumber || "—",
+    pay.paymentType || "Mobile Money",
+    pay.paymentProvider || pay.cashCurrency || "Evc Plus",
+    money(pay.paidNow ?? pay.amount ?? pay.paidAmount),
+    money(pay.totalAmount ?? pay.totalPaid ?? pay.paidAmount),
+    money(pay.totalRemaining ?? pay.remaining),
+    pay.relatedType || "Payment",
+  ]);
+
+  addSection("Invoices", invoiceBody, ["Invoice #", "Date", "Phone", "Type", "Provider", "Total", "Paid", "Remaining", "Status"]);
+  addSection("Repairs", repairBody, ["Repair #", "Date", "Phone", "Type", "Provider", "Device", "Problem", "Cost", "Paid", "Remaining", "Status"]);
+  addSection("Payments", paymentBody, ["Ref", "Date", "Phone", "Type", "Provider", "Paid", "Total", "Remaining", "Status"]);
+
+  doc.save(`${profileSafeId(customer.fullName || "customer")}-profile.pdf`);
+}
+async function deleteCustomerById
+(id) {
   const customer = state.customers.find((item) => String(item.id) === String(id));
   if (!customer) return;
   const invoices = linkedInvoices(customer);
@@ -1147,6 +1774,30 @@ function bindEvents() {
   el("exportCsvBtn")?.addEventListener("click", exportCsv);
   el("exportExcelBtn")?.addEventListener("click", exportExcel);
   el("exportPdfBtn")?.addEventListener("click", exportPdf);
+
+  el("customerProfileBody")?.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-profile-action]");
+    if (!btn) return;
+    const section = btn.dataset.section;
+    if (btn.dataset.profileAction === "toggle-section" && section) {
+      state.profileCollapsed = state.profileCollapsed || {};
+      state.profileCollapsed[section] = !state.profileCollapsed[section];
+      const profile = state.currentProfile?.customer;
+      if (profile) renderProfile(profile);
+      return;
+    }
+    if ((btn.dataset.profileAction === "scroll-left" || btn.dataset.profileAction === "scroll-right") && section) {
+      const target = el("customerProfileBody")?.querySelector(`[data-profile-scroll-target="${section}"]`);
+      const scroller = target?.querySelector(".table-responsive");
+      if (!scroller) return;
+      const delta = btn.dataset.profileAction === "scroll-left" ? -320 : 320;
+      scroller.scrollBy({ left: delta, behavior: "smooth" });
+      return;
+    }
+    if (btn.dataset.profileAction === "print-profile") return printCustomerProfile();
+    if (btn.dataset.profileAction === "export-profile-pdf") return exportCustomerProfilePdf();
+  });
+
   document.addEventListener("click", async (e) => {
     const btn = e.target.closest("[data-recycle-action]");
     if (!btn) return;
