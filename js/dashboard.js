@@ -34,7 +34,7 @@ function setCount(id, value, formatter = (v) => String(v)) {
 }
 
 function showDashboardSkeleton() {
-  ["totalProducts","totalCustomers","totalRevenue","totalProfit","totalQuantity","importantProducts","lowStockProducts","totalInvoices","totalRepairs","pendingRepairs","processingRepairs","completedRepairs","deliveredRepairs","totalRemainingMoney","repairPaidTotal","repairUnpaidTotal","totalExpense","netProfit"].forEach((id) => {
+  ["totalProducts","totalCustomers","totalRevenue","totalProfit","totalQuantity","importantProducts","lowStockProducts","totalInvoices","totalRepairs","pendingRepairs","processingRepairs","completedRepairs","deliveredRepairs","totalRemainingMoney","repairPaidTotal","repairUnpaidTotal","totalExpense","netProfit","recentCustomersTbody"].forEach((id) => {
     const el = document.getElementById(id);
     if (el) {
       el.innerHTML = '<span class="skeleton-line d-inline-block" style="width:72px;height:18px;"></span>';
@@ -43,7 +43,7 @@ function showDashboardSkeleton() {
 }
 
 function dashboardLoadingTargets() {
-  return [".page-wrap", ".summary-card", ".card-shell.h-100", ".table-responsive", ".dashboard-chart-card", "#recentInvoicesTbody", "#recentRepairsTbody", "#lowStockTbody"];
+  return [".page-wrap", ".summary-card", ".card-shell.h-100", ".table-responsive", ".dashboard-chart-card", "#recentInvoicesTbody", "#recentRepairsTbody", "#recentCustomersTbody", "#lowStockTbody"];
 }
 
 function updateDashboardNotificationBadge({ products = [], invoices = [], repairs = [] } = {}) {
@@ -141,6 +141,55 @@ function destroyChart(chart) {
   if (chart && typeof chart.destroy === "function") chart.destroy();
 }
 
+
+function normalizePaymentChannelLabel(value = "", fallback = "Other") {
+  const raw = String(value ?? "").trim();
+  const normalized = normalizeText(raw);
+  if (!normalized) return fallback;
+  if (normalized.includes("evc") || normalized.includes("hormuud")) return "Evc Plus (Hormuud)";
+  if (normalized.includes("edahab") || normalized.includes("somtel")) return "Edahab (Somtel)";
+  if (normalized.includes("jeeb") || normalized.includes("somnet")) return "Jeeb (Somnet)";
+  if (normalized.includes("cash")) return "Cash";
+  if (normalized.includes("card")) return "Card";
+  return raw;
+}
+
+function countLabels(items = [], picker = (item) => "") {
+  const counts = new Map();
+  items.forEach((item) => {
+    const label = normalizePaymentChannelLabel(picker(item));
+    counts.set(label, (counts.get(label) || 0) + 1);
+  });
+  return counts;
+}
+
+function buildChartDataset(counts, preferredOrder = []) {
+  const seen = new Set();
+  const labels = [];
+  const values = [];
+  preferredOrder.forEach((label) => {
+    if (!counts.has(label)) return;
+    labels.push(label);
+    values.push(counts.get(label));
+    seen.add(label);
+  });
+  [...counts.keys()].sort((a, b) => a.localeCompare(b)).forEach((label) => {
+    if (seen.has(label)) return;
+    labels.push(label);
+    values.push(counts.get(label));
+  });
+  return { labels, values };
+}
+
+function chartOptions() {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: "62%",
+    plugins: { legend: { position: "bottom" } }
+  };
+}
+
 function renderInvoices(invoices) {
   const tbody = document.getElementById("recentInvoicesTbody");
   if (!tbody) return;
@@ -193,6 +242,37 @@ function renderRepairs(repairs) {
   }).join("");
 }
 
+function renderCustomers(customers) {
+  const tbody = document.getElementById("recentCustomersTbody");
+  if (!tbody) return;
+  const list = sortByDate(filterActive(customers), "createdAt", true).slice(0, 10);
+  if (!list.length) {
+    tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted py-4">No customers yet.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = list.map((customer) => {
+    const name = safeLabel(customer.fullName || customer.name || "Customer");
+    const phone = safeLabel(customer.phoneNumber || customer.phone || customer.whatsapp, "No phone");
+    const whatsapp = safeLabel(customer.whatsapp || customer.phoneNumber || customer.phone, "No WhatsApp");
+    const joined = safeLabel(formatDate(customer.createdAt || customer.joinedAt || customer.addedAt), "—");
+    return `
+      <tr>
+        <td>
+          <div class="fw-semibold">${name}</div>
+          <small class="text-muted">${whatsapp}</small>
+        </td>
+        <td>${phone}</td>
+        <td>${joined}</td>
+        <td class="text-end">
+          <a class="btn btn-sm btn-outline-primary rounded-3" href="customers.html">
+            <i class="bi bi-eye me-1"></i>View All
+          </a>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
 function renderLowStock(products) {
   const tbody = document.getElementById("lowStockTbody");
   if (!tbody) return;
@@ -226,6 +306,8 @@ function createCharts({ products, invoices, repairs, expenses }) {
   destroyChart(window.ShopDashboardCharts.repairStatus);
   destroyChart(window.ShopDashboardCharts.stockHealth);
   destroyChart(window.ShopDashboardCharts.topProducts);
+  destroyChart(window.ShopDashboardCharts.paymentType);
+  destroyChart(window.ShopDashboardCharts.providerMix);
 
   const productSummary = buildProductSummary(products);
   const invoiceSummary = buildInvoiceSummary(invoices);
@@ -235,6 +317,8 @@ function createCharts({ products, invoices, repairs, expenses }) {
   const totalProfit = totalRevenue - totalExpense;
   const healthyStock = Math.max(0, productSummary.totalProducts - productSummary.lowStockProducts - productSummary.importantProducts);
 
+  const paymentTypeCanvas = document.getElementById("dashboardPaymentTypeChart");
+  const providerCanvas = document.getElementById("dashboardProviderChart");
   const revenueCanvas = document.getElementById("revenueProfitChart");
   const repairCanvas = document.getElementById("repairStatusChart");
   const stockCanvas = document.getElementById("stockHealthChart");
@@ -290,6 +374,34 @@ function createCharts({ products, invoices, repairs, expenses }) {
         datasets: [{ data: [healthyStock, productSummary.lowStockProducts, productSummary.importantProducts] }]
       },
       options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom" } } }
+    });
+  }
+
+
+  const allTransactions = [...filterActive(invoices), ...filterActive(repairs)];
+  if (paymentTypeCanvas) {
+    const paymentCounts = countLabels(allTransactions, (item) => item?.paymentType || item?.paymentMethod || item?.paymentMode);
+    const paymentDataset = buildChartDataset(paymentCounts, ["Mobile Money", "Cash", "Bank Transfer", "Card"]);
+    window.ShopDashboardCharts.paymentType = new Chart(paymentTypeCanvas, {
+      type: "doughnut",
+      data: {
+        labels: paymentDataset.labels,
+        datasets: [{ data: paymentDataset.values }]
+      },
+      options: chartOptions()
+    });
+  }
+
+  if (providerCanvas) {
+    const providerCounts = countLabels(allTransactions, (item) => item?.paymentProvider || item?.provider || item?.cashCurrency || item?.cash);
+    const providerDataset = buildChartDataset(providerCounts, ["Evc Plus (Hormuud)", "Edahab (Somtel)", "Jeeb (Somnet)", "Cash"]);
+    window.ShopDashboardCharts.providerMix = new Chart(providerCanvas, {
+      type: "doughnut",
+      data: {
+        labels: providerDataset.labels,
+        datasets: [{ data: providerDataset.values }]
+      },
+      options: chartOptions()
     });
   }
 
@@ -362,6 +474,7 @@ async function loadDashboardSummary() {
 
     renderInvoices(invoices);
     renderRepairs(repairs);
+    renderCustomers(customers);
     renderLowStock(products);
     createCharts({ products, invoices, repairs, expenses });
     updateDashboardNotificationBadge({ products, invoices, repairs });
