@@ -851,7 +851,6 @@ function renderProfile(customer) {
       <td>${money(rep.paidAmount)}</td>
       <td>${money(rep.balance)}</td>
       <td><span class="profile-chip ${String(rep.status || "").toLowerCase().includes("done") || String(rep.status || "").toLowerCase().includes("completed") ? "bg-soft-success" : "bg-soft-info"}">${rep.status || "—"}</span></td>
-      <td class="text-muted">${dateLabel(rep.createdAt)}</td>
     </tr>
   `).join("") || `<tr><td colspan="10" class="text-muted text-center py-4">No repairs yet</td></tr>`;
 
@@ -1041,7 +1040,7 @@ function renderProfile(customer) {
           <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
               <thead class="table-light">
-                <tr><th>Repair #</th><th>Phone / WhatsApp</th><th>Sender / Payment</th><th>Provider / Device</th><th>Problem / Tech</th><th>Cost</th><th>Paid</th><th>Remaining</th><th>Status</th><th>Date</th></tr>
+                <tr><th>Repair #</th><th>Phone / WhatsApp</th><th>Sender / Payment</th><th>Provider / Device</th><th>Problem / Tech</th><th>Cost</th><th>Paid</th><th>Remaining</th><th>Status</th></tr>
               </thead>
               <tbody>${repairRows}</tbody>
             </table>
